@@ -3,12 +3,16 @@ package com.tint.wotn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.tint.wotn.Core;
 
 public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		Core.INSTANCE.camera.update();
+		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.getCamera().combined);
 	}
 
 	@Override

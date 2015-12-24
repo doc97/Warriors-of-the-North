@@ -7,4 +7,10 @@ public class WarriorsOfTheNorth extends Game {
 	public void create () {
 		Core.INSTANCE.initialize(this);
 	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		Core.INSTANCE.dispose();
+	}
 }

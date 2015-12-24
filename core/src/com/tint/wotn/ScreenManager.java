@@ -24,4 +24,9 @@ public class ScreenManager {
 		else
 			System.out.println("No screen with id: " + scr.toString());
 	}
+	
+	public void dispose() {
+		for(Screen s : screens.values())
+			s.dispose();
+	}
 }
