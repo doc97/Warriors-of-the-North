@@ -1,6 +1,7 @@
 package com.tint.wotn;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.tint.wotn.ecs.EntityComponentSystem;
 
 public enum Core {
 	INSTANCE;
@@ -9,6 +10,7 @@ public enum Core {
 	public ScreenManager screenManager;
 	public SpriteBatch batch;
 	public Camera camera;
+	public EntityComponentSystem ecs;
 	
 	public void initialize(WarriorsOfTheNorth wotn) {
 		this.wotn = wotn;
@@ -17,6 +19,8 @@ public enum Core {
 		camera.initialize();
 		screenManager = new ScreenManager();
 		screenManager.initialize();
+		ecs = new EntityComponentSystem();
+		ecs.initialize();
 	}
 	
 	public void dispose() {
