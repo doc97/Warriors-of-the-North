@@ -1,7 +1,5 @@
 package com.tint.wotn.combat;
 
-import javax.swing.plaf.synth.SynthScrollBarUI;
-
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -38,10 +36,5 @@ public class CombatSystem extends EntitySystem {
 		// Retaliation
 		if(health2.health > 0)
 			health1.health -= attack2.damage;
-		else
-			System.out.println("entity 1 killed entity 2.");
-		
-		System.out.println("Entity 1: " + health1.health);
-		System.out.println("Entity 2: " + health2.health);
 	}
 }

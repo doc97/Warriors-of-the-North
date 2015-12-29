@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-
+		Gdx.gl.glClearColor(1, 0, 0, 1);
 	}
 	
 	@Override
