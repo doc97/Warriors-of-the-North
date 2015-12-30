@@ -130,15 +130,15 @@ public class HexCoordinates {
 		return result;
 	}
 	
-	public static Vector2 axialToPixel(float size, Vector2 axial) {
-		float x = (float) (size * SQRT_THREE * (axial.x + axial.y / 2.0f));
-		float y = (float) (size * 3.0f / 2.0f * axial.y);
+	public static Vector2 axialToPixel(float size, int spacing, Vector2 axial) {
+		float x = (float) ((size * SQRT_THREE + spacing) * (axial.x + axial.y / 2.0f));
+		float y = (float) ((size * 3.0f / 2.0f + spacing) * axial.y);
 		return new Vector2(x, y);
 	}
 	
-	public static Vector2 cubeToPixel(float size, Vector3 cube) {
+	public static Vector2 cubeToPixel(float size, int spacing, Vector3 cube) {
 		Vector2 axial = transform(cube);
-		return axialToPixel(size, axial);
+		return axialToPixel(size, spacing, axial);
 	}
 	
 	public static Vector2 pixelToAxial(float size, float x, float y) {
