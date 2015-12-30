@@ -6,13 +6,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 
 public class GameScreen implements Screen {
-
+	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Core.INSTANCE.camera.update();
 		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.getCamera().combined);
+		
+		Core.INSTANCE.batch.begin();
+		Core.INSTANCE.levelSystem.getCurrentLevel().render(Core.INSTANCE.batch);
+		Core.INSTANCE.batch.end();
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.tint.wotn;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tint.wotn.ecs.EntityComponentSystem;
-import com.tint.wotn.screens.Screens;
+import com.tint.wotn.levels.LevelSystem;
 
 public enum Core {
 	INSTANCE;
@@ -13,6 +13,7 @@ public enum Core {
 	public SpriteBatch batch;
 	public Camera camera;
 	public EntityComponentSystem ecs;
+	public LevelSystem levelSystem;
 	public AssetManager assetManager;
 	
 	public void initialize(WarriorsOfTheNorth wotn) {
@@ -20,13 +21,14 @@ public enum Core {
 		assetManager = new AssetManager();
 		batch = new SpriteBatch();
 		camera = new Camera(1920, 1080);
-		camera.initialize();
 		screenManager = new ScreenManager();
-		screenManager.initialize();
 		ecs = new EntityComponentSystem();
-		ecs.initialize();
+		levelSystem = new LevelSystem();
 		
-		screenManager.enterScreen(Screens.LOADING);
+		camera.initialize();
+		screenManager.initialize();
+		ecs.initialize();
+		levelSystem.initialize();
 	}
 	
 	public void dispose() {

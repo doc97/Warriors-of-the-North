@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.tint.wotn.Core;
+import com.tint.wotn.levels.maps.HexMap;
 
 public class LoadingScreen implements Screen {
 
@@ -15,11 +16,13 @@ public class LoadingScreen implements Screen {
 		texLinearParam.minFilter = TextureFilter.Linear;
 		texLinearParam.genMipMaps = true;
 		Core.INSTANCE.assetManager.load("hexagon.png", Texture.class, texLinearParam);
+		Core.INSTANCE.assetManager.load("empty.png", Texture.class, texLinearParam);
 	}
 
 	@Override
 	public void render(float delta) {
 		if(Core.INSTANCE.assetManager.update()) {
+			HexMap.loadTextures();
 			Core.INSTANCE.screenManager.enterScreen(Screens.GAME);
 		}
 		

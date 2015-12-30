@@ -12,8 +12,11 @@ import com.tint.wotn.screens.Screens;
 public class ScreenManager {
 	private Map<Screens, Screen> screens;
 	
-	public void initialize() {
+	public ScreenManager() {
 		screens = new HashMap<Screens, Screen>();
+	}
+	
+	public void initialize() {
 		screens.put(Screens.LOADING, new LoadingScreen());
 		screens.put(Screens.GAME, new GameScreen());
 	}

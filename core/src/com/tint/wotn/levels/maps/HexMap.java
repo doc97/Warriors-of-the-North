@@ -4,22 +4,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.utils.HexCoordinates;
 
-public class Map {
+public class HexMap {
 	public Tile[][] tiles;
 	public Vector2 position = new Vector2();
-	public static boolean initialized;
 	
-	private Map() {}
+	private HexMap() {}
 	
-	public static void initialize() {
-		if(initialized) return;
+	public static void loadTextures() {
 		for(Tile t : Tile.values())
 			t.loadTexture();
-		initialized = true;
 	}
 	
-	public static Map createMap(Tile[][] tiles) {
-		Map map = new Map();
+	public static HexMap createMap(Tile[][] tiles) {
+		HexMap map = new HexMap();
 		map.tiles = tiles;
 		return map;
 	}
