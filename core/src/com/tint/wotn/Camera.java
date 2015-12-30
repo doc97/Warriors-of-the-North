@@ -14,7 +14,6 @@ public class Camera {
 
 	public void initialize() {
 		orthoCam = new OrthographicCamera(width, height);
-		set(100, 100);
 	}
 	
 	public void update() {

@@ -7,8 +7,9 @@ public enum Tile {
 	NULL("empty.png", false, 0.0f), GRASS("hexagon.png", true, 1.0f);
 	
 	public static final float SIZE = 64.0f;
-	public static final float HEIGHT = SIZE / 2.0f;
-	public static final float WIDTH = (float) (Math.sqrt(3) / 2.0f * HEIGHT);
+	public static final int SPACING = (int) (SIZE / 16.0f);
+	public static final float HEIGHT = SIZE * 2.0f;
+	public static final float WIDTH = (float) (HEIGHT * Math.sqrt(3) / 2.0f);
 
 	private String textureName;
 	public Texture texture;

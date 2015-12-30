@@ -23,6 +23,7 @@ public class LoadingScreen implements Screen {
 	public void render(float delta) {
 		if(Core.INSTANCE.assetManager.update()) {
 			HexMap.loadTextures();
+			Core.INSTANCE.levelSystem.enterLevel(0);
 			Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);
 		}
 		

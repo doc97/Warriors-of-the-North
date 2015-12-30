@@ -21,7 +21,7 @@ public class LevelSystem {
 					Tile.GRASS, Tile.GRASS, Tile.GRASS, Tile.GRASS
 				},
 				{
-					Tile.GRASS, Tile.GRASS, Tile.GRASS, Tile.GRASS
+					Tile.GRASS, Tile.NULL, Tile.NULL, Tile.GRASS
 				},
 				{
 					Tile.GRASS, Tile.GRASS, Tile.GRASS, Tile.GRASS
@@ -31,7 +31,7 @@ public class LevelSystem {
 		addLevel(level0);
 	}
 	
-	public void changeLevel(int id) {
+	public void enterLevel(int id) {
 		if(isValidID(id)) {
 			if(isValidID(currentLevelID))
 				levels.get(currentLevelID).exit();
@@ -40,17 +40,12 @@ public class LevelSystem {
 		}
 	}
 	
-	public void insertLevel(int index, Level level) {
-		if(index < 0 || index > levels.size()) return;
-		levels.set(index, level);
-	}
-	
-	public void addLevel(Level level) {
+	private void addLevel(Level level) {
 		levels.add(level);
 	}
 	
 	public boolean isValidID(int id) {
-		return id > 0;
+		return id >= 0;
 	}
 	
 	public int getCurrentLevelID() {

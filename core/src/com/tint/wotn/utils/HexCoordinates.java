@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class HexCoordinates {
-	private static final double SQRT_THREE = Math.sqrt(3);
 	public static final Vector2[] AXIAL_DIRS = {
 		new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, -1),
 		new Vector2(-1, 0), new Vector2(-1, 1), new Vector2(0, 1)
@@ -128,28 +127,6 @@ public class HexCoordinates {
 		
 		result = getAllInRange(xmin, xmax, ymin, ymax, zmin, zmax);
 		return result;
-	}
-	
-	public static Vector2 axialToPixel(float size, int spacing, Vector2 axial) {
-		float x = (float) ((size * SQRT_THREE + spacing) * (axial.x + axial.y / 2.0f));
-		float y = (float) ((size * 3.0f / 2.0f + spacing) * axial.y);
-		return new Vector2(x, y);
-	}
-	
-	public static Vector2 cubeToPixel(float size, int spacing, Vector3 cube) {
-		Vector2 axial = transform(cube);
-		return axialToPixel(size, spacing, axial);
-	}
-	
-	public static Vector2 pixelToAxial(float size, float x, float y) {
-		Vector3 cube = pixelToCube(size, x, y);
-		return transform(cube);
-	}
-	
-	public static Vector3 pixelToCube(float size, float x, float y) {
-		float q = (float) (x * SQRT_THREE / 3.0f - y / 3.0f) / size;
-		float r = y * 2.0f / 3.0f / size;
-		return cubeRound(transform(new Vector2(q, r)));
 	}
 	
 	public static Vector3 cubeRound(Vector3 cube) {
