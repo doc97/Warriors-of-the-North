@@ -9,7 +9,7 @@ public enum Core {
 	INSTANCE;
 	
 	public WarriorsOfTheNorth wotn;
-	public ScreenManager screenManager;
+	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
 	public Camera camera;
 	public EntityComponentSystem ecs;
@@ -21,18 +21,18 @@ public enum Core {
 		assetManager = new AssetManager();
 		batch = new SpriteBatch();
 		camera = new Camera(1920, 1080);
-		screenManager = new ScreenManager();
+		screenSystem = new ScreenSystem();
 		ecs = new EntityComponentSystem();
 		levelSystem = new LevelSystem();
 		
 		camera.initialize();
-		screenManager.initialize();
+		screenSystem.initialize();
 		ecs.initialize();
 		levelSystem.initialize();
 	}
 	
 	public void dispose() {
-		screenManager.dispose();
+		screenSystem.dispose();
 		batch.dispose();
 	}
 }

@@ -12,7 +12,7 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Core.INSTANCE.camera.update();
-		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.getCamera().combined);
+		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
 		
 		Core.INSTANCE.batch.begin();
 		Core.INSTANCE.levelSystem.getCurrentLevel().render(Core.INSTANCE.batch);

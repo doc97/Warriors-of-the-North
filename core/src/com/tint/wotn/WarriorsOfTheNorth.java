@@ -7,7 +7,7 @@ public class WarriorsOfTheNorth extends Game {
 	@Override
 	public void create () {
 		Core.INSTANCE.initialize(this);
-		Core.INSTANCE.screenManager.enterScreen(Screens.LOADING);
+		Core.INSTANCE.screenSystem.enterScreen(Screens.LOADING);
 	}
 
 	@Override

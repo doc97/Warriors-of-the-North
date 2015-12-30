@@ -9,10 +9,10 @@ import com.tint.wotn.screens.GameScreen;
 import com.tint.wotn.screens.LoadingScreen;
 import com.tint.wotn.screens.Screens;
 
-public class ScreenManager {
+public class ScreenSystem {
 	private Map<Screens, Screen> screens;
 	
-	public ScreenManager() {
+	public ScreenSystem() {
 		screens = new HashMap<Screens, Screen>();
 	}
 	

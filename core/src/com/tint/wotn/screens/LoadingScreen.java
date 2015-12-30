@@ -23,7 +23,7 @@ public class LoadingScreen implements Screen {
 	public void render(float delta) {
 		if(Core.INSTANCE.assetManager.update()) {
 			HexMap.loadTextures();
-			Core.INSTANCE.screenManager.enterScreen(Screens.GAME);
+			Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);
 		}
 		
 		float progress = Core.INSTANCE.assetManager.getProgress();
