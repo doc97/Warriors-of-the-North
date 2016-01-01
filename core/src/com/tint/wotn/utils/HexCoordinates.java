@@ -33,25 +33,25 @@ public class HexCoordinates {
 	}
 	
 	public static Vector2 getAxialNeighbor(Vector2 axial, int direction) {
-		Vector2 dir = AXIAL_DIRS[direction];
+		Vector2 dir = AXIAL_DIRS[direction % AXIAL_DIRS.length];
 		Vector2 result = new Vector2(axial.x + dir.x, axial.y + dir.y);
 		return result;
 	}
 	
 	public static Vector3 getCubeNeighbor(Vector3 cube, int direction) {
-		Vector3 dir = CUBE_DIRS[direction];
+		Vector3 dir = CUBE_DIRS[direction % CUBE_DIRS.length];
 		Vector3 result = new Vector3(cube.x + dir.x, cube.y + dir.y, cube.z + dir.z);
 		return result;
 	}
 
 	public static Vector2 getAxialDiagonal(Vector2 axial, int direction) {
-		Vector2 dir = AXIAL_DIAGS[direction];
+		Vector2 dir = AXIAL_DIAGS[direction % AXIAL_DIAGS.length];
 		Vector2 result = new Vector2(axial.x + dir.x, axial.y + dir.y);
 		return result;
 	}
 	
 	public static Vector3 getCubeDiagonal(Vector3 cube, int direction) {
-		Vector3 dir = CUBE_DIAGS[direction];
+		Vector3 dir = CUBE_DIAGS[direction % CUBE_DIAGS.length];
 		Vector3 result = new Vector3(cube.x + dir.x, cube.y + dir.y, cube.z + dir.z);
 		return result;
 	}
