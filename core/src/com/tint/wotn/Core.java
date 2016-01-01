@@ -5,8 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tint.wotn.ecs.EntityComponentSystem;
+import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
-import com.tint.wotn.screens.InputSystem;
 
 public enum Core {
 	INSTANCE;

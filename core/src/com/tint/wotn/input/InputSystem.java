@@ -1,11 +1,9 @@
-package com.tint.wotn.screens;
+package com.tint.wotn.input;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.InputProcessor;
-import com.tint.wotn.input.GameInput;
-import com.tint.wotn.input.Inputs;
 
 public class InputSystem {
 	private Map<Inputs, InputProcessor> inputProcessors;
