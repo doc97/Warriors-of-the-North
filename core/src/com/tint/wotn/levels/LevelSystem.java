@@ -45,7 +45,7 @@ public class LevelSystem {
 	}
 	
 	public boolean isValidID(int id) {
-		return id >= 0;
+		return id >= 0 && id < levels.size();
 	}
 	
 	public int getCurrentLevelID() {
