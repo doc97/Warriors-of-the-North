@@ -1,5 +1,6 @@
 package com.tint.wotn;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -10,7 +11,7 @@ import com.tint.wotn.screens.InputSystem;
 public enum Core {
 	INSTANCE;
 	
-	public WarriorsOfTheNorth wotn;
+	public Game game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
 	public ShapeRenderer shapeRenderer;
@@ -20,27 +21,72 @@ public enum Core {
 	public InputSystem inputSystem;
 	public AssetManager assetManager;
 	
-	public void initialize(WarriorsOfTheNorth wotn) {
-		this.wotn = wotn;
+	public void initializeAll(Game game) {
+		setGame(game);
+		initializeAssetManager();
+		initializeSpriteBatch();
+		initializeShapeRenderer();
+		initializeCamera(1920, 1080);
+		initializeScreenSystem();
+		initializeECS();
+		initializeLevelSystem();
+		initializeInputSystem();
+	}
+	
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	public void initializeAssetManager() {
 		assetManager = new AssetManager();
+	}
+	
+	public void initializeSpriteBatch() {
 		batch = new SpriteBatch();
+	}
+	
+	public void initializeShapeRenderer() {
 		shapeRenderer = new ShapeRenderer();
-		camera = new Camera(1920, 1080);
-		screenSystem = new ScreenSystem();
-		ecs = new EntityComponentSystem();
-		levelSystem = new LevelSystem();
-		inputSystem = new InputSystem();
-		
+	}
+	
+	public void initializeCamera(int width, int height) {
+		camera = new Camera(width, height);
 		camera.initialize();
+	}
+	
+	public void initializeScreenSystem() {
+		screenSystem = new ScreenSystem();
 		screenSystem.initialize();
+	}
+	
+	public void initializeECS() {
+		ecs = new EntityComponentSystem();
 		ecs.initialize();
+	}
+	
+	public void initializeLevelSystem() {
+		levelSystem = new LevelSystem();
 		levelSystem.initialize();
+	}
+	
+	public void initializeInputSystem() {
+		inputSystem = new InputSystem();
 		inputSystem.initialize();
 	}
 	
 	public void dispose() {
-		screenSystem.dispose();
-		batch.dispose();
-		shapeRenderer.dispose();
+		if(screenSystem != null)	screenSystem.dispose();
+		if(batch != null)			batch.dispose();
+		if(shapeRenderer != null)	shapeRenderer.dispose();
+		
+		game = null;
+		screenSystem = null;
+		batch = null;
+		shapeRenderer = null;
+		assetManager = null;
+		camera = null;
+		ecs = null;
+		levelSystem = null;
+		inputSystem = null;
 	}
 }

@@ -6,7 +6,7 @@ import com.tint.wotn.screens.Screens;
 public class WarriorsOfTheNorth extends Game {
 	@Override
 	public void create () {
-		Core.INSTANCE.initialize(this);
+		Core.INSTANCE.initializeAll(this);
 		Core.INSTANCE.screenSystem.enterScreen(Screens.LOADING);
 	}
 

@@ -1,7 +1,6 @@
 package com.tint.wotn.combat;
 
 import com.badlogic.ashley.core.Entity;
-import com.tint.wotn.Core;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.PositionComponent;
@@ -22,7 +21,6 @@ public class UnitFactory {
 		entity.add(health);
 		entity.add(attack);
 		
-		Core.INSTANCE.ecs.engine.addEntity(entity);
 		return entity;
 	}
 }
