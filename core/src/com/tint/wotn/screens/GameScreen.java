@@ -4,13 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
+import com.tint.wotn.levels.maps.Tile;
+import com.tint.wotn.utils.CoordinateConversions;
 
 public class GameScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
+		update(delta);
+		renderGame();
+	}
+	
+	public void renderGame() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Core.INSTANCE.camera.update();
@@ -38,7 +46,21 @@ public class GameScreen implements Screen {
 				Core.INSTANCE.camera.orthoCam.position.y
 				);
 		Core.INSTANCE.shapeRenderer.end();
-		
+	}
+
+	public void update(float delta) {
+		Vector2 screenToWorldCoordinates = CoordinateConversions.screenToWorld(
+				Gdx.input.getX(),
+				Gdx.input.getY());
+		Vector2 worldToAxial = CoordinateConversions.worldToAxial(
+				Tile.SIZE,
+				Tile.SPACING,
+				screenToWorldCoordinates.x,
+				screenToWorldCoordinates.y);
+		Core.INSTANCE.levelSystem.getCurrentLevel().map.resetMarkedTiles();
+		Core.INSTANCE.levelSystem.getCurrentLevel().map.markTile(
+					(int) worldToAxial.x,
+					(int) worldToAxial.y);
 	}
 
 	@Override

@@ -15,8 +15,9 @@ public class LoadingScreen implements Screen {
 		texLinearParam.magFilter = TextureFilter.Linear;
 		texLinearParam.minFilter = TextureFilter.Linear;
 		texLinearParam.genMipMaps = true;
-		Core.INSTANCE.assetManager.load("hexagon.png", Texture.class, texLinearParam);
-		Core.INSTANCE.assetManager.load("empty.png", Texture.class, texLinearParam);
+		Core.INSTANCE.assetManager.load("grass_tile.png", Texture.class, texLinearParam);
+		Core.INSTANCE.assetManager.load("empty_tile.png", Texture.class, texLinearParam);
+		Core.INSTANCE.assetManager.load("marked_tile.png", Texture.class, texLinearParam);
 	}
 
 	@Override

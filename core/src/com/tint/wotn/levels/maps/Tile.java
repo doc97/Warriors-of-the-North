@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.tint.wotn.Core;
 
 public enum Tile {
-	NULL("empty.png", false, 0.0f), GRASS("hexagon.png", true, 1.0f);
+	NULL("empty_tile.png", false, 0.0f), GRASS("grass_tile.png", true, 1.0f);
 	
 	public static final float SIZE = 64.0f;
 	public static final int SPACING = (int) (SIZE / 16.0f);
