@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tint.wotn.levels.maps.HexMap;
+import com.tint.wotn.levels.maps.HexMapGenerator;
+import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
 
 public class LevelSystem {
@@ -16,18 +18,8 @@ public class LevelSystem {
 		nullLevel.setMap(HexMap.createMap(new Tile[0][0]));
 
 		Level level0 = new Level("Beginning");
-			Tile[][] tiles0 = {
-				{
-					Tile.GRASS, Tile.GRASS, Tile.GRASS, Tile.GRASS
-				},
-				{
-					Tile.GRASS, Tile.NULL, Tile.NULL, Tile.GRASS
-				},
-				{
-					Tile.GRASS, Tile.GRASS, Tile.GRASS, Tile.GRASS
-				}
-			};
-			level0.setMap(HexMap.createMap(tiles0));
+			Tile[][] tiles = HexMapGenerator.generate(MapShape.HEXAGON, 5);
+			level0.setMap(HexMap.createMap(tiles));
 		addLevel(level0);
 	}
 	

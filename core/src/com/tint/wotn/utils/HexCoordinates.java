@@ -89,8 +89,8 @@ public class HexCoordinates {
 			float zmin, float zmax)
 	{
 		List<Vector3> result = new ArrayList<Vector3>();
-		for(float x = -xmin; x <= xmax; x++)
-			for(float y = Math.max(ymin, -x - zmax); y <= Math.min(ymax, -x -zmin); y++)
+		for(float x = xmin; x <= xmax; x++)
+			for(float y = Math.max(ymin, -x -zmax); y <= Math.min(ymax, -x -zmin); y++)
 				result.add(new Vector3(x, y, -x - y));
 		
 		return result;
