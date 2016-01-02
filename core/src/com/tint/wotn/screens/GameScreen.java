@@ -49,7 +49,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void update(float delta) {
-		Vector2 screenToWorldCoordinates = CoordinateConversions.screenToWorld(
+		Vector2 screenToWorldCoordinates = CoordinateConversions.screenToWorldPos(
 				Gdx.input.getX(),
 				Gdx.input.getY());
 		Vector2 worldToAxial = CoordinateConversions.worldToAxial(
