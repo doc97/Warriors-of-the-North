@@ -1,4 +1,4 @@
-package com.tint.wotn.combat;
+package com.tint.wotn.ecs.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;

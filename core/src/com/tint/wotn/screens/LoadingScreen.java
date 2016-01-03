@@ -18,6 +18,7 @@ public class LoadingScreen implements Screen {
 		Core.INSTANCE.assetManager.load("grass_tile.png", Texture.class, texLinearParam);
 		Core.INSTANCE.assetManager.load("empty_tile.png", Texture.class, texLinearParam);
 		Core.INSTANCE.assetManager.load("marked_tile.png", Texture.class, texLinearParam);
+		Core.INSTANCE.assetManager.load("unit_raider.png", Texture.class, texLinearParam);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
+import com.tint.wotn.ecs.systems.RenderSystem;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
@@ -26,6 +27,7 @@ public class GameScreen implements Screen {
 		
 		Core.INSTANCE.batch.begin();
 		Core.INSTANCE.levelSystem.getCurrentLevel().render(Core.INSTANCE.batch);
+		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
 		// Debug
