@@ -24,6 +24,6 @@ public enum Tile {
 	
 	public void loadTexture() {
 		if(textureName == null) return;
-		texture = Core.INSTANCE.assetManager.get(textureName);
+		texture = Core.INSTANCE.assetManager.get("textures/" + textureName);
 	}
 }

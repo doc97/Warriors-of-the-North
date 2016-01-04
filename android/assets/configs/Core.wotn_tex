@@ -1,0 +1,6 @@
+# The core texture file containing the names of
+# the textures loaded for the core game
+empty_tile.png
+grass_tile.png
+marked_tile.png
+unit_raider.png

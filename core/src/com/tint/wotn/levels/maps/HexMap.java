@@ -17,7 +17,7 @@ public class HexMap {
 	public static void loadTextures() {
 		for(Tile t : Tile.values())
 			t.loadTexture();
-		markedTextureOverlay = Core.INSTANCE.assetManager.get("marked_tile.png");
+		markedTextureOverlay = Core.INSTANCE.assetManager.get("textures/marked_tile.png");
 	}
 	
 	public static HexMap createMap(Tile[][] tiles) {

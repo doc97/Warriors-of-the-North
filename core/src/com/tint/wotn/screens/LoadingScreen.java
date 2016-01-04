@@ -1,24 +1,25 @@
 package com.tint.wotn.screens;
 
+import java.io.IOException;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.HexMap;
+import com.tint.wotn.utils.AssetLoader;
 
 public class LoadingScreen implements Screen {
 
 	@Override
 	public void show() {
-		TextureParameter texLinearParam = new TextureParameter();
-		texLinearParam.magFilter = TextureFilter.Linear;
-		texLinearParam.minFilter = TextureFilter.Linear;
-		texLinearParam.genMipMaps = true;
-		Core.INSTANCE.assetManager.load("grass_tile.png", Texture.class, texLinearParam);
-		Core.INSTANCE.assetManager.load("empty_tile.png", Texture.class, texLinearParam);
-		Core.INSTANCE.assetManager.load("marked_tile.png", Texture.class, texLinearParam);
-		Core.INSTANCE.assetManager.load("unit_raider.png", Texture.class, texLinearParam);
+		String textureFile = "Core.wotn_tex";
+		try {
+			AssetLoader.loadTextures(textureFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Failed to load textures from file: " + textureFile);
+			Gdx.app.exit();
+		}
 	}
 
 	@Override
