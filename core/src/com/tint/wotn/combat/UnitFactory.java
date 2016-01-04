@@ -11,7 +11,7 @@ import com.tint.wotn.ecs.components.RenderComponent;
 
 public class UnitFactory {
 	public static Entity createUnit(Vector2 tilePosition, int movementRange, int hp, int dmg,
-			Vector2 renderPosition, Vector2 renderSize, Texture texture, Color color) {
+			Vector2 renderOffset, Vector2 renderSize, Texture texture, Color color) {
 		Entity entity = new Entity();
 		MovementComponent movement = new MovementComponent();
 		HealthComponent health = new HealthComponent();
@@ -22,7 +22,7 @@ public class UnitFactory {
 		movement.range = movementRange;
 		health.health = hp;
 		attack.damage = dmg;
-		render.position = renderPosition;
+		render.offset = renderOffset;
 		render.size = renderSize;
 		render.texture = texture;
 		render.tintColor = color;
