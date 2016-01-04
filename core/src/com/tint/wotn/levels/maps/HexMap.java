@@ -9,6 +9,7 @@ import com.tint.wotn.utils.CoordinateConversions;
 public class HexMap {
 	public Tile[][] tiles;
 	private byte[] markedTileBitMap;
+	private byte[] permanentMarkedTileBitMap;
 	private static Texture markedTextureOverlay;
 	
 	private HexMap() {}
@@ -31,6 +32,7 @@ public class HexMap {
 	
 	public void initializeMarkedTiles(int tileAmount) {
 		markedTileBitMap = new byte[(int) Math.ceil(tileAmount / 7d)];
+		permanentMarkedTileBitMap = new byte[(int) Math.ceil(tileAmount / 7d)];
 	}
 	
 	public void render(SpriteBatch batch) {
@@ -61,30 +63,51 @@ public class HexMap {
 	}
 	
 	public boolean isMarkedTile(int r, int q) {
+		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return false;
 		long index = (r * tiles[r].length + q);
 		return ((markedTileBitMap[(int) (Math.floor(index / 7d))] >> (index % 7)) & 1) == 1;
 	}
 	
-	public void markTile(int r, int q) {
+	public boolean isPermanentMarkedTile(int r, int q) {
+		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return false;
+		long index = (r * tiles[r].length + q);
+		return ((permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] >> (index % 7)) & 1) == 1;
+	}
+	
+	public void markTile(int r, int q, boolean permanent) {
 		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
 		markedTileBitMap[(int) (Math.floor(index / 7d))] |= 1 << (index % 7);
+		if(permanent)
+			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] |= 1 << (index % 7);
 	}
-	
-	public void unmarkTile(int r, int q) {
+		
+	public void unmarkTile(int r, int q, boolean permanent) {
 		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
 		markedTileBitMap[(int) (Math.floor(index / 7d))] &= ~(1 << (index % 7));
+		if(permanent)
+			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] &= ~(1 << (index % 7));
 	}
 	
-	public void toggleMarkedTile(int r, int q) {
+	public void toggleMarkedTile(int r, int q, boolean permanent) {
+		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
 		markedTileBitMap[(int) (Math.floor(index / 7d))] ^= 1 << (index % 7);
+		if(permanent)
+			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] ^= 1 << (index % 7);
 	}
 
 	public void resetMarkedTiles() {
-		for(int i = 0; i < markedTileBitMap.length; i++)
+		for(int i = 0; i < markedTileBitMap.length; i++) {
 			markedTileBitMap[i] = 0;
+			permanentMarkedTileBitMap[i] = 0;
+		}
+	}
+	
+	public void clearNonPermanentMarkedTiles() {
+		for(int i = 0; i < markedTileBitMap.length; i++)
+			markedTileBitMap[i] = permanentMarkedTileBitMap[i];
 	}
 	
 	public byte[] getMarkedTiles() {

@@ -59,10 +59,11 @@ public class GameScreen implements Screen {
 				Tile.SPACING,
 				screenToWorldCoordinates.x,
 				screenToWorldCoordinates.y);
-		Core.INSTANCE.levelSystem.getCurrentLevel().map.resetMarkedTiles();
+		Core.INSTANCE.levelSystem.getCurrentLevel().map.clearNonPermanentMarkedTiles();
 		Core.INSTANCE.levelSystem.getCurrentLevel().map.markTile(
 					(int) worldToAxial.x,
-					(int) worldToAxial.y);
+					(int) worldToAxial.y,
+					false);
 	}
 
 	@Override

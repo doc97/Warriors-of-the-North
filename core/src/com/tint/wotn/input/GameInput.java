@@ -8,8 +8,6 @@ import com.tint.wotn.utils.CoordinateConversions;
 
 public class GameInput implements InputProcessor {
 
-	public Vector2 worldTouchPos = new Vector2();
-	
 	@Override
 	public boolean keyDown(int keycode) {
 		return false;
@@ -27,10 +25,12 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		worldTouchPos.set(CoordinateConversions.screenToWorld(screenX, screenY));
-		Vector2 hexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, worldTouchPos.x, worldTouchPos.y);
-		Tile t = Core.INSTANCE.levelSystem.getCurrentLevel().map.getTile((int) hexCoord.x, (int) hexCoord.y);
-		System.out.println(t);
+		Vector2 worldCoord = CoordinateConversions.screenToWorld(screenX, screenY);
+		Vector2 hexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, worldCoord.x, worldCoord.y);
+		Core.INSTANCE.userControlSystem.updateWorldTouchPos(worldCoord);
+		
+		if(Core.INSTANCE.userControlSystem.selectUnit(hexCoord)) return false;
+		if(Core.INSTANCE.userControlSystem.moveSelectedUnit(hexCoord)) return false;
 		return false;
 	}
 
@@ -41,12 +41,7 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		Vector2 currentTouchPos = CoordinateConversions.screenToWorld(screenX, screenY);
-		Vector2 delta = worldTouchPos.cpy().sub(currentTouchPos);
-		Core.INSTANCE.camera.add(delta.x, delta.y);
-		Core.INSTANCE.camera.update();
-		worldTouchPos = new Vector2(currentTouchPos.x, currentTouchPos.y);
-
+		Core.INSTANCE.userControlSystem.dragCamera(screenX, screenY);
 		return false;
 	}
 
