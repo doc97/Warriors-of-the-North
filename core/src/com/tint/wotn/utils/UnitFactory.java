@@ -1,4 +1,4 @@
-package com.tint.wotn.combat;
+package com.tint.wotn.utils;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
@@ -7,11 +7,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
+import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 
 public class UnitFactory {
-	public static Entity createUnit(Vector2 tilePosition, int movementRange, int hp, int dmg,
-			Vector2 renderOffset, Vector2 renderSize, Texture texture, Color color) {
+	public static Entity createUnitWithOwner(int ownerID, Vector2 tilePosition,
+			int movementRange, int hp, int dmg,
+			Vector2 renderOffset, Vector2 renderSize,
+			Texture texture, Color color) {
+		Entity entity = createNeutralUnit(tilePosition, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		OwnerComponent owner = new OwnerComponent();
+		entity.add(owner);
+		return entity;
+	}
+	
+	public static Entity createNeutralUnit(Vector2 tilePosition,
+			int movementRange, int hp, int dmg,
+			Vector2 renderOffset, Vector2 renderSize,
+			Texture texture, Color color) {
 		Entity entity = new Entity();
 		MovementComponent movement = new MovementComponent();
 		HealthComponent health = new HealthComponent();

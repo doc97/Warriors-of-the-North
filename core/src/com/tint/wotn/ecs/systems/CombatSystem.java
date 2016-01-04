@@ -5,10 +5,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
+import com.tint.wotn.ecs.components.OwnerComponent;
 
 public class CombatSystem extends EntitySystem {
 	private ImmutableArray<Entity> units;
@@ -37,9 +39,19 @@ public class CombatSystem extends EntitySystem {
 		// Retaliation
 		if(healthDefender.health > 0)
 			healthAttacker.health -= attackDefender.damage;
+		
+		if(healthAttacker.health <= 0)
+			Core.INSTANCE.ecs.engine.removeEntity(attacker);
+		if(healthDefender.health <= 0)
+			Core.INSTANCE.ecs.engine.removeEntity(defender);
 	}
 	
 	private boolean isValidTarget(Entity attacker, Entity defender) {
-		return !attacker.equals(defender);
+		if(attacker == null || defender == null) return false;
+		OwnerComponent attackerOwner = Mappers.owner.get(attacker);
+		OwnerComponent defenderOwner = Mappers.owner.get(defender);
+		if(attackerOwner == null || defenderOwner == null) return true;
+		if(attackerOwner.ownerID == defenderOwner.ownerID) return false;
+		return true;
 	}
 }

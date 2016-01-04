@@ -12,6 +12,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
+import com.tint.wotn.utils.UnitFactory;
 
 public class CombatSystemTest {
 
@@ -27,8 +28,8 @@ public class CombatSystemTest {
 	
 	@Test
 	public void testSimulate() {
-		Entity attacker = UnitFactory.createUnit(new Vector2(0, 0), 1, 10, 1, null, null, null, null);
-		Entity defender = UnitFactory.createUnit(new Vector2(1, 0), 1, 10, 2, null, null, null, null);
+		Entity attacker = UnitFactory.createNeutralUnit(new Vector2(0, 0), 1, 10, 1, null, null, null, null);
+		Entity defender = UnitFactory.createNeutralUnit(new Vector2(1, 0), 1, 10, 2, null, null, null, null);
 		Core.INSTANCE.ecs.engine.addEntity(attacker);
 		Core.INSTANCE.ecs.engine.addEntity(defender);
 		HealthComponent healthAttacker = Mappers.health.get(attacker);
