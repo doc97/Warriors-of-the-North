@@ -27,8 +27,8 @@ public class CombatSystemTest {
 	
 	@Test
 	public void testSimulate() {
-		Entity attacker = UnitFactory.createUnit(new Vector2(0, 0), 10, 1, null, null, null, null);
-		Entity defender = UnitFactory.createUnit(new Vector2(1, 0), 10, 2, null, null, null, null);
+		Entity attacker = UnitFactory.createUnit(new Vector2(0, 0), 1, 10, 1, null, null, null, null);
+		Entity defender = UnitFactory.createUnit(new Vector2(1, 0), 1, 10, 2, null, null, null, null);
 		Core.INSTANCE.ecs.engine.addEntity(attacker);
 		Core.INSTANCE.ecs.engine.addEntity(defender);
 		HealthComponent healthAttacker = Mappers.health.get(attacker);

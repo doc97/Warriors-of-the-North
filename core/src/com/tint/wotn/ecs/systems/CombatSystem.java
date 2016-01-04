@@ -8,7 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
-import com.tint.wotn.ecs.components.PositionComponent;
+import com.tint.wotn.ecs.components.MovementComponent;
 
 public class CombatSystem extends EntitySystem {
 	private ImmutableArray<Entity> units;
@@ -17,7 +17,7 @@ public class CombatSystem extends EntitySystem {
 	@Override
 	public void addedToEngine(Engine engine) {
 		units = engine.getEntitiesFor(Family.all(
-				PositionComponent.class,
+				MovementComponent.class,
 				HealthComponent.class,
 				AttackComponent.class)
 				.get());
