@@ -10,7 +10,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
+import com.tint.wotn.ecs.components.AttackComponent;
+import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
+import com.tint.wotn.ecs.systems.CombatSystem;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 import com.tint.wotn.utils.HexCoordinates;
@@ -31,13 +34,40 @@ public class UserControlSystem {
 		Core.INSTANCE.camera.add(delta.x, delta.y);
 		Core.INSTANCE.camera.update();
 	}
+	
+	/**
+	 * Handles the touch of a tile
+	 * @param target - The target tile coordinate in hex coordinate
+	 */
+	public void touchTile(Vector2 target) {
+		Entity targetUnit = Core.INSTANCE.userControlSystem.getUnitAt(target);
+		if(targetUnit == null) {
+			moveWithSelectedUnit(target);
+			unselectUnit();
+		} else if(unitIsSelected()) {
+			attackWithSelectedUnit(targetUnit);
+			unselectUnit();
+		} else {
+			selectUnit(targetUnit);
+		}
+	}
 
-	public boolean selectUnit(Vector2 hexCoord) {
-		Entity unit = getUnitAt(hexCoord);
-		if(unit == null) return false;
-
+	private void unselectUnit() {
+		selectedUnit = null;
+		for(Vector2 tile : selectedTiles) {
+			Core.INSTANCE.levelSystem.getCurrentLevel().map.unmarkTile(
+					(int) tile.x,
+					(int) tile.y,
+					true);
+		}
+		selectedTiles.clear();
+	}
+	
+	private void selectUnit(Entity unit) {
+		unselectUnit();
 		selectedUnit = unit;
 		MovementComponent movement = Mappers.movement.get(selectedUnit);
+			
 		List<Vector3> markTiles = HexCoordinates.getAllInRange(
 				-movement.range, movement.range,
 				-movement.range, movement.range,
@@ -48,14 +78,29 @@ public class UserControlSystem {
 			if(Core.INSTANCE.levelSystem.getCurrentLevel().map.getTile((int) actualPos.x,(int) actualPos.y) == Tile.NULL) continue;
 
 			selectedTiles.add(actualPos);
-			Core.INSTANCE.levelSystem.getCurrentLevel().map.toggleMarkedTile(
+			Core.INSTANCE.levelSystem.getCurrentLevel().map.markTile(
 					(int) (axialCoord.x + movement.position.x),
 					(int) (axialCoord.y + movement.position.y),
 					true);
 		}
-		return true;
 	}
 	
+	private void attackWithSelectedUnit(Entity targetUnit) {
+		if(!unitIsSelected()) return;
+		Core.INSTANCE.ecs.engine.getSystem(CombatSystem.class).simulate(selectedUnit, targetUnit);
+	}
+	
+	private void moveWithSelectedUnit(Vector2 position) {
+		if(!unitIsSelected()) return;
+		MovementComponent movement = Mappers.movement.get(selectedUnit);
+		for(Vector2 tile : selectedTiles) {
+			if(tile.x == position.x && tile.y == position.y) {
+				movement.position.set(position);
+				break;
+			}
+		}
+	}
+
 	private Entity getUnitAt(Vector2 hexCoord) {
 		@SuppressWarnings("unchecked")
 		ImmutableArray<Entity> entities = Core.INSTANCE.ecs.engine.getEntitiesFor(Family.all(MovementComponent.class).get());
@@ -67,24 +112,8 @@ public class UserControlSystem {
 		}
 		return null;
 	}
-	
-	public boolean moveSelectedUnit(Vector2 position) {
-		if(selectedUnit == null) return false;
-		MovementComponent movement = Mappers.movement.get(selectedUnit);
-		for(Vector2 tile : selectedTiles) {
-			if(tile.x == position.x && tile.y == position.y) {
-				movement.position.set(position);
-				selectedUnit = null;
-				break;
-			}
-		}
-		
-		if(selectedUnit == null) {
-			for(Vector2 tile : selectedTiles)
-				Core.INSTANCE.levelSystem.getCurrentLevel().map.unmarkTile((int) tile.x, (int) tile.y, true);
-			selectedTiles.clear();
-			return true;
-		}
-		return false;
+
+	private boolean unitIsSelected() {
+		return selectedUnit != null;
 	}
 }

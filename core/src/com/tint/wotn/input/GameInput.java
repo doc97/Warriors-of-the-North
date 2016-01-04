@@ -25,12 +25,11 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector2 worldPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
-		Vector2 hexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, worldPos.x, worldPos.y);
-		Core.INSTANCE.userControlSystem.updateWorldTouchPos(worldPos);
+		Vector2 targetWorldPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
+		Vector2 targetHexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, targetWorldPos.x, targetWorldPos.y);
+		Core.INSTANCE.userControlSystem.updateWorldTouchPos(targetWorldPos);
+		Core.INSTANCE.userControlSystem.touchTile(targetHexCoord);
 		
-		if(Core.INSTANCE.userControlSystem.selectUnit(hexCoord)) return false;
-		if(Core.INSTANCE.userControlSystem.moveSelectedUnit(hexCoord)) return false;
 		return false;
 	}
 

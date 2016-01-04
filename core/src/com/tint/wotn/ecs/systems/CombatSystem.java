@@ -25,7 +25,8 @@ public class CombatSystem extends EntitySystem {
 
 	
 	public void simulate(Entity attacker, Entity defender) {
-		if(!units.contains(attacker, true) || !units.contains(attacker, true)) return;
+		if(!units.contains(attacker, true) || !units.contains(defender, true)) return;
+		if(!isValidTarget(attacker, defender)) return;
 		HealthComponent healthAttacker = Mappers.health.get(attacker);
 		HealthComponent healthDefender = Mappers.health.get(defender);
 		AttackComponent attackAttacker = Mappers.attack.get(attacker);
@@ -36,5 +37,9 @@ public class CombatSystem extends EntitySystem {
 		// Retaliation
 		if(healthDefender.health > 0)
 			healthAttacker.health -= attackDefender.damage;
+	}
+	
+	private boolean isValidTarget(Entity attacker, Entity defender) {
+		return !attacker.equals(defender);
 	}
 }
