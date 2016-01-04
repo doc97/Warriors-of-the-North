@@ -26,7 +26,7 @@ public class UserControlSystem {
 	}
 	
 	public void dragCamera(int screenX, int screenY) {
-		Vector2 currentTouchPos = CoordinateConversions.screenToWorld(screenX, screenY);
+		Vector2 currentTouchPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
 		Vector2 delta = worldTouchPos.cpy().sub(currentTouchPos);
 		Core.INSTANCE.camera.add(delta.x, delta.y);
 		Core.INSTANCE.camera.update();
