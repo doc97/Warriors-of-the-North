@@ -1,5 +1,8 @@
 package com.tint.wotn.input;
 
+import java.io.IOException;
+
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
@@ -15,6 +18,15 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
+		if(keycode == Keys.C) {
+			System.out.println("Attempting to connect to server...");
+			try {
+				Core.INSTANCE.clientSystem.connect("127.0.0.1", 6666);
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("Failed to connect to server!");
+			}
+		}
 		return false;
 	}
 

@@ -70,6 +70,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        compile fileTree(dir: 'libs', include: '*.jar')
     }
 }
 

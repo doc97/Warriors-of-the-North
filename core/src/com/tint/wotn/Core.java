@@ -8,6 +8,7 @@ import com.tint.wotn.control.UserControlSystem;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
+import com.tint.wotn.net.ClientSystem;
 
 public enum Core {
 	INSTANCE;
@@ -21,6 +22,7 @@ public enum Core {
 	public LevelSystem levelSystem;
 	public InputSystem inputSystem;
 	public UserControlSystem userControlSystem;
+	public ClientSystem clientSystem;
 	public AssetManager assetManager;
 	
 	public void initializeAll(Game game) {
@@ -34,6 +36,7 @@ public enum Core {
 		initializeLevelSystem();
 		initializeInputSystem();
 		initializeUserControlSystem();
+		initializeClientSystem();
 	}
 	
 	public void setGame(Game game) {
@@ -79,6 +82,10 @@ public enum Core {
 	
 	public void initializeUserControlSystem() {
 		userControlSystem = new UserControlSystem();
+	}
+	
+	public void initializeClientSystem() {
+		clientSystem = new ClientSystem();
 	}
 	
 	public void dispose() {
