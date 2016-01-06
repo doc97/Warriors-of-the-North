@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
 		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
 		
 		Core.INSTANCE.batch.begin();
-		Core.INSTANCE.levelSystem.getCurrentLevel().render(Core.INSTANCE.batch);
+		Core.INSTANCE.gameMode.map.render(Core.INSTANCE.batch);
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
@@ -59,8 +59,8 @@ public class GameScreen implements Screen {
 				Tile.SPACING,
 				screenToWorldCoordinates.x,
 				screenToWorldCoordinates.y);
-		Core.INSTANCE.levelSystem.getCurrentLevel().map.clearNonPermanentMarkedTiles();
-		Core.INSTANCE.levelSystem.getCurrentLevel().map.markTile(
+		Core.INSTANCE.gameMode.map.clearNonPermanentMarkedTiles();
+		Core.INSTANCE.gameMode.map.markTile(
 					(int) worldToAxial.x,
 					(int) worldToAxial.y,
 					false);

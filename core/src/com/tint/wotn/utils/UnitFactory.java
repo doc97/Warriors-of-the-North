@@ -11,6 +11,7 @@ import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 
 public class UnitFactory {
+	
 	public static Entity createUnitWithOwner(int ownerID, Vector2 tilePosition,
 			int movementRange, int hp, int dmg,
 			Vector2 renderOffset, Vector2 renderSize,

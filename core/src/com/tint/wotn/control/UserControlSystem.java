@@ -10,8 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
-import com.tint.wotn.ecs.components.AttackComponent;
-import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
 import com.tint.wotn.levels.maps.Tile;
@@ -55,7 +53,7 @@ public class UserControlSystem {
 	private void unselectUnit() {
 		selectedUnit = null;
 		for(Vector2 tile : selectedTiles) {
-			Core.INSTANCE.levelSystem.getCurrentLevel().map.unmarkTile(
+			Core.INSTANCE.gameMode.map.unmarkTile(
 					(int) tile.x,
 					(int) tile.y,
 					true);
@@ -75,10 +73,10 @@ public class UserControlSystem {
 		for(Vector3 cubeCoord : markTiles) {
 			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
 			Vector2 actualPos = axialCoord.cpy().add(movement.position);
-			if(Core.INSTANCE.levelSystem.getCurrentLevel().map.getTile((int) actualPos.x,(int) actualPos.y) == Tile.NULL) continue;
+			if(Core.INSTANCE.gameMode.map.getTile((int) actualPos.x,(int) actualPos.y) == Tile.NULL) continue;
 
 			selectedTiles.add(actualPos);
-			Core.INSTANCE.levelSystem.getCurrentLevel().map.markTile(
+			Core.INSTANCE.gameMode.map.markTile(
 					(int) (axialCoord.x + movement.position.x),
 					(int) (axialCoord.y + movement.position.y),
 					true);

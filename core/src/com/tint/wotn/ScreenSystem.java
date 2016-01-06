@@ -7,10 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.tint.wotn.screens.GameScreen;
 import com.tint.wotn.screens.LoadingScreen;
+import com.tint.wotn.screens.LobbyScreen;
 import com.tint.wotn.screens.Screens;
 
 public class ScreenSystem {
 	private Map<Screens, Screen> screens;
+	public Screens screenToEnter = null;
 	
 	public ScreenSystem() {
 		screens = new HashMap<Screens, Screen>();
@@ -18,7 +20,15 @@ public class ScreenSystem {
 	
 	public void initialize() {
 		screens.put(Screens.LOADING, new LoadingScreen());
+		screens.put(Screens.LOBBY, new LobbyScreen());
 		screens.put(Screens.GAME, new GameScreen());
+	}
+	
+	public void update() {
+		if(screenToEnter != null) {
+			enterScreen(screenToEnter);
+			screenToEnter = null;
+		}
 	}
 	
 	public void enterScreen(Screens scr) {

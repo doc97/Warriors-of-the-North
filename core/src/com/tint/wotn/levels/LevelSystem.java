@@ -3,10 +3,7 @@ package com.tint.wotn.levels;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tint.wotn.levels.maps.HexMap;
-import com.tint.wotn.levels.maps.HexMapGenerator;
 import com.tint.wotn.levels.maps.MapShape;
-import com.tint.wotn.levels.maps.Tile;
 
 public class LevelSystem {
 	private List<Level> levels = new ArrayList<Level>();
@@ -15,11 +12,10 @@ public class LevelSystem {
 	
 	public void initialize() {
 		nullLevel = new Level("Null");
-		nullLevel.setMap(HexMap.createMap(new Tile[0][0]));
 
 		Level level0 = new Level("Beginning");
-			Tile[][] tiles = HexMapGenerator.generate(MapShape.HEXAGON, 5);
-			level0.setMap(HexMap.createMap(tiles));
+		level0.mapShape = MapShape.HEXAGON;
+		level0.mapRadius = 4;
 		addLevel(level0);
 	}
 	

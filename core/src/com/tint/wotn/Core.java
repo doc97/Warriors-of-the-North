@@ -8,12 +8,13 @@ import com.tint.wotn.control.UserControlSystem;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
-import com.tint.wotn.net.ClientSystem;
+import com.tint.wotn.net.MultiplayerSystem;
 
 public enum Core {
 	INSTANCE;
 	
 	public Game game;
+	public GameMode gameMode = GameMode.MULTI_PLAYER;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
 	public ShapeRenderer shapeRenderer;
@@ -22,7 +23,7 @@ public enum Core {
 	public LevelSystem levelSystem;
 	public InputSystem inputSystem;
 	public UserControlSystem userControlSystem;
-	public ClientSystem clientSystem;
+	public MultiplayerSystem multiplayerSystem;
 	public AssetManager assetManager;
 	
 	public void initializeAll(Game game) {
@@ -33,10 +34,12 @@ public enum Core {
 		initializeCamera(1920, 1080);
 		initializeScreenSystem();
 		initializeECS();
-		initializeLevelSystem();
 		initializeInputSystem();
 		initializeUserControlSystem();
-		initializeClientSystem();
+		initializeMultiplayerSystem();
+		
+		if(gameMode == GameMode.SINGLE_PLAYER)
+			initializeLevelSystem();
 	}
 	
 	public void setGame(Game game) {
@@ -84,8 +87,8 @@ public enum Core {
 		userControlSystem = new UserControlSystem();
 	}
 	
-	public void initializeClientSystem() {
-		clientSystem = new ClientSystem();
+	public void initializeMultiplayerSystem() {
+		multiplayerSystem = new MultiplayerSystem();
 	}
 	
 	public void dispose() {
