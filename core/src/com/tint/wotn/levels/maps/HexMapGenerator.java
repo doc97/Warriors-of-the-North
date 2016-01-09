@@ -7,7 +7,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.tint.wotn.utils.HexCoordinates;
 
 public class HexMapGenerator {
-	public static Tile[][] generate(MapShape mapShape, int radius) {
+	public static HexMap generateMap(MapShape mapShape, int radius) {
+		return HexMap.createMap(generateTiles(mapShape, radius));
+	}
+	
+	public static Tile[][] generateTiles(MapShape mapShape, int radius) {
 		if(radius == 0)	return generateEmpty(radius);
 		
 		Tile[][] tiles = generateEmpty(radius);

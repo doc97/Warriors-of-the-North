@@ -1,11 +1,8 @@
 package com.tint.wotn.net.server;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import com.tint.wotn.UnitType;
-import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.net.GameConnection;
 import com.tint.wotn.net.LoadoutData;
 import com.tint.wotn.net.constants.Request;
@@ -62,7 +59,7 @@ public class ServerPacketProcessor {
 			
 			if(serverLauncher.allPlayersReady()) {
 				serverLauncher.resetPlayersReady();
-				serverLauncher.loadoutsReady.clear();
+				serverLauncher.resetLoadoutsReady();
 				System.gc();
 			
 				serverLauncher.nextTurn();
@@ -76,8 +73,8 @@ public class ServerPacketProcessor {
 		storeLoadout(connection, packet);
 		
 		if(serverLauncher.allLoadoutsReady()) {
+			serverLauncher.startGame();
 			sendStartGamePackets();
-			serverLauncher.resetPlayersReady();
 		}
 	}
 	
@@ -91,15 +88,9 @@ public class ServerPacketProcessor {
 	
 	private void sendStartGamePackets() {
 		StartGamePacket startGamePacket = new StartGamePacket();
-		startGamePacket.mapShape = MapShape.HEXAGON;
-		startGamePacket.mapRadius = 8;
-	
-		List<LoadoutData> loadoutDatas = new ArrayList<LoadoutData>();
-		for(int i = 0; i < serverLauncher.loadoutsReady.size(); i++) {
-			LoadoutData loadoutData = serverLauncher.loadoutsReady.get(i);
-			loadoutDatas.add(loadoutData);
-		}
-		startGamePacket.loadouts = loadoutDatas;
+		startGamePacket.mapShape = serverLauncher.serverGame.mapShape;
+		startGamePacket.mapRadius = serverLauncher.serverGame.mapRadius;
+		startGamePacket.unitDatas = serverLauncher.serverGame.units;
 		serverLauncher.server.sendToAllTCP(startGamePacket);
 	}
 }

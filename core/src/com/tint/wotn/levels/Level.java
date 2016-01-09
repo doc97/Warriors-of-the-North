@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
-import com.tint.wotn.levels.maps.HexMap;
+import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMapGenerator;
 import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
@@ -21,7 +21,7 @@ public class Level {
 	}
 	
 	public void enter() {
-		Core.INSTANCE.gameMode.map = HexMap.createMap(HexMapGenerator.generate(mapShape, mapRadius));
+		Core.INSTANCE.gameMode.map = HexMapGenerator.generateMap(mapShape, mapRadius);
 		
 		Vector2 tilePos1 = new Vector2(5, 5);
 		Vector2 tilePos2 = new Vector2(3, 5);
@@ -33,7 +33,7 @@ public class Level {
 		int movementRange = 2;
 		int hp = 10;
 		int dmg = 1;
-		Entity entity1 = UnitFactory.createUnitWithOwner(ownerID, tilePos1, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity1 = UnitFactory.createUnitByType(ownerID, UnitType.RAIDER, tilePos1, renderOffset, renderSize, color);
 		Entity entity2 = UnitFactory.createNeutralUnit(tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		Core.INSTANCE.ecs.engine.addEntity(entity1);
 		Core.INSTANCE.ecs.engine.addEntity(entity2);

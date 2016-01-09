@@ -10,9 +10,17 @@ import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.tint.wotn.Core;
+import com.tint.wotn.UnitType;
+import com.tint.wotn.levels.maps.HexMap;
 
 public class AssetLoader {
 
+	public static void loadTexturesIntoGame() {
+		HexMap.loadTextures();
+		for(UnitType unitType : UnitType.values())
+			unitType.loadTexture();
+	}
+	
 	public static void loadTextures(String fileName) throws IOException {
 		if(!checkPrerequisites(fileName, ".wotn_tex")) return;
 

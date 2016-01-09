@@ -8,7 +8,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
-import com.tint.wotn.levels.maps.HexMap;
 import com.tint.wotn.net.Player;
 import com.tint.wotn.utils.AssetLoader;
 
@@ -31,7 +30,7 @@ public class LoadingScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		if(Core.INSTANCE.assetManager.update()) {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			HexMap.loadTextures();
+			AssetLoader.loadTexturesIntoGame();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
 				Core.INSTANCE.levelSystem.enterLevel(0);
 				Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);

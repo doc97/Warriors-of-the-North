@@ -1,10 +1,15 @@
 package com.tint.wotn.net;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.tint.wotn.Core;
-import com.tint.wotn.levels.maps.HexMap;
+import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMapGenerator;
 import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
@@ -16,6 +21,7 @@ import com.tint.wotn.net.packets.RequestPacket;
 import com.tint.wotn.net.packets.StartGamePacket;
 import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.screens.Screens;
+import com.tint.wotn.utils.UnitFactory;
 
 public class ClientPacketProcessor {
 
@@ -49,15 +55,27 @@ public class ClientPacketProcessor {
 	private void processStartGamePacket(Connection connection, Object packet) {
 		MapShape shape = ((StartGamePacket) packet).mapShape;
 		int radius = ((StartGamePacket) packet).mapRadius;
-		List<LoadoutData> loadoutDatas = ((StartGamePacket) packet).loadouts;
+		List<UnitData> unitDatas = ((StartGamePacket) packet).unitDatas;
 		
 		// Generate map
-		Tile[][] tiles = HexMapGenerator.generate(shape, radius);
-		Core.INSTANCE.gameMode.map = HexMap.createMap(tiles);
+		Core.INSTANCE.gameMode.map = HexMapGenerator.generateMap(shape, radius);
 		
 		// Load loadouts
-		for(LoadoutData loadoutData : loadoutDatas) {
-			multiplayerSystem.players.get(loadoutData.id).loadout = loadoutData.loadout;
+		synchronized (multiplayerSystem.client) {
+			Vector2 offset = new Vector2(0, 0);
+			Vector2 size = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
+			for(UnitData unitData : unitDatas) {
+				multiplayerSystem.players.get(unitData.ownerID).units.add(unitData);
+				
+				Entity e = UnitFactory.createUnitByType(
+						unitData.ownerID,
+						unitData.unitType,
+						unitData.position,
+						offset,
+						size,
+						Color.WHITE);
+				Core.INSTANCE.ecs.engine.addEntity(e);
+			}
 		}
 		
 		// Message server that the game is loaded
@@ -73,10 +91,13 @@ public class ClientPacketProcessor {
 	private void processRequestPacket(Connection connection, Object packet) {
 		int request = ((RequestPacket) packet).request;
 		if(request == Request.LOADOUT_REQUEST) {
-			System.out.println("Loadout requested by server");
 			LoadoutPacket loadoutPacket = new LoadoutPacket();
-			loadoutPacket.loadout = multiplayerSystem.player.loadout;
-			System.out.println(multiplayerSystem.client.getRemoteAddressTCP().toString());
+
+			// TODO Right now you only get one raider
+			Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
+			loadout.put(UnitType.RAIDER, 4);
+
+			loadoutPacket.loadout = loadout;
 			multiplayerSystem.client.sendTCP(loadoutPacket);
 		}
 	}

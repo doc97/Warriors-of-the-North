@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.tint.wotn.UnitType;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
@@ -11,6 +12,25 @@ import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 
 public class UnitFactory {
+	
+	public static Entity createUnitByType(int ownerID, UnitType unitType, Vector2 position,
+			Vector2 renderOffset, Vector2 renderSize, Color color) {
+		Entity entity = null;
+		switch(unitType) {
+		case RAIDER:
+			entity = createUnitWithOwner(ownerID, position,
+					UnitType.RAIDER.mov,
+					UnitType.RAIDER.hp,
+					UnitType.RAIDER.dmg,
+					renderOffset, renderSize,
+					UnitType.RAIDER.texture,
+					color);
+			break;
+		default:
+			break;
+		}
+		return entity;
+	}
 	
 	public static Entity createUnitWithOwner(int ownerID, Vector2 tilePosition,
 			int movementRange, int hp, int dmg,

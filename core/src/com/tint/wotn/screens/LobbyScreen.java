@@ -1,14 +1,10 @@
 package com.tint.wotn.screens;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
-import com.tint.wotn.UnitType;
 import com.tint.wotn.net.constants.Status;
 import com.tint.wotn.net.packets.StatusPacket;
 
@@ -25,10 +21,6 @@ public class LobbyScreen implements Screen {
 		Core.INSTANCE.screenSystem.update();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
-			loadout.put(UnitType.RAIDER, 3);
-			Core.INSTANCE.multiplayerSystem.player.loadout = loadout;
-			
 			StatusPacket statusPacket = new StatusPacket();
 			statusPacket.status = Status.CLIENT_READY;
 			Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);

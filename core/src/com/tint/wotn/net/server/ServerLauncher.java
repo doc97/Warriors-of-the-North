@@ -19,6 +19,7 @@ public class ServerLauncher {
 	
 	public Server server;
 	public ServerPacketProcessor packetProcessor;
+	public ServerGame serverGame;
 	public int tcpPort = 6666;
 	public List<Integer> playersReady = new ArrayList<Integer>();
 	public List<LoadoutData> loadoutsReady = new ArrayList<LoadoutData>();
@@ -64,6 +65,9 @@ public class ServerLauncher {
 			if(loadout.id == connection.getID())
 				it.remove();
 		}
+		
+		if(server.getConnections().length == 0)
+			System.exit(0);
 	}
 	
 	public void nextTurn() {
@@ -96,9 +100,17 @@ public class ServerLauncher {
 		server.sendToAllTCP(playerPacket);
 	}
 	
+	public void startGame() {
+		serverGame = new ServerGame();
+		serverGame.prepare(loadoutsReady);
+	}
+	
 	public void resetPlayersReady() {
 		playersReady.clear();
-
+	}
+	
+	public void resetLoadoutsReady() {
+		loadoutsReady.clear();
 	}
 	
 	public boolean allPlayersReady() {

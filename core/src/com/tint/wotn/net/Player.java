@@ -1,12 +1,10 @@
 package com.tint.wotn.net;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.tint.wotn.UnitType;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 	public String name;
 	public int id;
-	public transient Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
+	public transient List<UnitData> units = new ArrayList<UnitData>();
 }
