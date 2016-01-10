@@ -38,6 +38,7 @@ public class UnitFactory {
 			Texture texture, Color color) {
 		Entity entity = createNeutralUnit(tilePosition, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		OwnerComponent owner = new OwnerComponent();
+		owner.ownerID = ownerID;
 		entity.add(owner);
 		return entity;
 	}

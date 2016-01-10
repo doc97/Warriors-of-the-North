@@ -100,7 +100,7 @@ public class ServerGame {
 			LoadoutData ld = new LoadoutData();
 			Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
 			loadout.put(UnitType.RAIDER, 4);
-			ld.id = 0;
+			ld.id = i;
 			ld.loadout = loadout;
 			loadoutDatas.add(ld);
 		}

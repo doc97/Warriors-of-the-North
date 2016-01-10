@@ -34,7 +34,7 @@ public class ScreenSystem {
 	public void enterScreen(Screens scr) {
 		Screen s = screens.get(scr);
 		if(s != null)
-			Core.INSTANCE.game.setScreen(s);
+			Core.INSTANCE.coreGame.setScreen(s);
 		else
 			Gdx.app.log("ScreenManager", "No screen with id: " + scr.toString());
 	}

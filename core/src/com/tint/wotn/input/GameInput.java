@@ -1,6 +1,7 @@
 package com.tint.wotn.input;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
@@ -15,6 +16,9 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean keyUp(int keycode) {
+		if(keycode == Keys.ESCAPE) {
+			Core.INSTANCE.userControlSystem.endTurn();
+		}
 		return false;
 	}
 

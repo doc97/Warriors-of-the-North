@@ -20,6 +20,7 @@ import com.tint.wotn.net.packets.PlayerPacket;
 import com.tint.wotn.net.packets.RequestPacket;
 import com.tint.wotn.net.packets.StartGamePacket;
 import com.tint.wotn.net.packets.StatusPacket;
+import com.tint.wotn.net.packets.TurnPacket;
 import com.tint.wotn.screens.Screens;
 import com.tint.wotn.utils.UnitFactory;
 
@@ -38,6 +39,8 @@ public class ClientPacketProcessor {
 			processStartGamePacket(connection, packet);
 		} else if(packet instanceof RequestPacket) {
 			processRequestPacket(connection, packet);
+		} else if(packet instanceof TurnPacket) {
+			processTurnPacket(connection, packet);
 		}
 	}
 	
@@ -100,5 +103,9 @@ public class ClientPacketProcessor {
 			loadoutPacket.loadout = loadout;
 			multiplayerSystem.client.sendTCP(loadoutPacket);
 		}
+	}
+	
+	private void processTurnPacket(Connection connection, Object packet) {
+		Core.INSTANCE.game.playerInTurnID = ((TurnPacket) packet).turnID;
 	}
 }

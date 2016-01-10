@@ -9,10 +9,14 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tint.wotn.Core;
+import com.tint.wotn.GameMode;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.MovementComponent;
+import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
 import com.tint.wotn.levels.maps.Tile;
+import com.tint.wotn.net.constants.Status;
+import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.utils.CoordinateConversions;
 import com.tint.wotn.utils.HexCoordinates;
 
@@ -21,6 +25,19 @@ public class UserControlSystem {
 	private Vector2 worldTouchPos = new Vector2();
 	private Entity selectedUnit;
 	private List<Vector2> selectedTiles = new ArrayList<Vector2>();
+	
+	public void endTurn() {
+		if(!Core.INSTANCE.game.isPlayersTurn()) return;
+
+		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
+			
+		} else if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+			Core.INSTANCE.game.playerInTurnID = -1;
+			StatusPacket endTurnPacket = new StatusPacket();
+			endTurnPacket.status = Status.TURN_END;
+			Core.INSTANCE.multiplayerSystem.client.sendTCP(endTurnPacket);
+		}
+	}
 	
 	public void updateWorldTouchPos(Vector2 updatedVector) {
 		worldTouchPos.set(updatedVector);
@@ -38,6 +55,8 @@ public class UserControlSystem {
 	 * @param target - The target tile coordinate in hex coordinate
 	 */
 	public void touchTile(Vector2 target) {
+		if(!Core.INSTANCE.game.isPlayersTurn()) return;
+
 		Entity targetUnit = Core.INSTANCE.userControlSystem.getUnitAt(target);
 		if(targetUnit == null) {
 			moveWithSelectedUnit(target);
@@ -63,6 +82,9 @@ public class UserControlSystem {
 	
 	private void selectUnit(Entity unit) {
 		unselectUnit();
+		OwnerComponent owner = Mappers.owner.get(unit);
+		if(owner.ownerID != Core.INSTANCE.game.player.id) return;
+
 		selectedUnit = unit;
 		MovementComponent movement = Mappers.movement.get(selectedUnit);
 			
@@ -85,11 +107,19 @@ public class UserControlSystem {
 	
 	private void attackWithSelectedUnit(Entity targetUnit) {
 		if(!unitIsSelected()) return;
+		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
+		if(selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		OwnerComponent targetUnitOwner = Mappers.owner.get(targetUnit);
+		if(selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
+
 		Core.INSTANCE.ecs.engine.getSystem(CombatSystem.class).simulate(selectedUnit, targetUnit);
 	}
 	
 	private void moveWithSelectedUnit(Vector2 position) {
 		if(!unitIsSelected()) return;
+		OwnerComponent owner = Mappers.owner.get(selectedUnit);
+		if(owner.ownerID != Core.INSTANCE.game.player.id) return;
+
 		MovementComponent movement = Mappers.movement.get(selectedUnit);
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {

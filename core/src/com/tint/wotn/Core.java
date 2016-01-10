@@ -13,8 +13,9 @@ import com.tint.wotn.net.MultiplayerSystem;
 public enum Core {
 	INSTANCE;
 	
-	public Game game;
+	public Game coreGame;
 	public GameMode gameMode = GameMode.MULTI_PLAYER;
+	public ClientGame game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
 	public ShapeRenderer shapeRenderer;
@@ -26,8 +27,8 @@ public enum Core {
 	public MultiplayerSystem multiplayerSystem;
 	public AssetManager assetManager;
 	
-	public void initializeAll(Game game) {
-		setGame(game);
+	public void initializeAll(Game coreGame) {
+		setCoreGame(coreGame);
 		initializeAssetManager();
 		initializeSpriteBatch();
 		initializeShapeRenderer();
@@ -36,14 +37,19 @@ public enum Core {
 		initializeECS();
 		initializeInputSystem();
 		initializeUserControlSystem();
-		initializeMultiplayerSystem();
-		
-		if(gameMode == GameMode.SINGLE_PLAYER)
-			initializeLevelSystem();
+		initializeGame();
 	}
 	
-	public void setGame(Game game) {
-		this.game = game;
+	public void setCoreGame(Game coreGame) {
+		this.coreGame = coreGame;
+	}
+	
+	public void initializeGame() {
+		game = new ClientGame();
+		if(gameMode == GameMode.SINGLE_PLAYER)
+			initializeLevelSystem();
+		else if(gameMode == GameMode.MULTI_PLAYER)
+			initializeMultiplayerSystem();
 	}
 	
 	public void initializeAssetManager() {
@@ -96,6 +102,7 @@ public enum Core {
 		if(batch != null)			batch.dispose();
 		if(shapeRenderer != null)	shapeRenderer.dispose();
 		
+		coreGame = null;
 		game = null;
 		screenSystem = null;
 		batch = null;
@@ -105,5 +112,7 @@ public enum Core {
 		ecs = null;
 		levelSystem = null;
 		inputSystem = null;
+		multiplayerSystem = null;
+		userControlSystem = null;
 	}
 }
