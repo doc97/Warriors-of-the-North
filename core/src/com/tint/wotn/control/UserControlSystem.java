@@ -10,11 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
+import com.tint.wotn.actions.AttackAction;
+import com.tint.wotn.actions.MoveAction;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
-import com.tint.wotn.ecs.systems.CombatSystem;
-import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.net.constants.Status;
 import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.utils.CoordinateConversions;
@@ -83,7 +83,7 @@ public class UserControlSystem {
 	private void selectUnit(Entity unit) {
 		unselectUnit();
 		OwnerComponent owner = Mappers.owner.get(unit);
-		if(owner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(owner == null || owner.ownerID != Core.INSTANCE.game.player.id) return;
 
 		selectedUnit = unit;
 		MovementComponent movement = Mappers.movement.get(selectedUnit);
@@ -95,8 +95,13 @@ public class UserControlSystem {
 		for(Vector3 cubeCoord : markTiles) {
 			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
 			Vector2 actualPos = axialCoord.cpy().add(movement.position);
-			if(Core.INSTANCE.gameMode.map.getTile((int) actualPos.x,(int) actualPos.y) == Tile.NULL) continue;
-
+			if(!Core.INSTANCE.gameMode.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
+			Entity entityAtActual = getUnitAt(actualPos);
+			if(entityAtActual != null) {
+				OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
+				if(unitAtTileOwner != null && unitAtTileOwner.ownerID == owner.ownerID) continue;
+			}
+			
 			selectedTiles.add(actualPos);
 			Core.INSTANCE.gameMode.map.markTile(
 					(int) (axialCoord.x + movement.position.x),
@@ -108,22 +113,27 @@ public class UserControlSystem {
 	private void attackWithSelectedUnit(Entity targetUnit) {
 		if(!unitIsSelected()) return;
 		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
-		if(selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
 		OwnerComponent targetUnitOwner = Mappers.owner.get(targetUnit);
-		if(selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
+		if(targetUnitOwner != null && selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
 
-		Core.INSTANCE.ecs.engine.getSystem(CombatSystem.class).simulate(selectedUnit, targetUnit);
+		AttackAction action = new AttackAction();
+		action.attacker = selectedUnit;
+		action.defender = targetUnit;
+		Core.INSTANCE.actionSystem.actions.add(action);
 	}
 	
 	private void moveWithSelectedUnit(Vector2 position) {
 		if(!unitIsSelected()) return;
-		OwnerComponent owner = Mappers.owner.get(selectedUnit);
-		if(owner.ownerID != Core.INSTANCE.game.player.id) return;
+		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
+		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
 
-		MovementComponent movement = Mappers.movement.get(selectedUnit);
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {
-				movement.position.set(position);
+				MoveAction action = new MoveAction();
+				action.entity = selectedUnit;
+				action.position = position;
+				Core.INSTANCE.actionSystem.actions.add(action);
 				break;
 			}
 		}

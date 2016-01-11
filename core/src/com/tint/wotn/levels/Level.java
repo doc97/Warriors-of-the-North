@@ -29,12 +29,12 @@ public class Level {
 		Vector2 renderSize = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
 		Texture texture = Core.INSTANCE.assetManager.get("textures/unit_raider.png");
 		Color color = Color.WHITE;
-		int ownerID = 0;
+		int ownerID = 1;
 		int movementRange = 2;
-		int hp = 10;
-		int dmg = 1;
+		int hp = 3;
+		int dmg = 2;
 		Entity entity1 = UnitFactory.createUnitByType(ownerID, UnitType.RAIDER, tilePos1, renderOffset, renderSize, color);
-		Entity entity2 = UnitFactory.createNeutralUnit(tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity2 = UnitFactory.createUnitWithOwner(ownerID, tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		Core.INSTANCE.ecs.engine.addEntity(entity1);
 		Core.INSTANCE.ecs.engine.addEntity(entity2);
 	}

@@ -64,6 +64,8 @@ public class GameScreen implements Screen {
 					(int) worldToAxial.x,
 					(int) worldToAxial.y,
 					false);
+		
+		Core.INSTANCE.actionSystem.update();
 	}
 
 	@Override
@@ -85,6 +87,7 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.input.setInputProcessor(Core.INSTANCE.inputSystem.getProcessor(Inputs.GAME));
+		Core.INSTANCE.game.startSingleplayerGame();
 	}
 	
 	@Override

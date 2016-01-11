@@ -1,14 +1,11 @@
-package com.tint.wotn;
+package com.tint.wotn.screens;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.tint.wotn.screens.GameScreen;
-import com.tint.wotn.screens.LoadingScreen;
-import com.tint.wotn.screens.LobbyScreen;
-import com.tint.wotn.screens.Screens;
+import com.tint.wotn.Core;
 
 public class ScreenSystem {
 	private Map<Screens, Screen> screens;

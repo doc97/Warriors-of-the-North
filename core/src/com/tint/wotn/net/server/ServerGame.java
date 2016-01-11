@@ -1,9 +1,7 @@
 package com.tint.wotn.net.server;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -92,21 +90,5 @@ public class ServerGame {
 			}
 		}
 		return spawnTiles;
-	}
-	
-	public static void main(String[] args) {
-		List<LoadoutData> loadoutDatas = new ArrayList<LoadoutData>();
-		for(int i = 0; i < 3; i++) {
-			LoadoutData ld = new LoadoutData();
-			Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
-			loadout.put(UnitType.RAIDER, 4);
-			ld.id = i;
-			ld.loadout = loadout;
-			loadoutDatas.add(ld);
-		}
-		
-		ServerGame game = new ServerGame();
-		game.prepare(loadoutDatas);
-		System.out.println("Clear");
 	}
 }

@@ -4,17 +4,19 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.tint.wotn.actions.ActionSystem;
 import com.tint.wotn.control.UserControlSystem;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
 import com.tint.wotn.net.MultiplayerSystem;
+import com.tint.wotn.screens.ScreenSystem;
 
 public enum Core {
 	INSTANCE;
 	
 	public Game coreGame;
-	public GameMode gameMode = GameMode.MULTI_PLAYER;
+	public GameMode gameMode = GameMode.SINGLE_PLAYER;
 	public ClientGame game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
@@ -23,6 +25,7 @@ public enum Core {
 	public EntityComponentSystem ecs;
 	public LevelSystem levelSystem;
 	public InputSystem inputSystem;
+	public ActionSystem actionSystem;
 	public UserControlSystem userControlSystem;
 	public MultiplayerSystem multiplayerSystem;
 	public AssetManager assetManager;
@@ -36,6 +39,7 @@ public enum Core {
 		initializeScreenSystem();
 		initializeECS();
 		initializeInputSystem();
+		initializeActionSystem();
 		initializeUserControlSystem();
 		initializeGame();
 	}
@@ -87,6 +91,11 @@ public enum Core {
 	public void initializeInputSystem() {
 		inputSystem = new InputSystem();
 		inputSystem.initialize();
+	}
+	
+	public void initializeActionSystem() {
+		actionSystem = new ActionSystem();
+		actionSystem.initialize();
 	}
 	
 	public void initializeUserControlSystem() {
