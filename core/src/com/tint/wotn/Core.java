@@ -11,6 +11,7 @@ import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
 import com.tint.wotn.net.MultiplayerSystem;
 import com.tint.wotn.screens.ScreenSystem;
+import com.tint.wotn.utils.EntityIDSystem;
 
 public enum Core {
 	INSTANCE;
@@ -29,6 +30,7 @@ public enum Core {
 	public UserControlSystem userControlSystem;
 	public MultiplayerSystem multiplayerSystem;
 	public AssetManager assetManager;
+	public EntityIDSystem entityIDSystem;
 	
 	public void initializeAll(Game coreGame) {
 		setCoreGame(coreGame);
@@ -41,6 +43,7 @@ public enum Core {
 		initializeInputSystem();
 		initializeActionSystem();
 		initializeUserControlSystem();
+		initializeEntityIDSystem();
 		initializeGame();
 	}
 	
@@ -104,6 +107,10 @@ public enum Core {
 	
 	public void initializeMultiplayerSystem() {
 		multiplayerSystem = new MultiplayerSystem();
+	}
+	
+	public void initializeEntityIDSystem() {
+		entityIDSystem = new EntityIDSystem();
 	}
 	
 	public void dispose() {

@@ -33,8 +33,8 @@ public class Level {
 		int movementRange = 2;
 		int hp = 3;
 		int dmg = 2;
-		Entity entity1 = UnitFactory.createUnitByType(ownerID, UnitType.RAIDER, tilePos1, renderOffset, renderSize, color);
-		Entity entity2 = UnitFactory.createUnitWithOwner(ownerID, tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity1 = UnitFactory.createUnitByType(0, ownerID, UnitType.RAIDER, tilePos1, renderOffset, renderSize, color);
+		Entity entity2 = UnitFactory.createUnitWithOwner(1, ownerID, tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		Core.INSTANCE.ecs.engine.addEntity(entity1);
 		Core.INSTANCE.ecs.engine.addEntity(entity2);
 	}

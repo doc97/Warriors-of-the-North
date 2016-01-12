@@ -5,10 +5,12 @@ import com.tint.wotn.Core;
 import com.tint.wotn.ecs.systems.CombatSystem;
 
 public class AttackAction implements Action {
-	public Entity attacker;
-	public Entity defender;
+	public int attackerID;
+	public int defenderID;
 	
 	public void act() {
+		Entity attacker = Core.INSTANCE.entityIDSystem.getEntityByID(attackerID);
+		Entity defender = Core.INSTANCE.entityIDSystem.getEntityByID(defenderID);
 		Core.INSTANCE.ecs.engine.getSystem(CombatSystem.class).simulate(attacker, defender);
 	}
 }

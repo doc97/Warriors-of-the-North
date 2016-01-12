@@ -13,6 +13,7 @@ import com.tint.wotn.GameMode;
 import com.tint.wotn.actions.AttackAction;
 import com.tint.wotn.actions.MoveAction;
 import com.tint.wotn.ecs.Mappers;
+import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.net.constants.Status;
@@ -113,25 +114,31 @@ public class UserControlSystem {
 	private void attackWithSelectedUnit(Entity targetUnit) {
 		if(!unitIsSelected()) return;
 		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
+		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
 		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(selectedUnitID == null) return;
 		OwnerComponent targetUnitOwner = Mappers.owner.get(targetUnit);
+		IDComponent targetUnitID = Mappers.id.get(targetUnit);
 		if(targetUnitOwner != null && selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
-
+		if(targetUnitID == null) return;
+		
 		AttackAction action = new AttackAction();
-		action.attacker = selectedUnit;
-		action.defender = targetUnit;
+		action.attackerID = selectedUnitID.id;
+		action.defenderID = targetUnitID.id;
 		Core.INSTANCE.actionSystem.actions.add(action);
 	}
 	
 	private void moveWithSelectedUnit(Vector2 position) {
 		if(!unitIsSelected()) return;
 		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
+		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
 		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(selectedUnitID == null) return;
 
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {
 				MoveAction action = new MoveAction();
-				action.entity = selectedUnit;
+				action.entityID = selectedUnitID.id;
 				action.position = position;
 				Core.INSTANCE.actionSystem.actions.add(action);
 				break;

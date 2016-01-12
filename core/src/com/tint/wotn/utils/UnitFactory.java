@@ -7,18 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
+import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 
 public class UnitFactory {
 	
-	public static Entity createUnitByType(int ownerID, UnitType unitType, Vector2 position,
+	public static Entity createUnitByType(int unitID, int ownerID, UnitType unitType, Vector2 position,
 			Vector2 renderOffset, Vector2 renderSize, Color color) {
 		Entity entity = null;
 		switch(unitType) {
 		case RAIDER:
-			entity = createUnitWithOwner(ownerID, position,
+			entity = createUnitWithOwner(unitID, ownerID, position,
 					UnitType.RAIDER.mov,
 					UnitType.RAIDER.hp,
 					UnitType.RAIDER.dmg,
@@ -32,18 +33,18 @@ public class UnitFactory {
 		return entity;
 	}
 	
-	public static Entity createUnitWithOwner(int ownerID, Vector2 tilePosition,
+	public static Entity createUnitWithOwner(int unitID, int ownerID, Vector2 tilePosition,
 			int movementRange, int hp, int dmg,
 			Vector2 renderOffset, Vector2 renderSize,
 			Texture texture, Color color) {
-		Entity entity = createNeutralUnit(tilePosition, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity = createNeutralUnit(unitID, tilePosition, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		OwnerComponent owner = new OwnerComponent();
 		owner.ownerID = ownerID;
 		entity.add(owner);
 		return entity;
 	}
 	
-	public static Entity createNeutralUnit(Vector2 tilePosition,
+	public static Entity createNeutralUnit(int unitID, Vector2 tilePosition,
 			int movementRange, int hp, int dmg,
 			Vector2 renderOffset, Vector2 renderSize,
 			Texture texture, Color color) {
@@ -52,6 +53,7 @@ public class UnitFactory {
 		HealthComponent health = new HealthComponent();
 		AttackComponent attack = new AttackComponent();
 		RenderComponent render = new RenderComponent();
+		IDComponent id = new IDComponent();
 		
 		movement.position = new Vector2(tilePosition.x, tilePosition.y);
 		movement.range = movementRange;
@@ -61,11 +63,13 @@ public class UnitFactory {
 		render.size = renderSize;
 		render.texture = texture;
 		render.tintColor = color;
+		id.id = unitID;
 		
 		entity.add(movement);
 		entity.add(health);
 		entity.add(attack);
 		entity.add(render);
+		entity.add(id);
 		
 		return entity;
 	}
