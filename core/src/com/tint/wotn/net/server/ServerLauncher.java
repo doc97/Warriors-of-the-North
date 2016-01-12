@@ -58,7 +58,7 @@ public class ServerLauncher {
 	
 	public void handleDisconnect(Connection connection) {
 		if(playersReady.contains(connection.getID()))
-			playersReady.remove(connection.getID());
+			playersReady.remove((Object) connection.getID());
 		
 		for(Iterator<LoadoutData> it = loadoutsReady.iterator(); it.hasNext();) {
 			LoadoutData loadout = it.next();
@@ -66,8 +66,10 @@ public class ServerLauncher {
 				it.remove();
 		}
 		
-		if(server.getConnections().length == 0)
+		if(server.getConnections().length == 0) {
+			System.out.println("All clients disconnected, shutting down...");
 			System.exit(0);
+		}
 	}
 	
 	public void nextTurn() {

@@ -17,7 +17,7 @@ public enum Core {
 	INSTANCE;
 	
 	public Game coreGame;
-	public GameMode gameMode = GameMode.SINGLE_PLAYER;
+	public GameMode gameMode = GameMode.MULTI_PLAYER;
 	public ClientGame game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;

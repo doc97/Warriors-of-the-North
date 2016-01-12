@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
+import com.tint.wotn.GameMode;
 import com.tint.wotn.ecs.systems.RenderSystem;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
@@ -87,7 +88,8 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.input.setInputProcessor(Core.INSTANCE.inputSystem.getProcessor(Inputs.GAME));
-		Core.INSTANCE.game.startSingleplayerGame();
+		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER)
+			Core.INSTANCE.game.startSingleplayerGame();
 	}
 	
 	@Override
