@@ -15,6 +15,7 @@ import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.net.constants.Request;
 import com.tint.wotn.net.constants.Status;
+import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.LoadoutPacket;
 import com.tint.wotn.net.packets.PlayerPacket;
 import com.tint.wotn.net.packets.RequestPacket;
@@ -41,6 +42,8 @@ public class ClientPacketProcessor {
 			processRequestPacket(connection, packet);
 		} else if(packet instanceof TurnPacket) {
 			processTurnPacket(connection, packet);
+		} else if(packet instanceof ActionPacket) {
+			processActionPacket(connection, packet);
 		}
 	}
 	
@@ -71,6 +74,7 @@ public class ClientPacketProcessor {
 				multiplayerSystem.players.get(unitData.ownerID).units.add(unitData);
 				
 				Entity e = UnitFactory.createUnitByType(
+						unitData.unitID,
 						unitData.ownerID,
 						unitData.unitType,
 						unitData.position,
@@ -107,5 +111,9 @@ public class ClientPacketProcessor {
 	
 	private void processTurnPacket(Connection connection, Object packet) {
 		Core.INSTANCE.game.playerInTurnID = ((TurnPacket) packet).turnID;
+	}
+	
+	private void processActionPacket(Connection connection, Object packet) {
+		Core.INSTANCE.actionSystem.actions.add(((ActionPacket) packet).action);
 	}
 }

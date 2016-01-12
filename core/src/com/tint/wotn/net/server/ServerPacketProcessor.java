@@ -7,6 +7,7 @@ import com.tint.wotn.net.GameConnection;
 import com.tint.wotn.net.LoadoutData;
 import com.tint.wotn.net.constants.Request;
 import com.tint.wotn.net.constants.Status;
+import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.LoadoutPacket;
 import com.tint.wotn.net.packets.NamePacket;
 import com.tint.wotn.net.packets.RequestPacket;
@@ -28,6 +29,8 @@ public class ServerPacketProcessor {
 			processStatusPacket(connection, packet);
 		} else if(packet instanceof LoadoutPacket) {
 			processLoadoutPacket(connection, packet);
+		} else if(packet instanceof ActionPacket) {
+			processActionPacket(connection, packet);
 		}
 	}
 	
@@ -76,6 +79,10 @@ public class ServerPacketProcessor {
 			serverLauncher.startGame();
 			sendStartGamePackets();
 		}
+	}
+	
+	private void processActionPacket(GameConnection connection, Object packet) {
+		serverLauncher.server.sendToAllExceptTCP(connection.getID(), packet);
 	}
 	
 	private void storeLoadout(GameConnection connection, Object packet) {

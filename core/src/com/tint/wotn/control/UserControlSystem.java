@@ -17,6 +17,7 @@ import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.net.constants.Status;
+import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.utils.CoordinateConversions;
 import com.tint.wotn.utils.HexCoordinates;
@@ -126,6 +127,12 @@ public class UserControlSystem {
 		action.attackerID = selectedUnitID.id;
 		action.defenderID = targetUnitID.id;
 		Core.INSTANCE.actionSystem.actions.add(action);
+		
+		if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+			ActionPacket actionPacket = new ActionPacket();
+			actionPacket.action = action;
+			Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
+		}
 	}
 	
 	private void moveWithSelectedUnit(Vector2 position) {
@@ -141,6 +148,12 @@ public class UserControlSystem {
 				action.entityID = selectedUnitID.id;
 				action.position = position;
 				Core.INSTANCE.actionSystem.actions.add(action);
+				
+				if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+					ActionPacket actionPacket = new ActionPacket();
+					actionPacket.action = action;
+					Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
+				}
 				break;
 			}
 		}

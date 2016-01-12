@@ -34,6 +34,8 @@ public class ServerGame {
 	}
 	
 	private void createSymmetricalGame(List<LoadoutData> loadoutDatas) {
+		// Every unit has an unique id
+		int uniqueID = -1;
 
 		// Looping through the load out of every player
 		for(int i = 0; i < loadoutDatas.size(); i++) {
@@ -47,12 +49,15 @@ public class ServerGame {
 				unitTotalCount += amount;
 				for(int j = 0; j < amount; j++) {
 					UnitData unitData = new UnitData();
+					unitData.unitID = uniqueID + 1;
 					unitData.ownerID = loadoutData.id;
 					unitData.unitType = unitType;
 					unitDatas.add(unitData);
+					uniqueID++;
 				}
 			}
 			
+			// Positioning them
 			Vector2 startTile = getStartTile(i * 6 / loadoutDatas.size());
 			List<Vector2> spawnTiles = getSpawnTiles(loadoutDatas, startTile, unitTotalCount);
 			for(int j = 0; j < unitTotalCount; j++) {

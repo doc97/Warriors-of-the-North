@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.esotericsoftware.kryo.Kryo;
 import com.tint.wotn.UnitType;
+import com.tint.wotn.actions.AttackAction;
+import com.tint.wotn.actions.MoveAction;
 import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.net.LoadoutData;
 import com.tint.wotn.net.Player;
@@ -22,6 +25,7 @@ public abstract class Packet {
 		kryo.register(StatusPacket.class);
 		kryo.register(RequestPacket.class);
 		kryo.register(StartGamePacket.class);
+		kryo.register(ActionPacket.class);
 		
 		// LibGDX
 		kryo.register(Vector2.class);
@@ -33,6 +37,11 @@ public abstract class Packet {
 		kryo.register(Player.class);
 		kryo.register(Player[].class);
 		kryo.register(UnitType.class);
+		kryo.register(Action.class);
+		kryo.register(MoveAction.class);
+		kryo.register(AttackAction.class);
+		
+		// Java
 		kryo.register(Integer.class);
 		kryo.register(ArrayList.class);
 		kryo.register(HashMap.class);
