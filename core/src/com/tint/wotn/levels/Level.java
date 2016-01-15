@@ -30,11 +30,13 @@ public class Level {
 		Texture texture = Core.INSTANCE.assetManager.get("textures/unit_raider.png");
 		Color color = Color.WHITE;
 		int ownerID = 1;
+		int movementCost = 1;
 		int movementRange = 2;
 		int hp = 3;
 		int dmg = 2;
+		int attackCost = 1;
 		Entity entity1 = UnitFactory.createUnitByType(0, ownerID, UnitType.RAIDER, tilePos1, renderOffset, renderSize, color);
-		Entity entity2 = UnitFactory.createUnitWithOwner(1, ownerID, tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity2 = UnitFactory.createUnitWithOwner(1, ownerID, tilePos2, movementCost, movementRange, hp, dmg, attackCost, renderOffset, renderSize, texture, color);
 		Core.INSTANCE.ecs.engine.addEntity(entity1);
 		Core.INSTANCE.ecs.engine.addEntity(entity2);
 		

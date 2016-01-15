@@ -6,7 +6,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.MovementComponent;
 
-public class MoveAction implements Action {
+public class MoveAction extends Action {
 	public int entityID;
 	public Vector2 position;
 	

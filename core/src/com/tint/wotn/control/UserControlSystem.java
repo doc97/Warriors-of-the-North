@@ -13,6 +13,7 @@ import com.tint.wotn.GameMode;
 import com.tint.wotn.actions.AttackAction;
 import com.tint.wotn.actions.MoveAction;
 import com.tint.wotn.ecs.Mappers;
+import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
@@ -124,9 +125,11 @@ public class UserControlSystem {
 		if(targetUnitOwner != null && selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
 		if(targetUnitID == null) return;
 		
+		AttackComponent attack = Mappers.attack.get(selectedUnit);
 		AttackAction action = new AttackAction();
 		action.attackerID = selectedUnitID.id;
 		action.defenderID = targetUnitID.id;
+		action.cost = attack.cost;
 		Core.INSTANCE.actionSystem.addAction(action);
 		
 		if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
@@ -145,9 +148,11 @@ public class UserControlSystem {
 
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {
+				MovementComponent movement = Mappers.movement.get(selectedUnit);
 				MoveAction action = new MoveAction();
 				action.entityID = selectedUnitID.id;
 				action.position = position;
+				action.cost = movement.cost;
 				Core.INSTANCE.actionSystem.addAction(action);
 				
 				if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {

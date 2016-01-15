@@ -1,5 +1,6 @@
 package com.tint.wotn.actions;
 
-public interface Action {
-	public void act();
+public abstract class Action {
+	public int cost;
+	public abstract void act();
 }

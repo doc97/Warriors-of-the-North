@@ -20,9 +20,11 @@ public class UnitFactory {
 		switch(unitType) {
 		case RAIDER:
 			entity = createUnitWithOwner(unitID, ownerID, position,
-					UnitType.RAIDER.mov,
+					UnitType.RAIDER.movementCost,
+					UnitType.RAIDER.movementRange,
 					UnitType.RAIDER.hp,
-					UnitType.RAIDER.dmg,
+					UnitType.RAIDER.attackDmg,
+					UnitType.RAIDER.attackCost,
 					renderOffset, renderSize,
 					UnitType.RAIDER.texture,
 					color);
@@ -34,10 +36,10 @@ public class UnitFactory {
 	}
 	
 	public static Entity createUnitWithOwner(int unitID, int ownerID, Vector2 tilePosition,
-			int movementRange, int hp, int dmg,
+			int movementCost, int movementRange, int hp, int attackDmg, int attackCost,
 			Vector2 renderOffset, Vector2 renderSize,
 			Texture texture, Color color) {
-		Entity entity = createNeutralUnit(unitID, tilePosition, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
+		Entity entity = createNeutralUnit(unitID, tilePosition, movementCost, movementRange, hp, attackDmg, attackCost, renderOffset, renderSize, texture, color);
 		OwnerComponent owner = new OwnerComponent();
 		owner.ownerID = ownerID;
 		entity.add(owner);
@@ -45,7 +47,7 @@ public class UnitFactory {
 	}
 	
 	public static Entity createNeutralUnit(int unitID, Vector2 tilePosition,
-			int movementRange, int hp, int dmg,
+			int movementCost, int movementRange, int hp, int attackDmg, int attackCost,
 			Vector2 renderOffset, Vector2 renderSize,
 			Texture texture, Color color) {
 		Entity entity = new Entity();
@@ -56,9 +58,11 @@ public class UnitFactory {
 		IDComponent id = new IDComponent();
 		
 		movement.position = new Vector2(tilePosition.x, tilePosition.y);
+		movement.cost = movementCost;
 		movement.range = movementRange;
 		health.health = hp;
-		attack.damage = dmg;
+		attack.damage = attackDmg;
+		attack.cost = attackCost;
 		render.offset = renderOffset;
 		render.size = renderSize;
 		render.texture = texture;

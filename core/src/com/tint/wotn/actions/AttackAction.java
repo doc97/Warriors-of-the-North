@@ -4,7 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.tint.wotn.Core;
 import com.tint.wotn.ecs.systems.CombatSystem;
 
-public class AttackAction implements Action {
+public class AttackAction extends Action {
 	public int attackerID;
 	public int defenderID;
 	
