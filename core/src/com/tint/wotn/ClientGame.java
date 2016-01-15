@@ -12,6 +12,10 @@ public class ClientGame {
 		playerInTurnID = 1;
 	}
 	
+	public void startTurn() {
+		Core.INSTANCE.actionSystem.resetActionPoints();
+	}
+	
 	public boolean isPlayersTurn() {
 		if(player.id < 0) return false;
 		return playerInTurnID == player.id;

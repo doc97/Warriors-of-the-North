@@ -111,9 +111,11 @@ public class ClientPacketProcessor {
 	
 	private void processTurnPacket(Connection connection, Object packet) {
 		Core.INSTANCE.game.playerInTurnID = ((TurnPacket) packet).turnID;
+		if(Core.INSTANCE.game.isPlayersTurn())
+			Core.INSTANCE.game.startTurn();
 	}
 	
 	private void processActionPacket(Connection connection, Object packet) {
-		Core.INSTANCE.actionSystem.actions.add(((ActionPacket) packet).action);
+		Core.INSTANCE.actionSystem.addAction(((ActionPacket) packet).action);
 	}
 }

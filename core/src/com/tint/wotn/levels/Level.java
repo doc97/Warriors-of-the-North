@@ -37,6 +37,8 @@ public class Level {
 		Entity entity2 = UnitFactory.createUnitWithOwner(1, ownerID, tilePos2, movementRange, hp, dmg, renderOffset, renderSize, texture, color);
 		Core.INSTANCE.ecs.engine.addEntity(entity1);
 		Core.INSTANCE.ecs.engine.addEntity(entity2);
+		
+		Core.INSTANCE.game.startTurn();
 	}
 	
 	public void exit() {

@@ -32,7 +32,7 @@ public class UserControlSystem {
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
 
 		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
-			
+			Core.INSTANCE.game.startTurn();
 		} else if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
 			Core.INSTANCE.game.playerInTurnID = -1;
 			StatusPacket endTurnPacket = new StatusPacket();
@@ -58,6 +58,7 @@ public class UserControlSystem {
 	 */
 	public void touchTile(Vector2 target) {
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
+		if(Core.INSTANCE.actionSystem.getActionPoints() <= 0) return;
 
 		Entity targetUnit = Core.INSTANCE.userControlSystem.getUnitAt(target);
 		if(targetUnit == null) {
@@ -126,7 +127,7 @@ public class UserControlSystem {
 		AttackAction action = new AttackAction();
 		action.attackerID = selectedUnitID.id;
 		action.defenderID = targetUnitID.id;
-		Core.INSTANCE.actionSystem.actions.add(action);
+		Core.INSTANCE.actionSystem.addAction(action);
 		
 		if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
 			ActionPacket actionPacket = new ActionPacket();
@@ -147,7 +148,7 @@ public class UserControlSystem {
 				MoveAction action = new MoveAction();
 				action.entityID = selectedUnitID.id;
 				action.position = position;
-				Core.INSTANCE.actionSystem.actions.add(action);
+				Core.INSTANCE.actionSystem.addAction(action);
 				
 				if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
 					ActionPacket actionPacket = new ActionPacket();
