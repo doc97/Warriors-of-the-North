@@ -21,8 +21,14 @@ public class LobbyScreen implements Screen {
 		Core.INSTANCE.screenSystem.update();
 		
 		if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 			StatusPacket statusPacket = new StatusPacket();
 			statusPacket.status = Status.CLIENT_READY;
+			Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);
+		} else if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+			Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+			StatusPacket statusPacket = new StatusPacket();
+			statusPacket.status = Status.CLIENT_NOT_READY;
 			Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);
 		}
 	}

@@ -18,6 +18,8 @@ public class GameInput implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.ESCAPE) {
 			Core.INSTANCE.userControlSystem.endTurn();
+		} else if(keycode == Keys.S) {
+			System.out.println(Core.INSTANCE.actionSystem.getActionPoints());
 		}
 		return false;
 	}

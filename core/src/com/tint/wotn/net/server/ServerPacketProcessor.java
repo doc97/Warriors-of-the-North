@@ -56,7 +56,7 @@ public class ServerPacketProcessor {
 				serverLauncher.server.sendToAllTCP(requestPacket);
 			}
 		} else if(status == Status.CLIENT_NOT_READY) {
-			serverLauncher.playersReady.add(connection.getID());
+			serverLauncher.playersReady.remove((Object) connection.getID());
 		} else if(status == Status.GAME_LOADED) {
 			serverLauncher.playersReady.add(connection.getID());
 			

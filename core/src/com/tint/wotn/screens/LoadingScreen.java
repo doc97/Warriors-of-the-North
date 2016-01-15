@@ -13,6 +13,8 @@ import com.tint.wotn.utils.AssetLoader;
 
 public class LoadingScreen implements Screen {
 
+	private float progress;
+	
 	@Override
 	public void show() {
 		String textureFile = "Core.wotn_tex";
@@ -28,7 +30,13 @@ public class LoadingScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(Core.INSTANCE.assetManager.update()) {
+		Core.INSTANCE.assetManager.update();
+		if(progress < 1) {
+			progress = Core.INSTANCE.assetManager.getProgress();
+			System.out.println(progress * 100.0f + "%");
+		}
+		
+		if(progress >= 1.0f) {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			AssetLoader.loadTexturesIntoGame();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
@@ -47,11 +55,7 @@ public class LoadingScreen implements Screen {
 				}
 				
 				Core.INSTANCE.screenSystem.update();
-				//Core.INSTANCE.screenSystem.enterScreen(Screens.LOBBY);
 			}
-		} else {
-			float progress = Core.INSTANCE.assetManager.getProgress();
-			System.out.println(progress * 100.0f + "%");
 		}
 	}
 
