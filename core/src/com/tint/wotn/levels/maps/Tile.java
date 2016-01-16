@@ -1,10 +1,11 @@
 package com.tint.wotn.levels.maps;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.tint.wotn.Core;
 
 public enum Tile {
-	NULL("empty_tile.png", false, 0.0f), GRASS("grass_tile.png", true, 1.0f);
+	NULL("empty_tile", false, 0.0f), GRASS("grass_tile", true, 1.0f);
 	
 	public static final float SIZE = 64.0f;
 	public static final int SPACING = (int) (SIZE / 16.0f);
@@ -12,7 +13,7 @@ public enum Tile {
 	public static final float WIDTH = (float) (HEIGHT * Math.sqrt(3) / 2.0f);
 
 	private String textureName;
-	public Texture texture;
+	public AtlasRegion texture;
 	public boolean accessible;
 	public float speed;
 	
@@ -24,6 +25,7 @@ public enum Tile {
 	
 	public void loadTexture() {
 		if(textureName == null) return;
-		texture = Core.INSTANCE.assetManager.get("textures/" + textureName);
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+		texture = atlas.findRegion(textureName);
 	}
 }

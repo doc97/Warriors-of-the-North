@@ -27,7 +27,7 @@ public class GameScreen implements Screen {
 		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
 		
 		Core.INSTANCE.batch.begin();
-		Core.INSTANCE.gameMode.map.render(Core.INSTANCE.batch);
+		Core.INSTANCE.game.map.render(Core.INSTANCE.batch);
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
@@ -38,14 +38,14 @@ public class GameScreen implements Screen {
 		Core.INSTANCE.shapeRenderer.begin(ShapeType.Line);
 		Core.INSTANCE.shapeRenderer.line(
 				Core.INSTANCE.camera.orthoCam.position.x,
-				Core.INSTANCE.camera.orthoCam.position.y - Core.INSTANCE.camera.height / 2,
+				Core.INSTANCE.camera.orthoCam.position.y - Core.INSTANCE.camera.orthoCam.viewportHeight / 2,
 				Core.INSTANCE.camera.orthoCam.position.x,
-				Core.INSTANCE.camera.orthoCam.position.y + Core.INSTANCE.camera.height / 2
+				Core.INSTANCE.camera.orthoCam.position.y + Core.INSTANCE.camera.orthoCam.viewportHeight / 2
 				);
 		Core.INSTANCE.shapeRenderer.line(
-				Core.INSTANCE.camera.orthoCam.position.x - Core.INSTANCE.camera.width / 2,
+				Core.INSTANCE.camera.orthoCam.position.x - Core.INSTANCE.camera.orthoCam.viewportWidth / 2,
 				Core.INSTANCE.camera.orthoCam.position.y,
-				Core.INSTANCE.camera.orthoCam.position.x + Core.INSTANCE.camera.width / 2,
+				Core.INSTANCE.camera.orthoCam.position.x + Core.INSTANCE.camera.orthoCam.viewportWidth / 2,
 				Core.INSTANCE.camera.orthoCam.position.y
 				);
 		Core.INSTANCE.shapeRenderer.end();
@@ -60,8 +60,8 @@ public class GameScreen implements Screen {
 				Tile.SPACING,
 				screenToWorldCoordinates.x,
 				screenToWorldCoordinates.y);
-		Core.INSTANCE.gameMode.map.clearNonPermanentMarkedTiles();
-		Core.INSTANCE.gameMode.map.markTile(
+		Core.INSTANCE.game.map.clearNonPermanentMarkedTiles();
+		Core.INSTANCE.game.map.markTile(
 					(int) worldToAxial.x,
 					(int) worldToAxial.y,
 					false);
@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-
+		Core.INSTANCE.camera.resize(width, height);
 	}
 
 	@Override
@@ -90,6 +90,15 @@ public class GameScreen implements Screen {
 		Gdx.input.setInputProcessor(Core.INSTANCE.inputSystem.getProcessor(Inputs.GAME));
 		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER)
 			Core.INSTANCE.game.startSingleplayerGame();
+		
+		int centerx = Core.INSTANCE.game.map.tiles.length / 2;
+		int centery;
+		if(centerx == 0) centery = 0;
+		else centery = Core.INSTANCE.game.map.tiles[0].length / 2;
+
+		Vector2 centerTile = new Vector2(centerx, centery);
+		Vector2 worldCenter = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, centerTile);
+		Core.INSTANCE.camera.set(worldCenter.x, worldCenter.y);
 	}
 	
 	@Override

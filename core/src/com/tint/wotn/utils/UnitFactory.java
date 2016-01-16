@@ -2,7 +2,7 @@ package com.tint.wotn.utils;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.ecs.components.AttackComponent;
@@ -38,7 +38,7 @@ public class UnitFactory {
 	public static Entity createUnitWithOwner(int unitID, int ownerID, Vector2 tilePosition,
 			int movementCost, int movementRange, int hp, int attackDmg, int attackCost,
 			Vector2 renderOffset, Vector2 renderSize,
-			Texture texture, Color color) {
+			AtlasRegion texture, Color color) {
 		Entity entity = createNeutralUnit(unitID, tilePosition, movementCost, movementRange, hp, attackDmg, attackCost, renderOffset, renderSize, texture, color);
 		OwnerComponent owner = new OwnerComponent();
 		owner.ownerID = ownerID;
@@ -49,7 +49,7 @@ public class UnitFactory {
 	public static Entity createNeutralUnit(int unitID, Vector2 tilePosition,
 			int movementCost, int movementRange, int hp, int attackDmg, int attackCost,
 			Vector2 renderOffset, Vector2 renderSize,
-			Texture texture, Color color) {
+			AtlasRegion texture, Color color) {
 		Entity entity = new Entity();
 		MovementComponent movement = new MovementComponent();
 		HealthComponent health = new HealthComponent();

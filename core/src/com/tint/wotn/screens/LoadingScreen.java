@@ -9,36 +9,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.net.Player;
-import com.tint.wotn.utils.AssetLoader;
+import com.tint.wotn.utils.Assets;
 
 public class LoadingScreen implements Screen {
 
-	private float progress;
-	
 	@Override
 	public void show() {
-		String textureFile = "Core.wotn_tex";
-		try {
-			AssetLoader.loadTextures(textureFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("Failed to load textures from file: " + textureFile);
-			Gdx.app.exit();
-		}
+		Core.INSTANCE.assets.addTextureAtlasesToLoadingQueue();
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Core.INSTANCE.assetManager.update();
-		if(progress < 1) {
-			progress = Core.INSTANCE.assetManager.getProgress();
-			System.out.println(progress * 100.0f + "%");
-		}
-		
-		if(progress >= 1.0f) {
+		if(!Core.INSTANCE.assets.isDoneLoading()) {
+			Core.INSTANCE.assets.updateLoading();
+		} else {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			AssetLoader.loadTexturesIntoGame();
+			Assets.loadTexturesIntoGame();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
 				Core.INSTANCE.levelSystem.enterLevel(0);
 				Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);

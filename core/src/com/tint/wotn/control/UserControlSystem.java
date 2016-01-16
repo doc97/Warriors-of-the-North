@@ -76,7 +76,7 @@ public class UserControlSystem {
 	private void unselectUnit() {
 		selectedUnit = null;
 		for(Vector2 tile : selectedTiles) {
-			Core.INSTANCE.gameMode.map.unmarkTile(
+			Core.INSTANCE.game.map.unmarkTile(
 					(int) tile.x,
 					(int) tile.y,
 					true);
@@ -99,7 +99,7 @@ public class UserControlSystem {
 		for(Vector3 cubeCoord : markTiles) {
 			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
 			Vector2 actualPos = axialCoord.cpy().add(movement.position);
-			if(!Core.INSTANCE.gameMode.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
+			if(!Core.INSTANCE.game.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
 			Entity entityAtActual = getUnitAt(actualPos);
 			if(entityAtActual != null) {
 				OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
@@ -107,7 +107,7 @@ public class UserControlSystem {
 			}
 			
 			selectedTiles.add(actualPos);
-			Core.INSTANCE.gameMode.map.markTile(
+			Core.INSTANCE.game.map.markTile(
 					(int) (axialCoord.x + movement.position.x),
 					(int) (axialCoord.y + movement.position.y),
 					true);

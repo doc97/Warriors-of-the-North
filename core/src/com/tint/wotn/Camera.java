@@ -1,31 +1,31 @@
 package com.tint.wotn;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Camera {
 	
 	public OrthographicCamera orthoCam;
-	public int width, height;
+	public Viewport viewport;
 	
-	public Camera(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
-
-	public void initialize() {
-		orthoCam = new OrthographicCamera(width, height);
-		set(900, 500);
+	public void initialize(int width, int height) {
+		orthoCam = new OrthographicCamera();
+		viewport = new ExtendViewport(width, height, orthoCam);
+		viewport.apply();
+		center();
 	}
 	
 	public void update() {
 		orthoCam.update();
 	}
 	
-	public void size(int width, int height) {
-		this.width = width;
-		this.height = height;
-		orthoCam.viewportWidth = width;
-		orthoCam.viewportHeight = height;
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+	
+	public void center() {
+		orthoCam.position.set(orthoCam.viewportWidth / 2, orthoCam.viewportHeight / 2, 0);
 	}
 	
 	public void set(float x, float y) {

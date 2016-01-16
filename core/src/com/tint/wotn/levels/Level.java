@@ -2,7 +2,8 @@ package com.tint.wotn.levels;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.UnitType;
@@ -21,13 +22,15 @@ public class Level {
 	}
 	
 	public void enter() {
-		Core.INSTANCE.gameMode.map = HexMapGenerator.generateMap(mapShape, mapRadius);
+		Core.INSTANCE.game.map = HexMapGenerator.generateMap(mapShape, mapRadius);
 		
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+
 		Vector2 tilePos1 = new Vector2(5, 5);
 		Vector2 tilePos2 = new Vector2(3, 5);
 		Vector2 renderOffset = new Vector2(0, 0);
 		Vector2 renderSize = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
-		Texture texture = Core.INSTANCE.assetManager.get("textures/unit_raider.png");
+		AtlasRegion texture = atlas.findRegion("unit_raider");
 		Color color = Color.WHITE;
 		int ownerID = 1;
 		int movementCost = 1;

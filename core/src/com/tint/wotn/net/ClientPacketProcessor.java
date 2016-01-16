@@ -64,7 +64,7 @@ public class ClientPacketProcessor {
 		List<UnitData> unitDatas = ((StartGamePacket) packet).unitDatas;
 		
 		// Generate map
-		Core.INSTANCE.gameMode.map = HexMapGenerator.generateMap(shape, radius);
+		Core.INSTANCE.game.map = HexMapGenerator.generateMap(shape, radius);
 		
 		// Load loadouts
 		synchronized (multiplayerSystem.client) {

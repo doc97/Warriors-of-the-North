@@ -1,9 +1,10 @@
 package com.tint.wotn;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public enum UnitType {
-	RAIDER		(1, 5, 2, 1, 2, 1, "unit_raider.png"),
+	RAIDER		(1, 5, 2, 1, 2, 1, "unit_raider"),
 	WARRIOR		(2, 7, 3, 1, 1, 1, ""),
 	BERSERKER	(3, 7, 3, 1, 1, 1, ""),
 	LEADER		(2, 5, 3, 1, 1, 1, ""),
@@ -17,7 +18,7 @@ public enum UnitType {
 	public int movementRange;
 	
 	public String textureName;
-	public Texture texture;
+	public AtlasRegion texture;
 	
 	UnitType(int unitCost, int hp, int attackDmg, int attackCost, int movementRange, int movementCost, String textureName) {
 		this.unitCost = unitCost;
@@ -31,6 +32,7 @@ public enum UnitType {
 
 	public void loadTexture() {
 		if(textureName == null || textureName == "") return;
-		texture = Core.INSTANCE.assetManager.get("textures/" + textureName);
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+		texture = atlas.findRegion(textureName);
 	}
 }

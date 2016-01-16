@@ -1,7 +1,8 @@
 package com.tint.wotn.levels.maps;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.utils.CoordinateConversions;
@@ -10,14 +11,16 @@ public class HexMap {
 	public Tile[][] tiles;
 	private byte[] markedTileBitMap;
 	private byte[] permanentMarkedTileBitMap;
-	private static Texture markedTextureOverlay;
+	private static AtlasRegion markedTextureOverlay;
 	
 	private HexMap() {}
 	
 	public static void loadTextures() {
 		for(Tile t : Tile.values())
 			t.loadTexture();
-		markedTextureOverlay = Core.INSTANCE.assetManager.get("textures/marked_tile.png");
+		
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+		markedTextureOverlay = atlas.findRegion("marked_tile");
 	}
 	
 	public static HexMap createMap(Tile[][] tiles) {
@@ -49,7 +52,7 @@ public class HexMap {
 		}
 	}
 	
-	private void renderTile(SpriteBatch batch, Texture texture, Vector2 position) {
+	private void renderTile(SpriteBatch batch, AtlasRegion texture, Vector2 position) {
 		batch.draw(texture,
 				position.x - (Tile.SIZE + Tile.SPACING / 2),
 				position.y - (Tile.SIZE + Tile.SPACING / 2),

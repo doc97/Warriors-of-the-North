@@ -1,7 +1,6 @@
 package com.tint.wotn;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tint.wotn.actions.ActionSystem;
@@ -11,13 +10,14 @@ import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
 import com.tint.wotn.net.MultiplayerSystem;
 import com.tint.wotn.screens.ScreenSystem;
+import com.tint.wotn.utils.Assets;
 import com.tint.wotn.utils.EntityIDSystem;
 
 public enum Core {
 	INSTANCE;
 	
 	public Game coreGame;
-	public GameMode gameMode = GameMode.MULTI_PLAYER;
+	public GameMode gameMode = GameMode.SINGLE_PLAYER;
 	public ClientGame game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
@@ -29,12 +29,12 @@ public enum Core {
 	public ActionSystem actionSystem;
 	public UserControlSystem userControlSystem;
 	public MultiplayerSystem multiplayerSystem;
-	public AssetManager assetManager;
+	public Assets assets;
 	public EntityIDSystem entityIDSystem;
 	
 	public void initializeAll(Game coreGame) {
 		setCoreGame(coreGame);
-		initializeAssetManager();
+		initializeAssets();
 		initializeSpriteBatch();
 		initializeShapeRenderer();
 		initializeCamera(1920, 1080);
@@ -59,8 +59,9 @@ public enum Core {
 			initializeMultiplayerSystem();
 	}
 	
-	public void initializeAssetManager() {
-		assetManager = new AssetManager();
+	public void initializeAssets() {
+		assets = new Assets();
+		assets.initialize();
 	}
 	
 	public void initializeSpriteBatch() {
@@ -72,8 +73,8 @@ public enum Core {
 	}
 	
 	public void initializeCamera(int width, int height) {
-		camera = new Camera(width, height);
-		camera.initialize();
+		camera = new Camera();
+		camera.initialize(1920, 1080);
 	}
 	
 	public void initializeScreenSystem() {
@@ -117,13 +118,14 @@ public enum Core {
 		if(screenSystem != null)	screenSystem.dispose();
 		if(batch != null)			batch.dispose();
 		if(shapeRenderer != null)	shapeRenderer.dispose();
+		if(assets != null)			assets.dispose();
 		
 		coreGame = null;
 		game = null;
 		screenSystem = null;
 		batch = null;
+		assets = null;
 		shapeRenderer = null;
-		assetManager = null;
 		camera = null;
 		ecs = null;
 		levelSystem = null;

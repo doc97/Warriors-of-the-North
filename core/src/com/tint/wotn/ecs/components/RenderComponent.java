@@ -2,12 +2,12 @@ package com.tint.wotn.ecs.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class RenderComponent implements Component {
-	public Texture texture;
+	public AtlasRegion texture;
 	public Vector2 offset;
 	public Vector2 size;
 	public Color tintColor;
