@@ -1,14 +1,11 @@
 package com.tint.wotn.screens;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
-import com.tint.wotn.net.Player;
 import com.tint.wotn.utils.Assets;
 
 public class LoadingScreen implements Screen {
@@ -26,22 +23,12 @@ public class LoadingScreen implements Screen {
 		} else {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			Assets.loadTexturesIntoGame();
-			if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
-				Core.INSTANCE.levelSystem.enterLevel(0);
-				Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);
-			} else if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+			if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
+				Core.INSTANCE.screenSystem.enterScreen(Screens.MAIN_MENU);
+			} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 				if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-					try {
-						Player player = new Player();
-						player.name = "Bob";
-						Core.INSTANCE.multiplayerSystem.connect(player, "localhost", 6666);
-					} catch (IOException e) {
-						e.printStackTrace();
-						System.out.println("Failed to connect to server!");
-					}
+					Core.INSTANCE.screenSystem.enterScreen(Screens.MULTIPLAYER);
 				}
-				
-				Core.INSTANCE.screenSystem.update();
 			}
 		}
 	}

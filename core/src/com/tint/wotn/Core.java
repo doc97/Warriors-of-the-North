@@ -17,7 +17,7 @@ public enum Core {
 	INSTANCE;
 	
 	public Game coreGame;
-	public GameMode gameMode = GameMode.SINGLE_PLAYER;
+	public GameMode gameMode = GameMode.SINGLEPLAYER;
 	public ClientGame game;
 	public ScreenSystem screenSystem;
 	public SpriteBatch batch;
@@ -53,9 +53,9 @@ public enum Core {
 	
 	public void initializeGame() {
 		game = new ClientGame();
-		if(gameMode == GameMode.SINGLE_PLAYER)
+		if(gameMode == GameMode.SINGLEPLAYER)
 			initializeLevelSystem();
-		else if(gameMode == GameMode.MULTI_PLAYER)
+		else if(gameMode == GameMode.MULTIPLAYER)
 			initializeMultiplayerSystem();
 	}
 	

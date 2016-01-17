@@ -21,6 +21,7 @@ public class Assets {
 	
 	public void addTextureAtlasesToLoadingQueue() {
 		manager.load("textures/packed/WarriorsOfTheNorth.atlas", TextureAtlas.class);
+		manager.load("skins/default/uiskin.atlas", TextureAtlas.class);
 	}
 	
 	public void updateLoading() {

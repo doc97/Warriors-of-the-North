@@ -32,9 +32,9 @@ public class UserControlSystem {
 	public void endTurn() {
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
 
-		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER) {
+		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
 			Core.INSTANCE.game.startTurn();
-		} else if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+		} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 			Core.INSTANCE.game.playerInTurnID = -1;
 			StatusPacket endTurnPacket = new StatusPacket();
 			endTurnPacket.status = Status.TURN_END;
@@ -132,7 +132,7 @@ public class UserControlSystem {
 		action.cost = attack.cost;
 		Core.INSTANCE.actionSystem.addAction(action);
 		
-		if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+		if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 			ActionPacket actionPacket = new ActionPacket();
 			actionPacket.action = action;
 			Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
@@ -155,7 +155,7 @@ public class UserControlSystem {
 				action.cost = movement.cost;
 				Core.INSTANCE.actionSystem.addAction(action);
 				
-				if(Core.INSTANCE.gameMode == GameMode.MULTI_PLAYER) {
+				if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 					ActionPacket actionPacket = new ActionPacket();
 					actionPacket.action = action;
 					Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);

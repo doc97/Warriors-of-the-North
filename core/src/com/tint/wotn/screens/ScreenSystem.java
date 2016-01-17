@@ -16,9 +16,11 @@ public class ScreenSystem {
 	}
 	
 	public void initialize() {
+		screens.put(Screens.MAIN_MENU, new MainMenuScreen());
 		screens.put(Screens.LOADING, new LoadingScreen());
 		screens.put(Screens.LOBBY, new LobbyScreen());
 		screens.put(Screens.GAME, new GameScreen());
+		screens.put(Screens.MULTIPLAYER, new MultiplayerScreen());
 	}
 	
 	public void update() {

@@ -88,9 +88,10 @@ public class GameScreen implements Screen {
 	public void show() {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.input.setInputProcessor(Core.INSTANCE.inputSystem.getProcessor(Inputs.GAME));
-		if(Core.INSTANCE.gameMode == GameMode.SINGLE_PLAYER)
+		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
 			Core.INSTANCE.game.startSingleplayerGame();
 		
+		// Put camera in the centre of the map
 		int centerx = Core.INSTANCE.game.map.tiles.length / 2;
 		int centery;
 		if(centerx == 0) centery = 0;
