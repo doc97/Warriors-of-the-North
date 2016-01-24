@@ -3,20 +3,33 @@ package com.tint.wotn.input;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
 public class InputSystem {
-	private Map<Inputs, InputProcessor> inputProcessors;
+	private Map<Inputs, InputProcessor> inputs;
+	private InputMultiplexer inputMultiplexer;
 	
 	public InputSystem() {
-		inputProcessors = new HashMap<Inputs, InputProcessor>();
+		inputs = new HashMap<Inputs, InputProcessor>();
+		inputMultiplexer = new InputMultiplexer();
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
-	public void initialize() {
-		inputProcessors.put(Inputs.GAME, new GameInput());
+	public void register(Inputs key, InputProcessor processor) {
+		inputs.put(key, processor);
+	}
+	
+	public void add(Inputs input) {
+		inputMultiplexer.addProcessor(getProcessor(input));
+	}
+	
+	public void remove(Inputs input) {
+		inputMultiplexer.removeProcessor(getProcessor(input));
 	}
 	
 	public InputProcessor getProcessor(Inputs input) {
-		return inputProcessors.get(input);
+		return inputs.get(input);
 	}
 }

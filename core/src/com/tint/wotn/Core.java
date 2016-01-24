@@ -94,7 +94,6 @@ public enum Core {
 	
 	public void initializeInputSystem() {
 		inputSystem = new InputSystem();
-		inputSystem.initialize();
 	}
 	
 	public void initializeActionSystem() {

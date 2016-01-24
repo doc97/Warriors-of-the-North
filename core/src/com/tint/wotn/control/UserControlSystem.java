@@ -20,12 +20,10 @@ import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.net.constants.Status;
 import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.StatusPacket;
-import com.tint.wotn.utils.CoordinateConversions;
 import com.tint.wotn.utils.HexCoordinates;
 
 public class UserControlSystem {
 	
-	private Vector2 worldTouchPos = new Vector2();
 	private Entity selectedUnit;
 	private List<Vector2> selectedTiles = new ArrayList<Vector2>();
 	
@@ -42,14 +40,8 @@ public class UserControlSystem {
 		}
 	}
 	
-	public void updateWorldTouchPos(Vector2 updatedVector) {
-		worldTouchPos.set(updatedVector);
-	}
-	
-	public void dragCamera(int screenX, int screenY) {
-		Vector2 currentTouchPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
-		Vector2 delta = worldTouchPos.cpy().sub(currentTouchPos);
-		Core.INSTANCE.camera.add(delta.x, delta.y);
+	public void dragCamera(float deltaX, float deltaY) {
+		Core.INSTANCE.camera.add(deltaX * Core.INSTANCE.camera.orthoCam.zoom, deltaY * Core.INSTANCE.camera.orthoCam.zoom);
 		Core.INSTANCE.camera.update();
 	}
 	
@@ -58,6 +50,9 @@ public class UserControlSystem {
 	 * @param target - The target tile coordinate in hex coordinate
 	 */
 	public void touchTile(Vector2 target) {
+		System.out.println(Core.INSTANCE.game.isPlayersTurn());
+		System.out.println(Core.INSTANCE.actionSystem.getActionPoints());
+		System.out.println();
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
 		if(Core.INSTANCE.actionSystem.getActionPoints() <= 0) return;
 

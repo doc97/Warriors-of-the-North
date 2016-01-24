@@ -3,7 +3,6 @@ package com.tint.wotn.screens;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.tint.wotn.Core;
+import com.tint.wotn.input.Inputs;
 import com.tint.wotn.input.MultiplayerScreenInput;
 import com.tint.wotn.net.Player;
 
@@ -27,13 +27,20 @@ public class MultiplayerScreen implements Screen {
 	private TextButton connectBtn;
 	private TextButton backBtn;
 	private boolean multiplayerChoiceScreen = true;
+	private boolean loaded;
 
-	public MultiplayerScreen() {
+	public void load() {
+		if(loaded) return;
 		stage = new Stage(Core.INSTANCE.camera.viewport);
-	}
+		loadUI();
+		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN_UI, stage);
 
-	@Override
-	public void show() {
+		MultiplayerScreenInput multiplayerScreenInput = new MultiplayerScreenInput(this);
+		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN, multiplayerScreenInput);
+		loaded = true;
+	}
+	
+	public void loadUI() {
 		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		// Widgets
@@ -117,13 +124,14 @@ public class MultiplayerScreen implements Screen {
 		table.add();
 		table.add(backBtn).align(Align.bottomRight).pad(10, 20, 10, 20);
 		stage.addActor(table);
-		
+	}
+
+	@Override
+	public void show() {
+		load();
 		multiplayerChoiceScreen = true;
-		
-		InputMultiplexer inputProcessors = new InputMultiplexer();
-		inputProcessors.addProcessor(stage);
-		inputProcessors.addProcessor(new MultiplayerScreenInput(this));
-		Gdx.input.setInputProcessor(inputProcessors);
+		Core.INSTANCE.inputSystem.add(Inputs.MULTIPLAYER_SCREEN);
+		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
 	}
 
 	@Override
@@ -166,6 +174,8 @@ public class MultiplayerScreen implements Screen {
 	@Override
 	public void hide() {
 		stage.clear();
+		Core.INSTANCE.inputSystem.remove(Inputs.MULTIPLAYER_SCREEN);
+		Core.INSTANCE.inputSystem.remove(Inputs.MAIN_MENU_SCREEN_UI);
 	}
 
 	@Override

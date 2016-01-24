@@ -28,6 +28,10 @@ public class Camera {
 		orthoCam.position.set(orthoCam.viewportWidth / 2, orthoCam.viewportHeight / 2, 0);
 	}
 	
+	public void setZoom(float zoom) {
+		orthoCam.zoom = zoom;
+	}
+	
 	public void set(float x, float y) {
 		orthoCam.position.set(x, y, 0);
 	}

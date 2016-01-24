@@ -1,7 +1,7 @@
 package com.tint.wotn.input;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
@@ -9,6 +9,8 @@ import com.tint.wotn.utils.CoordinateConversions;
 
 public class GameInput implements InputProcessor {
 
+	private Vector2 worldTouchPos = new Vector2();
+	
 	@Override
 	public boolean keyDown(int keycode) {
 		return false;
@@ -18,8 +20,6 @@ public class GameInput implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.ESCAPE) {
 			Core.INSTANCE.userControlSystem.endTurn();
-		} else if(keycode == Keys.S) {
-			System.out.println(Core.INSTANCE.actionSystem.getActionPoints());
 		}
 		return false;
 	}
@@ -33,9 +33,8 @@ public class GameInput implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		Vector2 targetWorldPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
 		Vector2 targetHexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, targetWorldPos.x, targetWorldPos.y);
-		Core.INSTANCE.userControlSystem.updateWorldTouchPos(targetWorldPos);
+		worldTouchPos = targetWorldPos;
 		Core.INSTANCE.userControlSystem.touchTile(targetHexCoord);
-		
 		return false;
 	}
 
@@ -46,7 +45,9 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		Core.INSTANCE.userControlSystem.dragCamera(screenX, screenY);
+		Vector2 currentTouchPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
+		Vector2 delta = worldTouchPos.cpy().sub(currentTouchPos);
+		Core.INSTANCE.userControlSystem.dragCamera(delta.x, delta.y);
 		return false;
 	}
 
@@ -57,6 +58,10 @@ public class GameInput implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		float zoom = Core.INSTANCE.camera.orthoCam.zoom + 0.1f * amount;
+		if(zoom > 0.33f && zoom < 3.0f) {
+			Core.INSTANCE.camera.setZoom(zoom);
+		}
 		return false;
 	}
 }

@@ -12,17 +12,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
+import com.tint.wotn.input.Inputs;
 
 public class MainMenuScreen implements Screen {
 
 	private Stage stage;
+	private boolean loaded;
 	
 	public MainMenuScreen() {
 		stage = new Stage(Core.INSTANCE.camera.viewport);
 	}
 	
-	@Override
-	public void show() {
+	public void load() {
+		if(loaded) return;
+		loadUI();
+		Core.INSTANCE.inputSystem.register(Inputs.MAIN_MENU_SCREEN_UI, stage);
+		loaded = true;
+	}
+	
+	public void loadUI() {
 		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		// Widgets
@@ -83,9 +91,12 @@ public class MainMenuScreen implements Screen {
 		table.add(exitBtn).padBottom(50).expandY();
 	
 		stage.addActor(table);
-		
-		Gdx.input.setInputProcessor(stage);
-		
+	}
+	
+	@Override
+	public void show() {
+		load();
+		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
@@ -113,7 +124,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void hide() {
-		
+		Core.INSTANCE.inputSystem.remove(Inputs.MAIN_MENU_SCREEN_UI);
 	}
 
 	@Override

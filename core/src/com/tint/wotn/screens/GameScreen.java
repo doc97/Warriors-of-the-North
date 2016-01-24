@@ -7,12 +7,25 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
+import com.tint.wotn.WarriorsOfTheNorthAndroid;
+import com.tint.wotn.WarriorsOfTheNorthDesktop;
 import com.tint.wotn.ecs.systems.RenderSystem;
+import com.tint.wotn.input.GameInput;
+import com.tint.wotn.input.GestureInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 
 public class GameScreen implements Screen {
+	
+	public boolean loaded;
+	
+	public void load() {
+		if(loaded) return;
+		Core.INSTANCE.inputSystem.register(Inputs.GAME, new GameInput());
+		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector);
+		loaded = true;
+	}
 	
 	@Override
 	public void render(float delta) {
@@ -86,8 +99,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.input.setInputProcessor(Core.INSTANCE.inputSystem.getProcessor(Inputs.GAME));
+		load();
+		
+		if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthDesktop) {
+			Core.INSTANCE.inputSystem.add(Inputs.GAME);
+		} else if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthAndroid) {
+			Core.INSTANCE.inputSystem.add(Inputs.GESTURE);
+		}
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
 			Core.INSTANCE.game.startSingleplayerGame();
 		
@@ -100,11 +118,14 @@ public class GameScreen implements Screen {
 		Vector2 centerTile = new Vector2(centerx, centery);
 		Vector2 worldCenter = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, centerTile);
 		Core.INSTANCE.camera.set(worldCenter.x, worldCenter.y);
+		
+		Gdx.gl.glClearColor(1, 0, 0, 1);
 	}
 	
 	@Override
 	public void hide() {
-		
+		Core.INSTANCE.inputSystem.remove(Inputs.GAME);
+		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
 	}
 
 	@Override
