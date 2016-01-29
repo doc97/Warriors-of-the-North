@@ -10,19 +10,19 @@ import com.tint.wotn.GameMode;
 import com.tint.wotn.WarriorsOfTheNorthAndroid;
 import com.tint.wotn.WarriorsOfTheNorthDesktop;
 import com.tint.wotn.ecs.systems.RenderSystem;
-import com.tint.wotn.input.GameInput;
+import com.tint.wotn.input.BattleInput;
 import com.tint.wotn.input.GestureInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 
-public class GameScreen implements Screen {
+public class BattleScreen implements Screen {
 	
 	public boolean loaded;
 	
 	public void load() {
 		if(loaded) return;
-		Core.INSTANCE.inputSystem.register(Inputs.GAME, new GameInput());
+		Core.INSTANCE.inputSystem.register(Inputs.GAME, new BattleInput());
 		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector);
 		loaded = true;
 	}

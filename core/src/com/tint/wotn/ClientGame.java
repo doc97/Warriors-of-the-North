@@ -13,7 +13,6 @@ public class ClientGame {
 		player = new Player();
 		player.id = 1;
 		playerInTurnID = 1;
-		Core.INSTANCE.levelSystem.enterLevel(0);
 	}
 	
 	public void startTurn() {

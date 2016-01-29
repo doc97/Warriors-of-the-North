@@ -50,9 +50,6 @@ public class UserControlSystem {
 	 * @param target - The target tile coordinate in hex coordinate
 	 */
 	public void touchTile(Vector2 target) {
-		System.out.println(Core.INSTANCE.game.isPlayersTurn());
-		System.out.println(Core.INSTANCE.actionSystem.getActionPoints());
-		System.out.println();
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
 		if(Core.INSTANCE.actionSystem.getActionPoints() <= 0) return;
 

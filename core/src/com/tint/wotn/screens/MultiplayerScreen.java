@@ -131,7 +131,7 @@ public class MultiplayerScreen implements Screen {
 		load();
 		multiplayerChoiceScreen = true;
 		Core.INSTANCE.inputSystem.add(Inputs.MULTIPLAYER_SCREEN);
-		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
+		Core.INSTANCE.inputSystem.add(Inputs.MULTIPLAYER_SCREEN_UI);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.tint.wotn.control.UserControlSystem;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
+import com.tint.wotn.missions.MissionSystem;
 import com.tint.wotn.net.MultiplayerSystem;
 import com.tint.wotn.screens.ScreenSystem;
 import com.tint.wotn.utils.Assets;
@@ -25,6 +26,7 @@ public enum Core {
 	public Camera camera;
 	public EntityComponentSystem ecs;
 	public LevelSystem levelSystem;
+	public MissionSystem missionSystem;
 	public InputSystem inputSystem;
 	public ActionSystem actionSystem;
 	public UserControlSystem userControlSystem;
@@ -53,10 +55,12 @@ public enum Core {
 	
 	public void initializeGame() {
 		game = new ClientGame();
-		if(gameMode == GameMode.SINGLEPLAYER)
+		if(gameMode == GameMode.SINGLEPLAYER) {
 			initializeLevelSystem();
-		else if(gameMode == GameMode.MULTIPLAYER)
+			initializeMissionSystem();
+		} else if(gameMode == GameMode.MULTIPLAYER) {
 			initializeMultiplayerSystem();
+		}
 	}
 	
 	public void initializeAssets() {
@@ -90,6 +94,11 @@ public enum Core {
 	public void initializeLevelSystem() {
 		levelSystem = new LevelSystem();
 		levelSystem.initialize();
+	}
+	
+	public void initializeMissionSystem() {
+		missionSystem = new MissionSystem();
+		missionSystem.initialize();
 	}
 	
 	public void initializeInputSystem() {

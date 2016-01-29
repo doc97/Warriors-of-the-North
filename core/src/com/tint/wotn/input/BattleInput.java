@@ -7,7 +7,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 
-public class GameInput implements InputProcessor {
+public class BattleInput implements InputProcessor {
 
 	private Vector2 worldTouchPos = new Vector2();
 	

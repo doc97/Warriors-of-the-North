@@ -19,7 +19,8 @@ public class ScreenSystem {
 		screens.put(Screens.MAIN_MENU, new MainMenuScreen());
 		screens.put(Screens.LOADING, new LoadingScreen());
 		screens.put(Screens.LOBBY, new LobbyScreen());
-		screens.put(Screens.GAME, new GameScreen());
+		screens.put(Screens.CAMPAIGN, new CampaignScreen());
+		screens.put(Screens.BATTLE, new BattleScreen());
 		screens.put(Screens.MULTIPLAYER, new MultiplayerScreen());
 	}
 	

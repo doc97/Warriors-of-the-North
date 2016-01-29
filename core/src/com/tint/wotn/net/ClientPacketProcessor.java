@@ -91,7 +91,7 @@ public class ClientPacketProcessor {
 		multiplayerSystem.client.sendTCP(statusPacket);
 
 		synchronized (multiplayerSystem.client) {
-			Core.INSTANCE.screenSystem.screenToEnter = Screens.GAME;
+			Core.INSTANCE.screenSystem.screenToEnter = Screens.BATTLE;
 		}
 	}
 	

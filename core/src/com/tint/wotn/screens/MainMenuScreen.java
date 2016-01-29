@@ -46,7 +46,7 @@ public class MainMenuScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Core.INSTANCE.gameMode = GameMode.SINGLEPLAYER;
 				Core.INSTANCE.initializeGame();
-				Core.INSTANCE.screenSystem.enterScreen(Screens.GAME);
+				Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
 			}
 		});
 		
