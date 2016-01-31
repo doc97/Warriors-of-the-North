@@ -49,7 +49,7 @@ public class CoordinateConversions {
 		return screenPos;
 	}
 	
-	public static Vector2 screenToWorld(float screenX, float screenY) {
+	private static Vector2 screenToWorld(float screenX, float screenY) {
 		float worldX = (screenX / (float) Gdx.graphics.getWidth()) * Core.INSTANCE.camera.orthoCam.viewportWidth;
 		worldX *= Core.INSTANCE.camera.orthoCam.zoom;
 		float worldY = ((Gdx.graphics.getHeight() - screenY) / (float) Gdx.graphics.getHeight()) * Core.INSTANCE.camera.orthoCam.viewportHeight;
@@ -57,9 +57,23 @@ public class CoordinateConversions {
 		return new Vector2(worldX, worldY);
 	}
 	
-	public static Vector2 worldToScreen(float worldX, float worldY) {
+	private static Vector2 worldToScreen(float worldX, float worldY) {
 		float screenX = (worldX / (float) (Core.INSTANCE.camera.orthoCam.viewportWidth * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getWidth();
 		float screenY = (-worldY / (float) (Core.INSTANCE.camera.orthoCam.viewportHeight * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getHeight() + Gdx.graphics.getHeight();
 		return new Vector2(screenX, screenY);
+	}
+	
+	public static Vector2 convertWorldToScreen(float worldX, float worldY) {
+		float screenX = (worldX / (float) (Core.INSTANCE.camera.orthoCam.viewportWidth * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getWidth();
+		float screenY = (worldY / (float) (Core.INSTANCE.camera.orthoCam.viewportHeight * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getHeight();
+		return new Vector2(screenX, screenY);
+	}
+	
+	public static Vector2 convertScreenToWorld(float screenX, float screenY) {
+		float worldX = (screenX / (float) Gdx.graphics.getWidth()) * Core.INSTANCE.camera.orthoCam.viewportWidth;
+		worldX *= Core.INSTANCE.camera.orthoCam.zoom;
+		float worldY = (screenY / (float) Gdx.graphics.getHeight()) * Core.INSTANCE.camera.orthoCam.viewportHeight;
+		worldY *= Core.INSTANCE.camera.orthoCam.zoom;
+		return new Vector2(worldX, worldY);
 	}
 }

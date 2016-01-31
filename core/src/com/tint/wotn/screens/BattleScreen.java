@@ -3,7 +3,6 @@ package com.tint.wotn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
@@ -43,25 +42,6 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.game.map.render(Core.INSTANCE.batch);
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
-		
-		// Debug
-		Core.INSTANCE.camera.update();
-		Core.INSTANCE.shapeRenderer.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
-		
-		Core.INSTANCE.shapeRenderer.begin(ShapeType.Line);
-		Core.INSTANCE.shapeRenderer.line(
-				Core.INSTANCE.camera.orthoCam.position.x,
-				Core.INSTANCE.camera.orthoCam.position.y - Core.INSTANCE.camera.orthoCam.viewportHeight / 2,
-				Core.INSTANCE.camera.orthoCam.position.x,
-				Core.INSTANCE.camera.orthoCam.position.y + Core.INSTANCE.camera.orthoCam.viewportHeight / 2
-				);
-		Core.INSTANCE.shapeRenderer.line(
-				Core.INSTANCE.camera.orthoCam.position.x - Core.INSTANCE.camera.orthoCam.viewportWidth / 2,
-				Core.INSTANCE.camera.orthoCam.position.y,
-				Core.INSTANCE.camera.orthoCam.position.x + Core.INSTANCE.camera.orthoCam.viewportWidth / 2,
-				Core.INSTANCE.camera.orthoCam.position.y
-				);
-		Core.INSTANCE.shapeRenderer.end();
 	}
 
 	public void update(float delta) {

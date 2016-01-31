@@ -41,7 +41,7 @@ public class UserControlSystem {
 	}
 	
 	public void dragCamera(float deltaX, float deltaY) {
-		Core.INSTANCE.camera.add(deltaX * Core.INSTANCE.camera.orthoCam.zoom, deltaY * Core.INSTANCE.camera.orthoCam.zoom);
+		Core.INSTANCE.camera.add(deltaX, deltaY);
 		Core.INSTANCE.camera.update();
 	}
 	

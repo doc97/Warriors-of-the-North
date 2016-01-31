@@ -9,7 +9,8 @@ import com.tint.wotn.utils.CoordinateConversions;
 
 public class BattleInput implements InputProcessor {
 
-	private Vector2 worldTouchPos = new Vector2();
+	private Vector2 touchPos = new Vector2();
+	private boolean dragging;
 	
 	@Override
 	public boolean keyDown(int keycode) {
@@ -33,21 +34,23 @@ public class BattleInput implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		Vector2 targetWorldPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
 		Vector2 targetHexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, targetWorldPos.x, targetWorldPos.y);
-		worldTouchPos = targetWorldPos;
+		touchPos.set(screenX, screenY);
 		Core.INSTANCE.userControlSystem.touchTile(targetHexCoord);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		dragging = false;
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		Vector2 currentTouchPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
-		Vector2 delta = worldTouchPos.cpy().sub(currentTouchPos);
-		Core.INSTANCE.userControlSystem.dragCamera(delta.x, delta.y);
+		dragging = true;
+		Vector2 delta = CoordinateConversions.convertScreenToWorld(touchPos.x - screenX, touchPos.y - screenY);
+		touchPos.set(screenX, screenY);
+		Core.INSTANCE.userControlSystem.dragCamera(delta.x, -delta.y);
 		return false;
 	}
 
@@ -58,6 +61,7 @@ public class BattleInput implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		if(dragging) return false;
 		float zoom = Core.INSTANCE.camera.orthoCam.zoom + 0.1f * amount;
 		if(zoom > 0.33f && zoom < 3.0f) {
 			Core.INSTANCE.camera.setZoom(zoom);
