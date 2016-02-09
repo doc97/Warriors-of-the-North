@@ -22,11 +22,20 @@ import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.utils.HexCoordinates;
 
+/**
+ * A system that handles all user input. This is a kind of control center.
+ * @author doc97
+ *
+ */
 public class UserControlSystem {
 	
 	private Entity selectedUnit;
 	private List<Vector2> selectedTiles = new ArrayList<Vector2>();
 	
+	/**
+	 * Ends the player turn if it is their turn. Acting differently depending
+	 * on game mode
+	 */
 	public void endTurn() {
 		if(!Core.INSTANCE.game.isPlayersTurn()) return;
 

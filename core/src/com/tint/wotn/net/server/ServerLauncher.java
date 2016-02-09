@@ -15,6 +15,11 @@ import com.tint.wotn.net.packets.Packet;
 import com.tint.wotn.net.packets.PlayerPacket;
 import com.tint.wotn.net.packets.TurnPacket;
 
+/**
+ * Launches a dedicated server
+ * @author doc97
+ *
+ */
 public class ServerLauncher {
 	
 	public Server server;
@@ -72,6 +77,9 @@ public class ServerLauncher {
 		}
 	}
 	
+	/**
+	 * Updates to the next turns and sends update data to all the clients
+	 */
 	public void nextTurn() {
 		nextConnectionID();
 		TurnPacket turnPacket = new TurnPacket();
@@ -85,6 +93,9 @@ public class ServerLauncher {
 		else turnID++;
 	}
 	
+	/**
+	 * Updates the players' names and sends them to the clients
+	 */
 	public void updatePlayerNames() {
 		Connection[] connections = server.getConnections();
 		List<Player> players = new ArrayList<Player>();
@@ -107,15 +118,21 @@ public class ServerLauncher {
 		serverGame.prepare(loadoutsReady);
 	}
 	
+	/**
+	 * Clears the player ready statuses
+	 */
 	public void resetPlayersReady() {
 		playersReady.clear();
 	}
 	
+	/**
+	 * Clears the loadout ready statuses
+	 */
 	public void resetLoadoutsReady() {
 		loadoutsReady.clear();
 	}
 	
-	public boolean allPlayersReady() {
+	public boolean allPlayersAreReady() {
 		for(Connection c : server.getConnections())
 			if(!playersReady.contains(c.getID()))
 				return false;
@@ -123,7 +140,7 @@ public class ServerLauncher {
 		return true;
 	}
 	
-	public boolean allLoadoutsReady() {
+	public boolean allLoadoutsAreReady() {
 		outer:
 		for(Connection c : server.getConnections()) {
 			for(LoadoutData loadout : loadoutsReady) {

@@ -12,6 +12,11 @@ import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.UnitFactory;
 
+/**
+ * Represents a level
+ * @author doc97
+ *
+ */
 public class Level {
 	public String name;
 	public MapShape mapShape;

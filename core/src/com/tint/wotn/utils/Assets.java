@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMap;
 
+/**
+ * A wrapper for the {@link AssetManager}
+ * @author doc97
+ *
+ */
 public class Assets {
 
 	private AssetManager manager;
@@ -13,10 +18,22 @@ public class Assets {
 		manager = new AssetManager();
 	}
 	
-	public static void loadTexturesIntoGame() {
+	/**
+	 * Saves textures in memory by calling different parts of the code base.
+	 * Should be used after that the textures are loaded
+	 */
+	public void loadTexturesIntoGame() {
+		if(!isDoneLoading()) return;
 		HexMap.loadTextures();
 		for(UnitType unitType : UnitType.values())
 			unitType.loadTexture();
+	}
+	
+	/**
+	 * Adds all game assets to the manager queue
+	 */
+	public void loadAssets() {
+		addTextureAtlasesToLoadingQueue();
 	}
 	
 	public void addTextureAtlasesToLoadingQueue() {
@@ -24,6 +41,9 @@ public class Assets {
 		manager.load("skins/default/uiskin.atlas", TextureAtlas.class);
 	}
 	
+	/**
+	 * Updates asset loading
+	 */
 	public void updateLoading() {
 		manager.update();
 		System.out.println(manager.getProgress() * 100.0f + "%");

@@ -19,6 +19,11 @@ import com.tint.wotn.input.Inputs;
 import com.tint.wotn.input.MultiplayerScreenInput;
 import com.tint.wotn.net.Player;
 
+/**
+ * {@link Screen} that is used for configuring multiplayer
+ * @author doc97
+ *
+ */
 public class MultiplayerScreen implements Screen {
 	private Stage stage;
 	private Table table;
@@ -33,10 +38,10 @@ public class MultiplayerScreen implements Screen {
 		if(loaded) return;
 		stage = new Stage(Core.INSTANCE.camera.viewport);
 		loadUI();
-		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN_UI, stage);
+		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN_UI, stage, false);
 
 		MultiplayerScreenInput multiplayerScreenInput = new MultiplayerScreenInput(this);
-		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN, multiplayerScreenInput);
+		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN, multiplayerScreenInput, false);
 		loaded = true;
 	}
 	

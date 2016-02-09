@@ -6,7 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
+import com.tint.wotn.screens.BattleScreen;
 
+/**
+ * A {@link GestureListener} handling touch screen input in
+ * {@link BattleScreen}
+ * @author doc97
+ *
+ */
 public class GestureInput implements GestureListener {
 
 	public GestureDetector detector;
@@ -49,7 +56,7 @@ public class GestureInput implements GestureListener {
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		if(zooming) return false;
-		Vector2 delta = CoordinateConversions.convertScreenToWorld(deltaX, deltaY);
+		Vector2 delta = CoordinateConversions.screenToWorld(deltaX, deltaY);
 		Core.INSTANCE.userControlSystem.dragCamera(-delta.x, delta.y);
 		return false;
 	}

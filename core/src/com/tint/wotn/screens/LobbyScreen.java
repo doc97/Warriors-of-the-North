@@ -8,6 +8,11 @@ import com.tint.wotn.Core;
 import com.tint.wotn.net.constants.Status;
 import com.tint.wotn.net.packets.StatusPacket;
 
+/**
+ * {@link Screen} that represents a multiplayer lobby
+ * @author doc97
+ *
+ */
 public class LobbyScreen implements Screen {
 
 	@Override

@@ -1,32 +1,28 @@
 package com.tint.wotn.input;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
+import com.tint.wotn.screens.BattleScreen;
 import com.tint.wotn.utils.CoordinateConversions;
 
-public class BattleInput implements InputProcessor {
+/**
+ * An {@link InputAdapter} handling input when in {@link BattleScreen}
+ * @author doc97
+ *
+ */
+public class BattleInput extends InputAdapter {
 
 	private Vector2 touchPos = new Vector2();
 	private boolean dragging;
 	
 	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
-
-	@Override
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.ESCAPE) {
 			Core.INSTANCE.userControlSystem.endTurn();
 		}
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
 		return false;
 	}
 
@@ -48,14 +44,9 @@ public class BattleInput implements InputProcessor {
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 		dragging = true;
-		Vector2 delta = CoordinateConversions.convertScreenToWorld(touchPos.x - screenX, touchPos.y - screenY);
+		Vector2 delta = CoordinateConversions.screenToWorld(touchPos.x - screenX, touchPos.y - screenY);
 		touchPos.set(screenX, screenY);
 		Core.INSTANCE.userControlSystem.dragCamera(delta.x, -delta.y);
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
 		return false;
 	}
 

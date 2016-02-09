@@ -2,6 +2,12 @@ package com.tint.wotn.actions;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * A A system that handles actions and action points in the game
+ * @author doc97
+ * @see Action
+ * 
+ */
 public class ActionSystem {
 	private int maxActionPoints;
 	private int actionPoints;

@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.tint.wotn.Core;
 
+/**
+ * Represents a hexagonal tile in a {@link HexMap}
+ * @author doc97
+ *
+ */
 public enum Tile {
 	NULL("empty_tile", false, 0.0f), GRASS("grass_tile", true, 1.0f);
 	

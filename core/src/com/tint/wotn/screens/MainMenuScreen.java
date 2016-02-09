@@ -14,6 +14,11 @@ import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.input.Inputs;
 
+/**
+ * {@link Screen} that shows the main menu
+ * @author doc97
+ *
+ */
 public class MainMenuScreen implements Screen {
 
 	private Stage stage;
@@ -26,7 +31,7 @@ public class MainMenuScreen implements Screen {
 	public void load() {
 		if(loaded) return;
 		loadUI();
-		Core.INSTANCE.inputSystem.register(Inputs.MAIN_MENU_SCREEN_UI, stage);
+		Core.INSTANCE.inputSystem.register(Inputs.MAIN_MENU_SCREEN_UI, stage, false);
 		loaded = true;
 	}
 	

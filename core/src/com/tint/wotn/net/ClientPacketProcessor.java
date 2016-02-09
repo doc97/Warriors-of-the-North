@@ -25,6 +25,11 @@ import com.tint.wotn.net.packets.TurnPacket;
 import com.tint.wotn.screens.Screens;
 import com.tint.wotn.utils.UnitFactory;
 
+/**
+ * Processes incoming packets to the clients
+ * @author doc97
+ *
+ */
 public class ClientPacketProcessor {
 
 	public MultiplayerSystem multiplayerSystem;

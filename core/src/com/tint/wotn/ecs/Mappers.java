@@ -7,7 +7,14 @@ import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
+import com.badlogic.ashley.core.Component;
 
+/**
+ * Contains {@link ComponentMapper}'s for fast access by component
+ * @author doc97
+ * @see Component
+ * 
+ */
 public class Mappers {
 	public static final ComponentMapper<MovementComponent> movement = ComponentMapper.getFor(MovementComponent.class);
 	public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);

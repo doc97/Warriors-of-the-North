@@ -12,6 +12,11 @@ import com.tint.wotn.Core;
 import com.tint.wotn.net.packets.NamePacket;
 import com.tint.wotn.net.packets.Packet;
 
+/**
+ * A system that handles multiplayer and can connect to a server
+ * @author doc97
+ * @see ClientPacketProcessor
+ */
 public class MultiplayerSystem {
 
 	public Client client = new Client();

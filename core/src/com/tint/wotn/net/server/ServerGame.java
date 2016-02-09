@@ -14,6 +14,11 @@ import com.tint.wotn.net.LoadoutData;
 import com.tint.wotn.net.UnitData;
 import com.tint.wotn.utils.HexCoordinates;
 
+/**
+ * A representation of the game on the server
+ * @author doc97
+ *
+ */
 public class ServerGame {
 	
 	// Right now every server game has the hexagon map
@@ -24,6 +29,10 @@ public class ServerGame {
 	
 	public List<UnitData> units = new ArrayList<UnitData>();
 	
+	/**
+	 * Sets up the game on the server
+	 * @param loadoutDatas The {@link LoadoutData} of all the players
+	 */
 	public void prepare(List<LoadoutData> loadoutDatas) {
 		int playerCount = loadoutDatas.size();
 		
@@ -33,6 +42,10 @@ public class ServerGame {
 		}
 	}
 	
+	/**
+	 * Places units on the game board
+	 * @param loadoutDatas The {@link LoadoutData} of all the players
+	 */
 	private void createSymmetricalGame(List<LoadoutData> loadoutDatas) {
 		// Every unit has an unique id
 		int uniqueID = -1;
@@ -59,7 +72,7 @@ public class ServerGame {
 			
 			// Positioning them
 			Vector2 startTile = getStartTile(i * 6 / loadoutDatas.size());
-			List<Vector2> spawnTiles = getSpawnTiles(loadoutDatas, startTile, unitTotalCount);
+			List<Vector2> spawnTiles = getSpawnTiles(startTile, unitTotalCount);
 			for(int j = 0; j < unitTotalCount; j++) {
 				unitDatas.get(j).position = spawnTiles.get(j);
 			}
@@ -68,6 +81,12 @@ public class ServerGame {
 		}
 	}
 	
+	/**
+	 * Calculates the center spawn tile depending on the direction. Used when
+	 * placing units
+	 * @param direction
+	 * @return A {@link Vector2} pointing to the tile
+	 */
 	private Vector2 getStartTile(int direction) {
 		Vector2 startTile = new Vector2(mapRadius, mapRadius);
 		Vector2 dir = new Vector2();
@@ -75,7 +94,13 @@ public class ServerGame {
 		return startTile.cpy().add(dir);
 	}
 	
-	private List<Vector2> getSpawnTiles(List<LoadoutData> loadoutDatas, Vector2 centerTile, int unitTotalCount) {
+	/**
+	 * Calculates all the spawn tiles around a center tile
+	 * @param centerTile The center spawn
+	 * @param unitTotalCount The amount of units
+	 * @return The list of {@link Vector2} of the spawn tiles
+	 */
+	private List<Vector2> getSpawnTiles(Vector2 centerTile, int unitTotalCount) {
 		/*
 		 * The algorithm will create the shortest list of tiles on which the
 		 * units can be added

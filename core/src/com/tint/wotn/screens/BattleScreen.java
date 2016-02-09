@@ -15,14 +15,19 @@ import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 
+/**
+ * {@link Screen} that is used for showing battles
+ * @author doc97
+ *
+ */
 public class BattleScreen implements Screen {
 	
 	public boolean loaded;
 	
 	public void load() {
 		if(loaded) return;
-		Core.INSTANCE.inputSystem.register(Inputs.GAME, new BattleInput());
-		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector);
+		Core.INSTANCE.inputSystem.register(Inputs.BATTLE, new BattleInput(), false);
+		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector, false);
 		loaded = true;
 	}
 	
@@ -82,7 +87,7 @@ public class BattleScreen implements Screen {
 		load();
 		
 		if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthDesktop) {
-			Core.INSTANCE.inputSystem.add(Inputs.GAME);
+			Core.INSTANCE.inputSystem.add(Inputs.BATTLE);
 		} else if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthAndroid) {
 			Core.INSTANCE.inputSystem.add(Inputs.GESTURE);
 		}
@@ -104,7 +109,7 @@ public class BattleScreen implements Screen {
 	
 	@Override
 	public void hide() {
-		Core.INSTANCE.inputSystem.remove(Inputs.GAME);
+		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE);
 		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
 	}
 

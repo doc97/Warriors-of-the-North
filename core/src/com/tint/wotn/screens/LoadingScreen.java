@@ -6,13 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
-import com.tint.wotn.utils.Assets;
 
+/**
+ * {@link Screen} that is showed when loading game files
+ * @author doc97
+ *
+ */
 public class LoadingScreen implements Screen {
 
 	@Override
 	public void show() {
-		Core.INSTANCE.assets.addTextureAtlasesToLoadingQueue();
+		Core.INSTANCE.assets.loadAssets();
 	}
 
 	@Override
@@ -22,7 +26,7 @@ public class LoadingScreen implements Screen {
 			Core.INSTANCE.assets.updateLoading();
 		} else {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-			Assets.loadTexturesIntoGame();
+			Core.INSTANCE.assets.loadTexturesIntoGame();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
 				Core.INSTANCE.screenSystem.enterScreen(Screens.MAIN_MENU);
 			} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {

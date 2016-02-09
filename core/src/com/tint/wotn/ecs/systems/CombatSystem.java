@@ -12,6 +12,11 @@ import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 
+/**
+ * An {@link EntitySystem} that simulates battle between two entities
+ * @author doc97
+ *
+ */
 public class CombatSystem extends EntitySystem {
 	private ImmutableArray<Entity> units;
 	

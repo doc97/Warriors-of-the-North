@@ -6,15 +6,29 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.utils.CoordinateConversions;
+import com.tint.wotn.utils.HexCoordinates;
 
+/**
+ * Contains data about the hex map tiles. Marked tiles are managed using
+ * bitmaps
+ * @author doc97
+ * @see Tile
+ * 
+ */
 public class HexMap {
 	public Tile[][] tiles;
 	private byte[] markedTileBitMap;
 	private byte[] permanentMarkedTileBitMap;
 	private static AtlasRegion markedTextureOverlay;
 	
+	/**
+	 * Private constructor for Factory pattern
+	 */
 	private HexMap() {}
 	
+	/**
+	 * Loads map textures into memory
+	 */
 	public static void loadTextures() {
 		for(Tile t : Tile.values())
 			t.loadTexture();
@@ -23,6 +37,12 @@ public class HexMap {
 		markedTextureOverlay = atlas.findRegion("marked_tile");
 	}
 	
+	/**
+	 * A factory method for creating a {@link HexMap} using a two-dimensional
+	 * {@link Tile} array
+	 * @param tiles Tile array
+	 * @return The created map
+	 */
 	public static HexMap createMap(Tile[][] tiles) {
 		HexMap map = new HexMap();
 		map.tiles = tiles;
@@ -33,7 +53,7 @@ public class HexMap {
 		return map;
 	}
 	
-	public void initializeMarkedTiles(int tileAmount) {
+	private void initializeMarkedTiles(int tileAmount) {
 		markedTileBitMap = new byte[(int) Math.ceil(tileAmount / 7d)];
 		permanentMarkedTileBitMap = new byte[(int) Math.ceil(tileAmount / 7d)];
 	}
@@ -77,6 +97,14 @@ public class HexMap {
 		return ((permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] >> (index % 7)) & 1) == 1;
 	}
 	
+	/**
+	 * Sets a marked flag for the tile at (r, q) in axial coordinates
+	 * @param r The "x" component
+	 * @param q The "y" component
+	 * @param permanent If the flag should be set as permanent as well as
+	 * currently marked
+	 * @see HexCoordinates
+	 */
 	public void markTile(int r, int q, boolean permanent) {
 		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
@@ -85,6 +113,14 @@ public class HexMap {
 			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] |= 1 << (index % 7);
 	}
 		
+	/**
+	 * Removes the marked flag for the tile at (r, q) in axial coordinates
+	 * @param r The "x" component
+	 * @param q The "y" component
+	 * @param permanent If the flag should also be removed from the permanent
+	 * bitmap
+	 * @see HexCoordinates
+	 */
 	public void unmarkTile(int r, int q, boolean permanent) {
 		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
@@ -93,6 +129,13 @@ public class HexMap {
 			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] &= ~(1 << (index % 7));
 	}
 	
+	/**
+	 * Toggles the marked flag for the tile at (r, q) in axial coordinates
+	 * @param r The "x" component
+	 * @param q The "y" component
+	 * @param permanent If the permanent status should also be toggled
+	 * @see HexCoordinates
+	 */
 	public void toggleMarkedTile(int r, int q, boolean permanent) {
 		if(r < 0 || r >= tiles.length || q < 0 || q >= tiles[r].length) return;
 		long index = (r * tiles[r].length + q);
@@ -101,6 +144,9 @@ public class HexMap {
 			permanentMarkedTileBitMap[(int) (Math.floor(index / 7d))] ^= 1 << (index % 7);
 	}
 
+	/**
+	 * Removes all marked flags
+	 */
 	public void resetMarkedTiles() {
 		for(int i = 0; i < markedTileBitMap.length; i++) {
 			markedTileBitMap[i] = 0;
@@ -108,6 +154,9 @@ public class HexMap {
 		}
 	}
 	
+	/**
+	 * Removes all flags that are not permanent
+	 */
 	public void clearNonPermanentMarkedTiles() {
 		for(int i = 0; i < markedTileBitMap.length; i++)
 			markedTileBitMap[i] = permanentMarkedTileBitMap[i];

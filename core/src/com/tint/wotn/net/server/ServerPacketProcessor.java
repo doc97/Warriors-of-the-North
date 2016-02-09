@@ -14,6 +14,11 @@ import com.tint.wotn.net.packets.RequestPacket;
 import com.tint.wotn.net.packets.StartGamePacket;
 import com.tint.wotn.net.packets.StatusPacket;
 
+/**
+ * Processes incoming packets to the server
+ * @author doc97
+ *
+ */
 public class ServerPacketProcessor {
 	
 	public ServerLauncher serverLauncher;
@@ -50,7 +55,7 @@ public class ServerPacketProcessor {
 		if(status == Status.CLIENT_READY) {
 			serverLauncher.playersReady.add(connection.getID());
 		
-			if(serverLauncher.allPlayersReady()) {
+			if(serverLauncher.allPlayersAreReady()) {
 				RequestPacket requestPacket = new RequestPacket();
 				requestPacket.request = Request.LOADOUT_REQUEST;
 				serverLauncher.server.sendToAllTCP(requestPacket);
@@ -60,7 +65,7 @@ public class ServerPacketProcessor {
 		} else if(status == Status.GAME_LOADED) {
 			serverLauncher.playersReady.add(connection.getID());
 			
-			if(serverLauncher.allPlayersReady()) {
+			if(serverLauncher.allPlayersAreReady()) {
 				serverLauncher.resetPlayersReady();
 				serverLauncher.resetLoadoutsReady();
 				System.gc();
@@ -75,7 +80,7 @@ public class ServerPacketProcessor {
 	private void processLoadoutPacket(GameConnection connection, Object packet) {
 		storeLoadout(connection, packet);
 		
-		if(serverLauncher.allLoadoutsReady()) {
+		if(serverLauncher.allLoadoutsAreReady()) {
 			serverLauncher.startGame();
 			sendStartGamePackets();
 		}

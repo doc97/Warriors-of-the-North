@@ -14,6 +14,11 @@ import com.tint.wotn.screens.ScreenSystem;
 import com.tint.wotn.utils.Assets;
 import com.tint.wotn.utils.EntityIDSystem;
 
+/**
+ * A singleton that binds together the different systems of the game
+ * @author doc97
+ *
+ */
 public enum Core {
 	INSTANCE;
 	
@@ -34,6 +39,10 @@ public enum Core {
 	public Assets assets;
 	public EntityIDSystem entityIDSystem;
 	
+	/**
+	 * Initializes all systems and components
+	 * @param coreGame
+	 */
 	public void initializeAll(Game coreGame) {
 		setCoreGame(coreGame);
 		initializeAssets();
@@ -122,6 +131,9 @@ public enum Core {
 		entityIDSystem = new EntityIDSystem();
 	}
 	
+	/**
+	 * Disposes of all systems and components and sets them to null
+	 */
 	public void dispose() {
 		if(screenSystem != null)	screenSystem.dispose();
 		if(batch != null)			batch.dispose();

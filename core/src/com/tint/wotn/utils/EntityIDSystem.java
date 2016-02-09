@@ -5,6 +5,11 @@ import java.util.Map;
 
 import com.badlogic.ashley.core.Entity;
 
+/**
+ * A system that takes care of the entity ID's that is used for multiplayer
+ * @author doc97
+ *
+ */
 public class EntityIDSystem {
 
 	private Map<Integer, Entity> entityIDMap = new HashMap<Integer, Entity>();

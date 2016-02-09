@@ -13,6 +13,11 @@ import com.tint.wotn.ecs.components.RenderComponent;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.utils.CoordinateConversions;
 
+/**
+ * An {@link EntitySystem} handling rendering components
+ * @author doc97
+ *
+ */
 public class RenderSystem extends EntitySystem {
 	private ImmutableArray<Entity> entities;
 

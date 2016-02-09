@@ -19,6 +19,11 @@ import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.missions.Mission;
 
+/**
+ * {@link Screen} that functions as a mission screen
+ * @author doc97
+ *
+ */
 public class CampaignScreen implements Screen {
 
 	private AtlasRegion map;
@@ -37,7 +42,7 @@ public class CampaignScreen implements Screen {
 		if(loaded) return;
 		loaded = true;
 		loadUI();
-		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN_UI, stage);
+		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN_UI, stage, true);
 	}
 	
 	public void loadUI() {

@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * A wrapper for the {@link OrthographicCamera} and includes a {@link Viewport} for resizing
+ * @author doc97
+ *
+ */
 public class Camera {
 	
 	public OrthographicCamera orthoCam;
@@ -24,6 +29,9 @@ public class Camera {
 		viewport.update(width, height);
 	}
 	
+	/**
+	 * Positions camera at (viewportWidth / 2, viewportHeight / 2)
+	 */
 	public void center() {
 		orthoCam.position.set(orthoCam.viewportWidth / 2, orthoCam.viewportHeight / 2, 0);
 	}

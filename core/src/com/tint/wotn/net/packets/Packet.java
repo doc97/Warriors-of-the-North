@@ -14,6 +14,12 @@ import com.tint.wotn.net.LoadoutData;
 import com.tint.wotn.net.Player;
 import com.tint.wotn.net.UnitData;
 
+/**
+ * Abstraction for a packet. Also contains a method that registers all classes
+ * that are serialized and can be used in a {@link Packet}
+ * @author doc97
+ *
+ */
 public abstract class Packet {
 
 	public static void register(Kryo kryo) {		

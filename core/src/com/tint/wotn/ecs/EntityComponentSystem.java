@@ -8,9 +8,17 @@ import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
 import com.tint.wotn.ecs.systems.RenderSystem;
 
+/**
+ * A wrapper for {@link Engine}
+ * @author doc97
+ *
+ */
 public class EntityComponentSystem {
 	public Engine engine;
 	
+	/**
+	 * Creates engine, adds systems and configures event listeners
+	 */
 	public void initialize() {
 		engine = new Engine();
 		

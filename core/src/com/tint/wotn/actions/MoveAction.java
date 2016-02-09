@@ -6,6 +6,12 @@ import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.MovementComponent;
 
+/**
+ * Represents a move action and stores data about the action
+ * @author doc97
+ * @see Action
+ * 
+ */
 public class MoveAction extends Action {
 	public int entityID;
 	public Vector2 position;
