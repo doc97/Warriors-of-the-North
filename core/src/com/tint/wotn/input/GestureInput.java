@@ -1,12 +1,14 @@
 package com.tint.wotn.input;
 
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
-import com.tint.wotn.utils.CoordinateConversions;
 import com.tint.wotn.screens.BattleScreen;
+import com.tint.wotn.screens.Screens;
+import com.tint.wotn.utils.CoordinateConversions;
 
 /**
  * A {@link GestureListener} handling touch screen input in
@@ -39,6 +41,9 @@ public class GestureInput implements GestureListener {
 	public boolean tap(float x, float y, int count, int button) {
 		if(count == 2)
 			Core.INSTANCE.camera.center();
+		if (button == Buttons.BACK)
+			Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
+
 		return false;
 	}
 

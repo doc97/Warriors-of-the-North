@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.tint.wotn.Core;
+import com.tint.wotn.input.CampaignInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.missions.Mission;
 
@@ -43,6 +44,7 @@ public class CampaignScreen implements Screen {
 		loaded = true;
 		loadUI();
 		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN_UI, stage, true);
+		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN, new CampaignInput(), false);
 	}
 	
 	public void loadUI() {
@@ -138,14 +140,14 @@ public class CampaignScreen implements Screen {
 	@Override
 	public void show() {
 		load();
+		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN_UI);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Core.INSTANCE.batch.begin();
-		Core.INSTANCE.batch.end();
+		Core.INSTANCE.screenSystem.update();
 		
 		stage.act();
 		stage.draw();
@@ -168,6 +170,7 @@ public class CampaignScreen implements Screen {
 
 	@Override
 	public void hide() {
+		Core.INSTANCE.inputSystem.remove(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.CAMPAIGN_SCREEN_UI);
 	}
 

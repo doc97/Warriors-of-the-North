@@ -59,7 +59,7 @@ public class ClientPacketProcessor {
 			multiplayerSystem.players.put(player.id, player);
 		
 		synchronized (multiplayerSystem.client) {
-			Core.INSTANCE.screenSystem.screenToEnter = Screens.LOBBY;
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.LOBBY);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class ClientPacketProcessor {
 		multiplayerSystem.client.sendTCP(statusPacket);
 
 		synchronized (multiplayerSystem.client) {
-			Core.INSTANCE.screenSystem.screenToEnter = Screens.BATTLE;
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
 		}
 	}
 	

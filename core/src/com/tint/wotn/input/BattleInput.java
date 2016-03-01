@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
 import com.tint.wotn.screens.BattleScreen;
+import com.tint.wotn.screens.Screens;
 import com.tint.wotn.utils.CoordinateConversions;
 
 /**
@@ -17,7 +18,15 @@ public class BattleInput extends InputAdapter {
 
 	private Vector2 touchPos = new Vector2();
 	private boolean dragging;
-	
+
+	@Override
+	public boolean keyDown(int keycode) {
+		if (keycode == Keys.BACKSPACE) {
+			Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
+		}
+		return false;
+	}
+
 	@Override
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.ESCAPE) {

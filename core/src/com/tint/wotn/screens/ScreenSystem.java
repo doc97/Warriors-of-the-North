@@ -14,7 +14,7 @@ import com.tint.wotn.Core;
  */
 public class ScreenSystem {
 	private Map<Screens, Screen> screens;
-	public Screens screenToEnter = null;
+	private Screens screenToEnter = null;
 	
 	public ScreenSystem() {
 		screens = new HashMap<Screens, Screen>();
@@ -51,10 +51,15 @@ public class ScreenSystem {
 	 */
 	public void enterScreen(Screens screen) {
 		Screen s = screens.get(screen);
-		if(s != null)
+		if(s != null) {
 			Core.INSTANCE.coreGame.setScreen(s);
-		else
+		} else {
 			Gdx.app.log("ScreenManager", "No screen with id: " + screen.toString());
+		}
+	}
+	
+	public void setScreenToEnter(Screens screen) {
+		screenToEnter = screen;
 	}
 	
 	public void dispose() {
