@@ -22,7 +22,10 @@ public class BattleInput extends InputAdapter {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (keycode == Keys.BACKSPACE) {
-			Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
+		}
+		if(keycode == Keys.ENTER) {
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.END);
 		}
 		return false;
 	}

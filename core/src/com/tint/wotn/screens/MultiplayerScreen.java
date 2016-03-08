@@ -157,7 +157,7 @@ public class MultiplayerScreen implements Screen {
 			table.add(backBtn).align(Align.bottomRight).pad(10, 20, 10, 20);
 			multiplayerChoiceScreen = true;
 		} else {
-			Core.INSTANCE.screenSystem.enterScreen(Screens.MAIN_MENU);
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 		}
 	}
 

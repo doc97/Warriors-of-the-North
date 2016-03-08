@@ -51,7 +51,7 @@ public class MainMenuScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Core.INSTANCE.gameMode = GameMode.SINGLEPLAYER;
 				Core.INSTANCE.initializeGame();
-				Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
+				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
 			}
 		});
 		
@@ -63,7 +63,7 @@ public class MainMenuScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				Core.INSTANCE.gameMode = GameMode.MULTIPLAYER;
 				Core.INSTANCE.initializeGame();
-				Core.INSTANCE.screenSystem.enterScreen(Screens.MULTIPLAYER);
+				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MULTIPLAYER);
 			}
 		});
 
@@ -108,6 +108,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Core.INSTANCE.screenSystem.update();
 		stage.act();
 		stage.draw();
 	}

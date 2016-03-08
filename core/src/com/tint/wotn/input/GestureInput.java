@@ -42,7 +42,7 @@ public class GestureInput implements GestureListener {
 		if(count == 2)
 			Core.INSTANCE.camera.center();
 		if (button == Buttons.BACK)
-			Core.INSTANCE.screenSystem.enterScreen(Screens.CAMPAIGN);
+			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
 
 		return false;
 	}

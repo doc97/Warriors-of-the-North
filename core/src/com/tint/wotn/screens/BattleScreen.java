@@ -50,6 +50,7 @@ public class BattleScreen implements Screen {
 	}
 
 	public void update(float delta) {
+		Core.INSTANCE.screenSystem.update();
 		Vector2 screenToWorldCoordinates = CoordinateConversions.screenToWorldPos(
 				Gdx.input.getX(),
 				Gdx.input.getY());

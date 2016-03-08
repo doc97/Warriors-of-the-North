@@ -13,7 +13,8 @@ public class WarriorsOfTheNorthDesktop extends Game {
 	@Override
 	public void create () {
 		Core.INSTANCE.initializeAll(this);
-		Core.INSTANCE.screenSystem.enterScreen(Screens.LOADING);
+		Core.INSTANCE.screenSystem.setScreenToEnter(Screens.LOADING);
+		Core.INSTANCE.screenSystem.update();
 	}
 
 	@Override

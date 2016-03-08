@@ -30,6 +30,7 @@ public class ScreenSystem {
 		screens.put(Screens.CAMPAIGN, new CampaignScreen());
 		screens.put(Screens.BATTLE, new BattleScreen());
 		screens.put(Screens.MULTIPLAYER, new MultiplayerScreen());
+		screens.put(Screens.END, new EndScreen());
 	}
 	
 	/**
@@ -39,6 +40,7 @@ public class ScreenSystem {
 	 */
 	public void update() {
 		if(screenToEnter != null) {
+			System.out.println(screenToEnter.toString());
 			enterScreen(screenToEnter);
 			screenToEnter = null;
 		}
@@ -49,7 +51,7 @@ public class ScreenSystem {
 	 * The last screen is exited and the new one entered.
 	 * @param screen The enum id, for the screen to which it should change
 	 */
-	public void enterScreen(Screens screen) {
+	private void enterScreen(Screens screen) {
 		Screen s = screens.get(screen);
 		if(s != null) {
 			Core.INSTANCE.coreGame.setScreen(s);

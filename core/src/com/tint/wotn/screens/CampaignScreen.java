@@ -74,7 +74,7 @@ public class CampaignScreen implements Screen {
 		backBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Core.INSTANCE.screenSystem.enterScreen(Screens.MAIN_MENU);
+				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			}
 		});
 
@@ -86,7 +86,7 @@ public class CampaignScreen implements Screen {
 			public void clicked(InputEvent event, float x, float y) {
 				if(currentMissionID >= 0) {
 					Core.INSTANCE.levelSystem.enterLevel(currentMissionID);
-					Core.INSTANCE.screenSystem.enterScreen(Screens.BATTLE);
+					Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
 				}
 			}
 		});

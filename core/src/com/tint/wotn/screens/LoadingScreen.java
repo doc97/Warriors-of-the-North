@@ -22,16 +22,17 @@ public class LoadingScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Core.INSTANCE.screenSystem.update();
 		if(!Core.INSTANCE.assets.isDoneLoading()) {
 			Core.INSTANCE.assets.updateLoading();
 		} else {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			Core.INSTANCE.assets.loadTexturesIntoGame();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
-				Core.INSTANCE.screenSystem.enterScreen(Screens.MAIN_MENU);
+				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 				if(Gdx.input.isKeyJustPressed(Keys.ENTER)) {
-					Core.INSTANCE.screenSystem.enterScreen(Screens.MULTIPLAYER);
+					Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MULTIPLAYER);
 				}
 			}
 		}
