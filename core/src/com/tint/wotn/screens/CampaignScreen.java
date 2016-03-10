@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.CampaignInput;
 import com.tint.wotn.input.Inputs;
@@ -36,7 +37,7 @@ public class CampaignScreen implements Screen {
 	private boolean loaded;
 	
 	public CampaignScreen() {
-		stage = new Stage(Core.INSTANCE.camera.viewport);
+		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
 	}
 	
 	public void load() {
@@ -142,6 +143,7 @@ public class CampaignScreen implements Screen {
 		load();
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN_UI);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
 	@Override

@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.tint.wotn.WarriorsOfTheNorthDesktop;
+import com.tint.wotn.WarriorsOfTheNorth;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new WarriorsOfTheNorthDesktop(), config);
+        return new IOSApplication(new WarriorsOfTheNorth(), config);
     }
 
     public static void main(String[] argv) {

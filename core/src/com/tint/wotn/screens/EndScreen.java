@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
 
@@ -20,7 +21,7 @@ public class EndScreen implements Screen {
 	private boolean loaded;
 	
 	public EndScreen(){
-		stage = new Stage(Core.INSTANCE.camera.viewport);
+		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
 	}
 	
 	public void load() {

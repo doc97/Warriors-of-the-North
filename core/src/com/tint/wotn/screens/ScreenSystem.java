@@ -40,7 +40,6 @@ public class ScreenSystem {
 	 */
 	public void update() {
 		if(screenToEnter != null) {
-			System.out.println(screenToEnter.toString());
 			enterScreen(screenToEnter);
 			screenToEnter = null;
 		}

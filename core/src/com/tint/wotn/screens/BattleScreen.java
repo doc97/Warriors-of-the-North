@@ -1,13 +1,19 @@
 package com.tint.wotn.screens;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
-import com.tint.wotn.WarriorsOfTheNorthAndroid;
-import com.tint.wotn.WarriorsOfTheNorthDesktop;
 import com.tint.wotn.ecs.systems.RenderSystem;
 import com.tint.wotn.input.BattleInput;
 import com.tint.wotn.input.GestureInput;
@@ -22,13 +28,75 @@ import com.tint.wotn.utils.CoordinateConversions;
  */
 public class BattleScreen implements Screen {
 	
-	public boolean loaded;
+	private Stage stage;
+	private boolean loaded;
+	
+	public BattleScreen() {
+		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
+	}
 	
 	public void load() {
 		if(loaded) return;
-		Core.INSTANCE.inputSystem.register(Inputs.BATTLE, new BattleInput(), false);
+		loadUI();
+		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN, new BattleInput(), false);
 		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector, false);
+		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN_UI, stage, false);
 		loaded = true;
+	}
+	
+	public void loadUI() {
+		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		
+		TextButton endTurn = new TextButton("End turn", skin);
+		endTurn.getLabel().setFontScale(2);
+		endTurn.pad(10);
+		endTurn.center();
+		endTurn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Core.INSTANCE.userControlSystem.endTurn();
+			}
+		});
+		
+		TextButton menuBtn = new TextButton("Menu", skin);
+		menuBtn.getLabel().setFontScale(2);
+		menuBtn.pad(10);
+		menuBtn.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+			}
+		});
+
+		TextButton settings = new TextButton("Settings", skin);
+		settings.getLabel().setFontScale(2);
+		settings.pad(10);
+		settings.center();
+		
+		TextButton exit = new TextButton("Exit", skin);
+		exit.getLabel().setFontScale(2);
+		exit.pad(10);
+		exit.center();
+		exit.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
+			}
+		});
+		
+		Table topMenu = new Table(skin);
+		topMenu.setBackground("default-rect");
+		topMenu.add().expandX();
+		topMenu.add(endTurn).pad(10);
+		
+		Table rootUI = new Table(skin);
+		rootUI.debug();
+		rootUI.setFillParent(true);
+		
+		rootUI.add(topMenu).fillX();
+		rootUI.row();
+		rootUI.add().expand();
+		
+		stage.addActor(rootUI);
 	}
 	
 	@Override
@@ -47,6 +115,9 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.game.map.render(Core.INSTANCE.batch);
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
+		
+		stage.act();
+		stage.draw();
 	}
 
 	public void update(float delta) {
@@ -87,11 +158,13 @@ public class BattleScreen implements Screen {
 	public void show() {
 		load();
 		
-		if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthDesktop) {
-			Core.INSTANCE.inputSystem.add(Inputs.BATTLE);
-		} else if(Core.INSTANCE.coreGame instanceof WarriorsOfTheNorthAndroid) {
+		if(Gdx.app.getType() == ApplicationType.Desktop) {
+			Core.INSTANCE.inputSystem.add(Inputs.BATTLE_SCREEN);
+		} else if(Gdx.app.getType() == ApplicationType.Android) {
 			Core.INSTANCE.inputSystem.add(Inputs.GESTURE);
 		}
+		Core.INSTANCE.inputSystem.add(Inputs.BATTLE_SCREEN_UI);
+		
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
 			Core.INSTANCE.game.startSingleplayerGame();
 		
@@ -105,13 +178,14 @@ public class BattleScreen implements Screen {
 		Vector2 worldCenter = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, centerTile);
 		Core.INSTANCE.camera.set(worldCenter.x, worldCenter.y);
 		
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 	
 	@Override
 	public void hide() {
-		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE);
+		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
+		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN_UI);
 	}
 
 	@Override

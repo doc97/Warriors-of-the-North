@@ -1,7 +1,8 @@
 package com.tint.wotn.input;
 
 public enum Inputs {
-	BATTLE,
+	BATTLE_SCREEN,
+	BATTLE_SCREEN_UI,
 	GESTURE,
 	MAIN_MENU_SCREEN_UI,
 	MULTIPLAYER_SCREEN,

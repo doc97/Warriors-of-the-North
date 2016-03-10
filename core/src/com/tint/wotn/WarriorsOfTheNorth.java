@@ -3,7 +3,13 @@ package com.tint.wotn;
 import com.badlogic.gdx.Game;
 import com.tint.wotn.screens.Screens;
 
-public class WarriorsOfTheNorthAndroid extends Game {
+/**
+ * A class that is called from the platform launchers and launches the core
+ * game
+ * @author doc97
+ *
+ */
+public class WarriorsOfTheNorth extends Game {
 	
 	@Override
 	public void create () {

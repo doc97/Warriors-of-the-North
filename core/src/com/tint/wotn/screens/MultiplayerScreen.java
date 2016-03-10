@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.input.MultiplayerScreenInput;
@@ -36,7 +37,7 @@ public class MultiplayerScreen implements Screen {
 
 	public void load() {
 		if(loaded) return;
-		stage = new Stage(Core.INSTANCE.camera.viewport);
+		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
 		loadUI();
 		Core.INSTANCE.inputSystem.register(Inputs.MULTIPLAYER_SCREEN_UI, stage, false);
 
