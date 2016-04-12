@@ -30,6 +30,12 @@ public class ClientGame {
 		Core.INSTANCE.actionSystem.resetActionPoints();
 	}
 	
+	public void exitBattle() {
+		Core.INSTANCE.levelSystem.exitLevel();
+		Core.INSTANCE.actionSystem.initialize();
+		Core.INSTANCE.entityIDSystem.reset();
+	}
+	
 	public boolean isPlayersTurn() {
 		if(player.id < 0) return false;
 		return playerInTurnID == player.id;

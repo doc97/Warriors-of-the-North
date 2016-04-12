@@ -31,9 +31,9 @@ public class RenderSystem extends EntitySystem {
 		for(Entity entity : entities) {
 			RenderComponent renderComponent = Mappers.render.get(entity);
 			MovementComponent movement = Mappers.movement.get(entity);
+			
 			Vector2 worldPos = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, movement.position);
 			renderComponent.render(batch, worldPos);
-
 		}
 	}
 

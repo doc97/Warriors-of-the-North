@@ -35,8 +35,19 @@ public class LevelSystem {
 		if(isValidID(id)) {
 			if(isValidID(currentLevelID))
 				levels.get(currentLevelID).exit();
+
 			levels.get(id).enter();
 			currentLevelID = id;
+		}
+	}
+	
+	/**
+	 * Exists the current level
+	 */
+	public void exitLevel() {
+		if (isValidID(currentLevelID)) {
+			levels.get(currentLevelID).exit();
+			currentLevelID = -1;
 		}
 	}
 	

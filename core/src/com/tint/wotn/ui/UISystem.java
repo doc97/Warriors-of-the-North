@@ -1,0 +1,28 @@
+package com.tint.wotn.ui;
+
+import java.util.HashMap;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
+public class UISystem {
+
+	private HashMap<UserInterfaces, UserInterface> interfaces = new HashMap<UserInterfaces, UserInterface>();
+	
+	public void initialize() {
+		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
+		addUserInterface(UserInterfaces.BATTLE_SCREEN_UI, new BattleScreenUI(skin));
+		
+		for (UserInterface ui : interfaces.values()) {
+			ui.load();
+		}
+	}
+	
+	public void addUserInterface(UserInterfaces key, UserInterface ui) {
+		interfaces.put(key, ui);
+	}
+	
+	public UserInterface getUserInterface(UserInterfaces key) {
+		return interfaces.get(key);
+	}
+}

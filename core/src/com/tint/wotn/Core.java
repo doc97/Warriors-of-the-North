@@ -11,6 +11,7 @@ import com.tint.wotn.levels.LevelSystem;
 import com.tint.wotn.missions.MissionSystem;
 import com.tint.wotn.net.MultiplayerSystem;
 import com.tint.wotn.screens.ScreenSystem;
+import com.tint.wotn.ui.UISystem;
 import com.tint.wotn.utils.Assets;
 import com.tint.wotn.utils.EntityIDSystem;
 
@@ -36,6 +37,7 @@ public enum Core {
 	public ActionSystem actionSystem;
 	public UserControlSystem userControlSystem;
 	public MultiplayerSystem multiplayerSystem;
+	public UISystem UISystem;
 	public Assets assets;
 	public EntityIDSystem entityIDSystem;
 	
@@ -55,6 +57,7 @@ public enum Core {
 		initializeActionSystem();
 		initializeUserControlSystem();
 		initializeEntityIDSystem();
+		initializeUISystem();
 		initializeGame();
 	}
 	
@@ -131,6 +134,11 @@ public enum Core {
 		entityIDSystem = new EntityIDSystem();
 	}
 	
+	public void initializeUISystem() {
+		UISystem = new UISystem();
+		UISystem.initialize();
+	}
+	
 	/**
 	 * Disposes of all systems and components and sets them to null
 	 */
@@ -152,5 +160,6 @@ public enum Core {
 		inputSystem = null;
 		multiplayerSystem = null;
 		userControlSystem = null;
+		UISystem = null;
 	}
 }

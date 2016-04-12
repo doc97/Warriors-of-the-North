@@ -8,18 +8,21 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.actions.AttackAction;
 import com.tint.wotn.actions.MoveAction;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.AttackComponent;
+import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.net.constants.Status;
 import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.StatusPacket;
+import com.tint.wotn.ui.UserInterfaces;
 import com.tint.wotn.utils.HexCoordinates;
 
 /**
@@ -67,8 +70,13 @@ public class UserControlSystem {
 			moveWithSelectedUnit(target);
 			unselectUnit();
 		} else if(unitIsSelected()) {
-			attackWithSelectedUnit(targetUnit);
-			unselectUnit();
+			if(unitIsOwners(targetUnit)) {
+				unselectUnit();
+				selectUnit(targetUnit);
+			} else {
+				attackWithSelectedUnit(targetUnit);
+				unselectUnit();
+			}
 		} else {
 			selectUnit(targetUnit);
 		}
@@ -83,35 +91,47 @@ public class UserControlSystem {
 					true);
 		}
 		selectedTiles.clear();
+		
+		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getElement("Unit health label")).setText("");
+		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getElement("Unit attack label")).setText("");
 	}
 	
 	private void selectUnit(Entity unit) {
-		unselectUnit();
+		AttackComponent attack = Mappers.attack.get(unit);
+		HealthComponent health = Mappers.health.get(unit);
+		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getElement("Unit health label")).setText("Health: " + health.health);
+		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getElement("Unit attack label")).setText("Attack: " + attack.damage);
+		
 		OwnerComponent owner = Mappers.owner.get(unit);
-		if(owner == null || owner.ownerID != Core.INSTANCE.game.player.id) return;
-
+		if(owner == null) return;
 		selectedUnit = unit;
-		MovementComponent movement = Mappers.movement.get(selectedUnit);
-			
-		List<Vector3> markTiles = HexCoordinates.getAllInRange(
-				-movement.range, movement.range,
-				-movement.range, movement.range,
-				-movement.range, movement.range);
-		for(Vector3 cubeCoord : markTiles) {
-			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
-			Vector2 actualPos = axialCoord.cpy().add(movement.position);
-			if(!Core.INSTANCE.game.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
-			Entity entityAtActual = getUnitAt(actualPos);
-			if(entityAtActual != null) {
-				OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
-				if(unitAtTileOwner != null && unitAtTileOwner.ownerID == owner.ownerID) continue;
+		
+		if(owner.ownerID == Core.INSTANCE.game.player.id) {
+			MovementComponent movement = Mappers.movement.get(selectedUnit);
+			List<Vector3> markTiles = HexCoordinates.getAllInRange(
+					-movement.range, movement.range,
+					-movement.range, movement.range,
+					-movement.range, movement.range);
+			for(Vector3 cubeCoord : markTiles) {
+				Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
+				Vector2 actualPos = axialCoord.cpy().add(movement.position);
+				if(!Core.INSTANCE.game.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
+				Entity entityAtActual = getUnitAt(actualPos);
+				if(entityAtActual != null) {
+					OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
+					if(unitAtTileOwner != null && unitAtTileOwner.ownerID == owner.ownerID) continue;
+				}
+				
+				selectedTiles.add(actualPos);
+				Core.INSTANCE.game.map.markTile(
+						(int) (axialCoord.x + movement.position.x),
+						(int) (axialCoord.y + movement.position.y),
+						true);
 			}
-			
-			selectedTiles.add(actualPos);
-			Core.INSTANCE.game.map.markTile(
-					(int) (axialCoord.x + movement.position.x),
-					(int) (axialCoord.y + movement.position.y),
-					true);
 		}
 	}
 	
@@ -146,7 +166,7 @@ public class UserControlSystem {
 		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
 		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
 		if(selectedUnitID == null) return;
-
+		
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {
 				MovementComponent movement = Mappers.movement.get(selectedUnit);
@@ -178,6 +198,11 @@ public class UserControlSystem {
 		return null;
 	}
 
+	private boolean unitIsOwners(Entity entity) {
+		OwnerComponent owner = Mappers.owner.get(entity);
+		return !(owner == null || owner.ownerID != Core.INSTANCE.game.player.id);
+	}
+	
 	private boolean unitIsSelected() {
 		return selectedUnit != null;
 	}

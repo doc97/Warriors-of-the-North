@@ -14,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
+import com.tint.wotn.ecs.systems.EffectSystem;
 import com.tint.wotn.ecs.systems.RenderSystem;
 import com.tint.wotn.input.BattleInput;
 import com.tint.wotn.input.GestureInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
+import com.tint.wotn.ui.UserInterfaces;
 import com.tint.wotn.utils.CoordinateConversions;
 
 /**
@@ -28,75 +30,15 @@ import com.tint.wotn.utils.CoordinateConversions;
  */
 public class BattleScreen implements Screen {
 	
-	private Stage stage;
 	private boolean loaded;
-	
-	public BattleScreen() {
-		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
-	}
 	
 	public void load() {
 		if(loaded) return;
-		loadUI();
 		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN, new BattleInput(), false);
 		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector, false);
-		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN_UI, stage, false);
+		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN_UI, 
+				Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage(), false);
 		loaded = true;
-	}
-	
-	public void loadUI() {
-		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		
-		TextButton endTurn = new TextButton("End turn", skin);
-		endTurn.getLabel().setFontScale(2);
-		endTurn.pad(10);
-		endTurn.center();
-		endTurn.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				Core.INSTANCE.userControlSystem.endTurn();
-			}
-		});
-		
-		TextButton menuBtn = new TextButton("Menu", skin);
-		menuBtn.getLabel().setFontScale(2);
-		menuBtn.pad(10);
-		menuBtn.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-			}
-		});
-
-		TextButton settings = new TextButton("Settings", skin);
-		settings.getLabel().setFontScale(2);
-		settings.pad(10);
-		settings.center();
-		
-		TextButton exit = new TextButton("Exit", skin);
-		exit.getLabel().setFontScale(2);
-		exit.pad(10);
-		exit.center();
-		exit.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
-			}
-		});
-		
-		Table topMenu = new Table(skin);
-		topMenu.setBackground("default-rect");
-		topMenu.add().expandX();
-		topMenu.add(endTurn).pad(10);
-		
-		Table rootUI = new Table(skin);
-		rootUI.debug();
-		rootUI.setFillParent(true);
-		
-		rootUI.add(topMenu).fillX();
-		rootUI.row();
-		rootUI.add().expand();
-		
-		stage.addActor(rootUI);
 	}
 	
 	@Override
@@ -116,8 +58,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
-		stage.act();
-		stage.draw();
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage().draw();
 	}
 
 	public void update(float delta) {
@@ -137,6 +78,8 @@ public class BattleScreen implements Screen {
 					false);
 		
 		Core.INSTANCE.actionSystem.update();
+		Core.INSTANCE.ecs.engine.getSystem(EffectSystem.class).update();
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage().act();
 	}
 
 	@Override

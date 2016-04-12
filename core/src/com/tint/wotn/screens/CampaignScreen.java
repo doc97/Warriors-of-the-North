@@ -52,13 +52,11 @@ public class CampaignScreen implements Screen {
 		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		
 		missionBriefingTable = new Table();
-		missionBriefingTable.debug();
 		missionBriefingTable.setFillParent(true);
 		missionBriefingTable.pad(30);
 		missionBriefingTable.setVisible(false);
 
 		baseUITable = new Table();
-		baseUITable.debug();
 		baseUITable.setFillParent(true);
 		baseUITable.pad(30);
 

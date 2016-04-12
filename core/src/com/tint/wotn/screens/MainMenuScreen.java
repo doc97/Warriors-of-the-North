@@ -83,7 +83,6 @@ public class MainMenuScreen implements Screen {
 		});
 
 		Table table = new Table();
-		table.debug();
 		table.setFillParent(true);
 
 		table.add(title).expandY();

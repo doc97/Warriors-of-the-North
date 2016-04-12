@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntityListener;
 import com.tint.wotn.Core;
 import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
+import com.tint.wotn.ecs.systems.EffectSystem;
 import com.tint.wotn.ecs.systems.RenderSystem;
 
 /**
@@ -24,6 +25,7 @@ public class EntityComponentSystem {
 		
 		//Add systems
 		engine.addSystem(new CombatSystem());
+		engine.addSystem(new EffectSystem());
 		engine.addSystem(new RenderSystem());
 		
 		engine.addEntityListener(new EntityListener() {

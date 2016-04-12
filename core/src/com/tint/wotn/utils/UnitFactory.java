@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.ecs.components.AttackComponent;
+import com.tint.wotn.ecs.components.EffectComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
 import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
+import com.tint.wotn.gfx.ColorTransitionEffect;
+import com.tint.wotn.gfx.ColourTransition;
 
 public class UnitFactory {
 	
@@ -55,6 +58,7 @@ public class UnitFactory {
 		HealthComponent health = new HealthComponent();
 		AttackComponent attack = new AttackComponent();
 		RenderComponent render = new RenderComponent();
+		EffectComponent effect = new EffectComponent();
 		IDComponent id = new IDComponent();
 		
 		movement.position = new Vector2(tilePosition.x, tilePosition.y);
@@ -66,13 +70,15 @@ public class UnitFactory {
 		render.offset = renderOffset;
 		render.size = renderSize;
 		render.texture = texture;
-		render.tintColor = color;
+		render.tintColor = new Color(color);
+		effect.colorTransition = new ColorTransitionEffect(new ColourTransition(new Color(Color.WHITE), new Color(color), 20));
 		id.id = unitID;
 		
 		entity.add(movement);
 		entity.add(health);
 		entity.add(attack);
 		entity.add(render);
+		entity.add(effect);
 		entity.add(id);
 		
 		return entity;

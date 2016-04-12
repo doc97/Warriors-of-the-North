@@ -50,7 +50,12 @@ public class InputSystem {
 	}
 	
 	public void add(Inputs input) {
-		inputMultiplexer.addProcessor(getProcessor(input));
+		InputProcessor p = getProcessor(input);
+		if (p == null) {
+			System.err.print("Processor " + input.toString() + " has not been registered");
+			return;
+		}
+		inputMultiplexer.addProcessor(p);
 	}
 	
 	public void remove(Inputs input) {
