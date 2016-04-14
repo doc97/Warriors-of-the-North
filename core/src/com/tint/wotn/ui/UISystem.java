@@ -13,6 +13,7 @@ public class UISystem {
 		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
 		addUserInterface(UserInterfaces.BATTLE_SCREEN_UI, new BattleScreenUI(skin));
 		addUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI, new CampaignScreenUI(skin));
+		addUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI, new MainMenuScreenUI(skin));
 	}
 	
 	public void load() {
