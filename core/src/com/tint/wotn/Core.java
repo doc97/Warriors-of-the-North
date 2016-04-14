@@ -73,6 +73,7 @@ public enum Core {
 		} else if(gameMode == GameMode.MULTIPLAYER) {
 			initializeMultiplayerSystem();
 		}
+		UISystem.load();
 	}
 	
 	public void initializeAssets() {

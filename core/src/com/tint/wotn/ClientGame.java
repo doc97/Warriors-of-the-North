@@ -31,7 +31,7 @@ public class ClientGame {
 	}
 	
 	public void exitBattle() {
-		Core.INSTANCE.levelSystem.exitLevel();
+		Core.INSTANCE.levelSystem.exitCurrentLevel();
 		Core.INSTANCE.actionSystem.initialize();
 		Core.INSTANCE.entityIDSystem.reset();
 	}

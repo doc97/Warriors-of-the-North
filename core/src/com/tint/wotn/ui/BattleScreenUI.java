@@ -18,6 +18,7 @@ public class BattleScreenUI extends UserInterface {
 		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
 	}
 
+	@Override
 	public void load() {
 		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
 
@@ -38,7 +39,6 @@ public class BattleScreenUI extends UserInterface {
 		menuBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				Core.INSTANCE.game.exitBattle();
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			}
 		});

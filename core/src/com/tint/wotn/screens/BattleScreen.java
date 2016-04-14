@@ -122,6 +122,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
 		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN_UI);
+		Core.INSTANCE.game.exitBattle();
 	}
 
 	@Override
