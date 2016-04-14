@@ -2,7 +2,6 @@ package com.tint.wotn.ui;
 
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -25,8 +24,6 @@ public class CampaignScreenUI extends UserInterface {
 
 	@Override
 	public void load() {
-		Skin skin = new Skin(Gdx.files.internal("skins/default/uiskin.json"));
-		
 		final Table missionBriefingTable = new Table();
 		missionBriefingTable.setFillParent(true);
 		missionBriefingTable.pad(30);
@@ -59,6 +56,7 @@ public class CampaignScreenUI extends UserInterface {
 		playBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				missionBriefingTable.setVisible(false);
 				Core.INSTANCE.levelSystem.enterCurrentLevel();
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
 			}
@@ -107,5 +105,4 @@ public class CampaignScreenUI extends UserInterface {
 		stage.addActor(missionBriefingTable);
 		stage.addActor(baseUITable);
 	}
-
 }

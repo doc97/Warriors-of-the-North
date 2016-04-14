@@ -80,9 +80,7 @@ public class LevelSystem {
 	 * @param currentLevelID
 	 */
 	public void setCurrentLevel(int currentLevelID) {
-		if (isValidID(currentLevelID)) {
-			this.currentLevelID = currentLevelID;
-		}
+		this.currentLevelID = currentLevelID;
 	}
 	
 	/**
@@ -90,6 +88,7 @@ public class LevelSystem {
 	 * @param id The ID of the new level
 	 */
 	public void enterCurrentLevel() {
+		getCurrentLevel().load();
 		getCurrentLevel().enter();
 	}
 	
@@ -97,10 +96,8 @@ public class LevelSystem {
 	 * Exists the current level
 	 */
 	public void exitCurrentLevel() {
-		if (isValidID(currentLevelID)) {
-			levels.get(currentLevelID).exit();
-			currentLevelID = -1;
-		}
+		getCurrentLevel().exit();
+		currentLevelID = -1;
 	}
 	
 	private void addLevel(Level level) {

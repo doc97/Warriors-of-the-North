@@ -17,7 +17,20 @@ public abstract class UserInterface {
 	
 	public abstract void load();
 	
-	public void addElement(String key, Actor actor) {
+	public void render() {
+		update();
+		draw();
+	}
+	
+	public void update() {
+		stage.act();
+	}
+	
+	public void draw() {
+		stage.draw();
+	}
+	
+	public void mapElement(String key, Actor actor) {
 		elements.put(key, actor);
 	}
 	

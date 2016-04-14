@@ -20,8 +20,6 @@ public class BattleScreenUI extends UserInterface {
 
 	@Override
 	public void load() {
-		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
-
 		TextButton endTurnBtn = new TextButton("End turn", skin);
 		endTurnBtn.getLabel().setFontScale(2);
 		endTurnBtn.pad(10);
@@ -63,16 +61,7 @@ public class BattleScreenUI extends UserInterface {
 		
 		stage.addActor(rootTable);
 		
-		addElement("End turn button", endTurnBtn);
-		addElement("Menu button", menuBtn);
-		addElement("Unit health label", unitHealth);
-		addElement("Unit attack label", unitAttack);
-		addElement("Top menu table", topMenu);
-		addElement("Root table", rootTable);
-	}
-	
-	public void render() {
-		stage.act();
-		stage.draw();
+		mapElement("Unit health label", unitHealth);
+		mapElement("Unit attack label", unitAttack);
 	}
 }

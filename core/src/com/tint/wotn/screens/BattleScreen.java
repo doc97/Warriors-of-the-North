@@ -51,7 +51,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage().draw();
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).draw();
 	}
 
 	public void update(float delta) {
@@ -72,7 +72,7 @@ public class BattleScreen implements Screen {
 		
 		Core.INSTANCE.actionSystem.update();
 		Core.INSTANCE.ecs.engine.getSystem(EffectSystem.class).update();
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage().act();
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).update();
 	}
 
 	@Override
