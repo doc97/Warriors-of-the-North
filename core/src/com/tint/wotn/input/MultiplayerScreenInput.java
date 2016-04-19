@@ -2,7 +2,10 @@ package com.tint.wotn.input;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
+import com.tint.wotn.Core;
 import com.tint.wotn.screens.MultiplayerScreen;
+import com.tint.wotn.ui.MultiplayerScreenUI;
+import com.tint.wotn.ui.UserInterfaces;
 
 /**
  * An {@link InputAdapter} handling input when in
@@ -12,16 +15,10 @@ import com.tint.wotn.screens.MultiplayerScreen;
  */
 public class MultiplayerScreenInput extends InputAdapter {
 
-	private MultiplayerScreen screen;
-	
-	public MultiplayerScreenInput(MultiplayerScreen screen) {
-		this.screen = screen;
-	}
-	
 	@Override
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.BACK || keycode == Keys.ESCAPE) {
-			screen.back();
+			((MultiplayerScreenUI) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.MULTIPLAYER_SCREEN_UI)).back();
 		}
 		return false;
 	}
