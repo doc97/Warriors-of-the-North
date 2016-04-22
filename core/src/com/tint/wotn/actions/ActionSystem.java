@@ -38,9 +38,13 @@ public class ActionSystem {
 		this.actionPoints = actionPoints;
 	}
 	
-	public void addAction(Action action) {
+	public void addClientAction(Action action) {
 		if(actionPoints < action.cost) return;
 		actionPoints -= action.cost;
+		actions.add(action);
+	}
+	
+	public void addActionFromPacket(Action action) {
 		actions.add(action);
 	}
 	

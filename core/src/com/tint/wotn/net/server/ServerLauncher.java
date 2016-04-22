@@ -88,9 +88,9 @@ public class ServerLauncher {
 	}
 	
 	public void nextConnectionID() {
+		turnID++;
 		if(turnID < 1) turnID = 1;
 		else if(turnID > server.getConnections().length) turnID = 1;
-		else turnID++;
 	}
 	
 	/**

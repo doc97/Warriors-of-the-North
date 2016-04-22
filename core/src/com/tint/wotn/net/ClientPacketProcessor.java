@@ -121,6 +121,6 @@ public class ClientPacketProcessor {
 	}
 	
 	private void processActionPacket(Connection connection, Object packet) {
-		Core.INSTANCE.actionSystem.addAction(((ActionPacket) packet).action);
+		Core.INSTANCE.actionSystem.addActionFromPacket(((ActionPacket) packet).action);
 	}
 }

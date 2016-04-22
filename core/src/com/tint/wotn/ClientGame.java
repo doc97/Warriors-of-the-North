@@ -21,6 +21,7 @@ public class ClientGame {
 		player = new Player();
 		player.id = 1;
 		playerInTurnID = 1;
+		Core.INSTANCE.actionSystem.resetActionPoints();
 	}
 	
 	/**

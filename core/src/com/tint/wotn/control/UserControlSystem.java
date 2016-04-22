@@ -151,7 +151,7 @@ public class UserControlSystem {
 		action.attackerID = selectedUnitID.id;
 		action.defenderID = targetUnitID.id;
 		action.cost = attack.cost;
-		Core.INSTANCE.actionSystem.addAction(action);
+		Core.INSTANCE.actionSystem.addClientAction(action);
 		
 		if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 			ActionPacket actionPacket = new ActionPacket();
@@ -174,7 +174,7 @@ public class UserControlSystem {
 				action.entityID = selectedUnitID.id;
 				action.position = position;
 				action.cost = movement.cost;
-				Core.INSTANCE.actionSystem.addAction(action);
+				Core.INSTANCE.actionSystem.addClientAction(action);
 				
 				if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
 					ActionPacket actionPacket = new ActionPacket();
