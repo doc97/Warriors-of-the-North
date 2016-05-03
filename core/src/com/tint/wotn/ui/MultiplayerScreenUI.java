@@ -50,7 +50,7 @@ public class MultiplayerScreenUI extends UserInterface {
 			public void clicked(InputEvent event, float x, float y) {
 				try {
 					Player player = new Player();
-					player.name = "Bob";
+					player.setName("Bob");
 					Core.INSTANCE.multiplayerSystem.connect(player, ipField.getText(),
 							Integer.parseInt(portField.getText()));
 				} catch (IOException e) {

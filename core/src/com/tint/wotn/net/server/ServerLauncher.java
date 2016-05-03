@@ -72,8 +72,8 @@ public class ServerLauncher {
 		}
 		
 		if(server.getConnections().length == 0) {
-			System.out.println("All clients disconnected, shutting down...");
-			System.exit(0);
+//			System.out.println("All clients disconnected, shutting down...");
+//			System.exit(0);
 		}
 	}
 	
@@ -103,8 +103,8 @@ public class ServerLauncher {
 		for(int i = connections.length - 1; i >= 0; i--) {
 			GameConnection gameConnection = (GameConnection) connections[i];
 			Player player = new Player();
-			player.id = gameConnection.getID();
-			player.name = gameConnection.name;
+			player.setID(gameConnection.getID());
+			player.setName(gameConnection.name);
 			players.add(player);
 		}
 		

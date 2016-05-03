@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.tint.wotn.Core;
-import com.tint.wotn.input.CampaignInput;
+import com.tint.wotn.input.CampaignScreenInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.ui.UserInterfaces;
 
@@ -22,7 +22,7 @@ public class CampaignScreen implements Screen {
 	public void load() {
 		if(loaded) return;
 		loaded = true;
-		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN, new CampaignInput(), false);
+		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN, new CampaignScreenInput(), false);
 		Core.INSTANCE.inputSystem.register(Inputs.CAMPAIGN_SCREEN_UI,
 				Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).getStage(), false);
 	}
@@ -66,6 +66,7 @@ public class CampaignScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		Core.INSTANCE.inputSystem.unregister(Inputs.CAMPAIGN_SCREEN);
+		Core.INSTANCE.inputSystem.unregister(Inputs.CAMPAIGN_SCREEN_UI);
 	}
 }

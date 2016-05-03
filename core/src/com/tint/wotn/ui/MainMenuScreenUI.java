@@ -22,7 +22,7 @@ public class MainMenuScreenUI extends UserInterface {
 	
 	@Override
 	public void load() {
-				Label title = new Label("Warriors of the North", skin);
+		Label title = new Label("Warriors of the North", skin);
 		title.setFontScale(8);
 		
 		TextButton singleplayerBtn = new TextButton("Singleplayer", skin);

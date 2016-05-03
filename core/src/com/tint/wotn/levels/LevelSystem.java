@@ -43,7 +43,7 @@ public class LevelSystem {
 		Level level0 = new Level("Beginning") {
 			@Override
 			public void load() {
-				Core.INSTANCE.game.map = HexMapGenerator.generateMap(mapShape, mapRadius);
+				Core.INSTANCE.game.setMap(HexMapGenerator.generateMap(mapShape, mapRadius));
 
 				TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
 

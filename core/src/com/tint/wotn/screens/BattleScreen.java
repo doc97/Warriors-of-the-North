@@ -9,7 +9,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.ecs.systems.EffectSystem;
 import com.tint.wotn.ecs.systems.RenderSystem;
-import com.tint.wotn.input.BattleInput;
+import com.tint.wotn.input.BattleScreenInput;
 import com.tint.wotn.input.GestureInput;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.levels.maps.Tile;
@@ -27,7 +27,7 @@ public class BattleScreen implements Screen {
 	
 	public void load() {
 		if(loaded) return;
-		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN, new BattleInput(), false);
+		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN, new BattleScreenInput(), false);
 		Core.INSTANCE.inputSystem.register(Inputs.GESTURE, new GestureInput().detector, false);
 		Core.INSTANCE.inputSystem.register(Inputs.BATTLE_SCREEN_UI, 
 				Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage(), false);
@@ -47,7 +47,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
 		
 		Core.INSTANCE.batch.begin();
-		Core.INSTANCE.game.map.render(Core.INSTANCE.batch);
+		Core.INSTANCE.game.getMap().render(Core.INSTANCE.batch);
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
@@ -64,8 +64,8 @@ public class BattleScreen implements Screen {
 				Tile.SPACING,
 				screenToWorldCoordinates.x,
 				screenToWorldCoordinates.y);
-		Core.INSTANCE.game.map.clearNonPermanentMarkedTiles();
-		Core.INSTANCE.game.map.markTile(
+		Core.INSTANCE.game.getMap().clearNonPermanentMarkedTiles();
+		Core.INSTANCE.game.getMap().markTile(
 					(int) worldToAxial.x,
 					(int) worldToAxial.y,
 					false);
@@ -105,10 +105,10 @@ public class BattleScreen implements Screen {
 			Core.INSTANCE.game.startSingleplayerGame();
 		
 		// Put camera in the centre of the map
-		int centerx = Core.INSTANCE.game.map.tiles.length / 2;
+		int centerx = Core.INSTANCE.game.getMap().tiles.length / 2;
 		int centery;
 		if(centerx == 0) centery = 0;
-		else centery = Core.INSTANCE.game.map.tiles[0].length / 2;
+		else centery = Core.INSTANCE.game.getMap().tiles[0].length / 2;
 
 		Vector2 centerTile = new Vector2(centerx, centery);
 		Vector2 worldCenter = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, centerTile);
@@ -127,6 +127,8 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		Core.INSTANCE.inputSystem.unregister(Inputs.BATTLE_SCREEN);
+		Core.INSTANCE.inputSystem.unregister(Inputs.BATTLE_SCREEN_UI);
+		Core.INSTANCE.inputSystem.unregister(Inputs.GESTURE);
 	}
 }

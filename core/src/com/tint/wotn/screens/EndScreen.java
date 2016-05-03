@@ -55,6 +55,6 @@ public class EndScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		Core.INSTANCE.inputSystem.unregister(Inputs.END_SCREEN_UI);
 	}
 }

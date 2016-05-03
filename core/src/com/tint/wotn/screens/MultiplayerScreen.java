@@ -29,6 +29,7 @@ public class MultiplayerScreen implements Screen {
 	@Override
 	public void show() {
 		load();
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		Core.INSTANCE.inputSystem.add(Inputs.MULTIPLAYER_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.MULTIPLAYER_SCREEN_UI);
 	}
@@ -64,6 +65,7 @@ public class MultiplayerScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		Core.INSTANCE.inputSystem.unregister(Inputs.MULTIPLAYER_SCREEN);
+		Core.INSTANCE.inputSystem.unregister(Inputs.MULTIPLAYER_SCREEN_UI);
 	}
 }

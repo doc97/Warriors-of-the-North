@@ -10,16 +10,16 @@ import com.tint.wotn.net.Player;
  * @see GameMode
  */
 public class ClientGame {
-	public int playerInTurnID = -1;
-	public Player player;
-	public HexMap map = HexMapGenerator.generateMap(null, 0);
+	private int playerInTurnID = -1;
+	private Player player;
+	private HexMap map = HexMapGenerator.generateMap(null, 0);
 	
 	/**
 	 * Resets turn id for starting new game
 	 */
 	public void startSingleplayerGame() {
 		player = new Player();
-		player.id = 1;
+		player.setID(1);
 		playerInTurnID = 1;
 		Core.INSTANCE.actionSystem.resetActionPoints();
 	}
@@ -37,8 +37,32 @@ public class ClientGame {
 		Core.INSTANCE.entityIDSystem.reset();
 	}
 	
+	public void setClientPlayer(Player player) {
+		this.player = player;
+	}
+	
+	public void setMap(HexMap map) {
+		this.map = map;
+	}
+	
+	public void setPlayerInTurn(int id) {
+		playerInTurnID = id;
+	}
+	
 	public boolean isPlayersTurn() {
-		if(player.id < 0) return false;
-		return playerInTurnID == player.id;
+		if(player.getID() < 0) return false;
+		return playerInTurnID == player.getID();
+	}
+	
+	public int getPlayerInTurnID() {
+		return playerInTurnID;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public HexMap getMap() {
+		return map;
 	}
 }

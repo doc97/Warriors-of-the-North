@@ -45,7 +45,7 @@ public class UserControlSystem {
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
 			Core.INSTANCE.game.startTurn();
 		} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
-			Core.INSTANCE.game.playerInTurnID = -1;
+			Core.INSTANCE.game.setPlayerInTurn(-1);
 			StatusPacket endTurnPacket = new StatusPacket();
 			endTurnPacket.status = Status.TURN_END;
 			Core.INSTANCE.multiplayerSystem.client.sendTCP(endTurnPacket);
@@ -85,7 +85,7 @@ public class UserControlSystem {
 	private void unselectUnit() {
 		selectedUnit = null;
 		for(Vector2 tile : selectedTiles) {
-			Core.INSTANCE.game.map.unmarkTile(
+			Core.INSTANCE.game.getMap().unmarkTile(
 					(int) tile.x,
 					(int) tile.y,
 					true);
@@ -110,7 +110,7 @@ public class UserControlSystem {
 		if(owner == null) return;
 		selectedUnit = unit;
 		
-		if(owner.ownerID == Core.INSTANCE.game.player.id) {
+		if(owner.ownerID == Core.INSTANCE.game.getPlayer().getID()) {
 			MovementComponent movement = Mappers.movement.get(selectedUnit);
 			List<Vector3> markTiles = HexCoordinates.getAllInRange(
 					-movement.range, movement.range,
@@ -119,7 +119,7 @@ public class UserControlSystem {
 			for(Vector3 cubeCoord : markTiles) {
 				Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
 				Vector2 actualPos = axialCoord.cpy().add(movement.position);
-				if(!Core.INSTANCE.game.map.getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
+				if(!Core.INSTANCE.game.getMap().getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
 				Entity entityAtActual = getUnitAt(actualPos);
 				if(entityAtActual != null) {
 					OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
@@ -127,7 +127,7 @@ public class UserControlSystem {
 				}
 				
 				selectedTiles.add(actualPos);
-				Core.INSTANCE.game.map.markTile(
+				Core.INSTANCE.game.getMap().markTile(
 						(int) (axialCoord.x + movement.position.x),
 						(int) (axialCoord.y + movement.position.y),
 						true);
@@ -139,7 +139,7 @@ public class UserControlSystem {
 		if(!unitIsSelected()) return;
 		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
 		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
-		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
 		if(selectedUnitID == null) return;
 		OwnerComponent targetUnitOwner = Mappers.owner.get(targetUnit);
 		IDComponent targetUnitID = Mappers.id.get(targetUnit);
@@ -164,7 +164,7 @@ public class UserControlSystem {
 		if(!unitIsSelected()) return;
 		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
 		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
-		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.player.id) return;
+		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
 		if(selectedUnitID == null) return;
 		
 		for(Vector2 tile : selectedTiles) {
@@ -200,7 +200,7 @@ public class UserControlSystem {
 
 	private boolean unitIsOwners(Entity entity) {
 		OwnerComponent owner = Mappers.owner.get(entity);
-		return !(owner == null || owner.ownerID != Core.INSTANCE.game.player.id);
+		return !(owner == null || owner.ownerID != Core.INSTANCE.game.getPlayer().getID());
 	}
 	
 	private boolean unitIsSelected() {

@@ -14,7 +14,7 @@ import com.tint.wotn.utils.CoordinateConversions;
  * @author doc97
  *
  */
-public class BattleInput extends InputAdapter {
+public class BattleScreenInput extends InputAdapter {
 
 	private Vector2 touchPos = new Vector2();
 	private boolean dragging;

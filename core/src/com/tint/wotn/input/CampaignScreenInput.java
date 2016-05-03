@@ -5,7 +5,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.screens.Screens;
 import com.badlogic.gdx.InputAdapter;
 
-public class CampaignInput extends InputAdapter {
+public class CampaignScreenInput extends InputAdapter {
 
 	@Override
 	public boolean keyDown(int keycode) {

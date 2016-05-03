@@ -1,15 +1,12 @@
 package com.tint.wotn.net;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Connection;
 import com.tint.wotn.Core;
-import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMapGenerator;
 import com.tint.wotn.levels.maps.MapShape;
 import com.tint.wotn.levels.maps.Tile;
@@ -56,7 +53,7 @@ public class ClientPacketProcessor {
 		Player[] updatedPlayers = ((PlayerPacket) packet).players;
 		multiplayerSystem.players.clear();
 		for(Player player : updatedPlayers)
-			multiplayerSystem.players.put(player.id, player);
+			multiplayerSystem.players.put(player.getID(), player);
 		
 		synchronized (multiplayerSystem.client) {
 			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.LOBBY);
@@ -69,14 +66,14 @@ public class ClientPacketProcessor {
 		List<UnitData> unitDatas = ((StartGamePacket) packet).unitDatas;
 		
 		// Generate map
-		Core.INSTANCE.game.map = HexMapGenerator.generateMap(shape, radius);
+		Core.INSTANCE.game.setMap(HexMapGenerator.generateMap(shape, radius));
 		
 		// Load loadouts
 		synchronized (multiplayerSystem.client) {
 			Vector2 offset = new Vector2(0, 0);
 			Vector2 size = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
 			for(UnitData unitData : unitDatas) {
-				multiplayerSystem.players.get(unitData.ownerID).units.add(unitData);
+				multiplayerSystem.players.get(unitData.ownerID).addUnit(unitData);
 				
 				Entity e = UnitFactory.createUnitByType(
 						unitData.unitID,
@@ -105,17 +102,13 @@ public class ClientPacketProcessor {
 		if(request == Request.LOADOUT_REQUEST) {
 			LoadoutPacket loadoutPacket = new LoadoutPacket();
 
-			// TODO Right now you only get one raider
-			Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
-			loadout.put(UnitType.RAIDER, 4);
-
-			loadoutPacket.loadout = loadout;
+			loadoutPacket.loadout = Core.INSTANCE.game.getPlayer().getLoadout();
 			multiplayerSystem.client.sendTCP(loadoutPacket);
 		}
 	}
 	
 	private void processTurnPacket(Connection connection, Object packet) {
-		Core.INSTANCE.game.playerInTurnID = ((TurnPacket) packet).turnID;
+		Core.INSTANCE.game.setPlayerInTurn(((TurnPacket) packet).turnID);
 		if(Core.INSTANCE.game.isPlayersTurn())
 			Core.INSTANCE.game.startTurn();
 	}

@@ -26,8 +26,8 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void show() {
 		load();
-		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
 	}
 
 	@Override
@@ -59,6 +59,6 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+		Core.INSTANCE.inputSystem.unregister(Inputs.MAIN_MENU_SCREEN_UI);
 	}
 }

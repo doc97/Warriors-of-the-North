@@ -1,12 +1,12 @@
 package com.tint.wotn.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
-import com.tint.wotn.net.constants.Status;
-import com.tint.wotn.net.packets.StatusPacket;
+import com.tint.wotn.input.Inputs;
+import com.tint.wotn.input.LobbyScreenInput;
+import com.tint.wotn.ui.UserInterfaces;
 
 /**
  * {@link Screen} that represents a multiplayer lobby
@@ -15,9 +15,22 @@ import com.tint.wotn.net.packets.StatusPacket;
  */
 public class LobbyScreen implements Screen {
 
+	private boolean loaded;
+	
+	public void load() {
+		if (loaded) return;
+		Core.INSTANCE.inputSystem.register(Inputs.LOBBY_SCREEN, new LobbyScreenInput(), false);
+		Core.INSTANCE.inputSystem.register(Inputs.LOBBY_SCREEN_UI,
+				Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.LOBBY_SCREEN_UI).getStage(), false);
+		loaded = true;
+	}
+
 	@Override
 	public void show() {
+		load();
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		Core.INSTANCE.inputSystem.add(Inputs.LOBBY_SCREEN);
+		Core.INSTANCE.inputSystem.add(Inputs.LOBBY_SCREEN_UI);
 	}
 
 	@Override
@@ -25,17 +38,7 @@ public class LobbyScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Core.INSTANCE.screenSystem.update();
 		
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-			StatusPacket statusPacket = new StatusPacket();
-			statusPacket.status = Status.CLIENT_READY;
-			Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);
-		} else if(Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-			Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-			StatusPacket statusPacket = new StatusPacket();
-			statusPacket.status = Status.CLIENT_NOT_READY;
-			Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);
-		}
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.LOBBY_SCREEN_UI).render();
 	}
 
 	@Override
@@ -55,11 +58,14 @@ public class LobbyScreen implements Screen {
 
 	@Override
 	public void hide() {
-		
+		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN);
+		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN_UI);
+		Core.INSTANCE.multiplayerSystem.disconnect();
 	}
 
 	@Override
 	public void dispose() {
-
+		Core.INSTANCE.inputSystem.unregister(Inputs.LOBBY_SCREEN);
+		Core.INSTANCE.inputSystem.unregister(Inputs.LOBBY_SCREEN_UI);
 	}
 }
