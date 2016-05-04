@@ -10,7 +10,9 @@ import com.tint.wotn.Core;
  *
  */
 public enum Tile {
-	NULL("empty_tile", false, 0.0f), GRASS("grass_tile", true, 1.0f);
+	NULL("empty_tile", false, 0.0f),
+	GRASS("grass_tile", true, 1.0f),
+	SNOW("snow_tile", true, 1.0f);
 	
 	public static final float SIZE = 64.0f;
 	public static final int SPACING = (int) (SIZE / 16.0f);

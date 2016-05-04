@@ -69,7 +69,7 @@ public class HexMapGenerator {
 			-radius, radius);
 		for(Vector3 cubeCoord : tilesInRange) {
 			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
-			tiles[(int) axialCoord.x + radius][(int) axialCoord.y + radius] = Tile.GRASS;
+			tiles[(int) axialCoord.x + radius][(int) axialCoord.y + radius] = Tile.SNOW;
 		}
 		
 		return tiles;
