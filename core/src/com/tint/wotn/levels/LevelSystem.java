@@ -50,12 +50,11 @@ public class LevelSystem {
 				Vector2 tilePos1 = new Vector2(5, 5);
 				Vector2 tilePos2 = new Vector2(3, 5);
 				Vector2 tilePos3 = new Vector2(4, 5);
-				//Vector2 tilePos4 = new Vector2(4, 4);
-				Vector2 renderOffset = new Vector2(0, 0);
+				Vector2 renderOffset = new Vector2(-Tile.SPACING / 2, -Tile.SPACING / 2);
 				Vector2 renderSize = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
-				AtlasRegion texture = atlas.findRegion("unit_raider");
-				Color ownColor = new Color(Color.BLUE);
-				Color neutralColor = new Color(Color.BROWN);
+				AtlasRegion texture = atlas.findRegion("unit_axe");
+				Color ownColor = new Color(Color.WHITE);
+				Color neutralColor = new Color(Color.WHITE);
 				int ownerID = 1;
 				int movementCost = 1;
 				int movementRange = 2;

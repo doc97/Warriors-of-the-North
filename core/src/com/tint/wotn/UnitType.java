@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public enum UnitType {
-	RAIDER		(1, 5, 2, 1, 2, 1, "unit_raider"),
+	RAIDER		(1, 5, 2, 1, 2, 1, "unit_axe2"),
 	WARRIOR		(2, 7, 3, 1, 1, 1, ""),
 	BERSERKER	(3, 7, 3, 1, 1, 1, ""),
 	LEADER		(2, 5, 3, 1, 1, 1, ""),

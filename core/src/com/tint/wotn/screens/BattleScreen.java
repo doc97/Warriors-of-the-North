@@ -114,7 +114,7 @@ public class BattleScreen implements Screen {
 		Vector2 worldCenter = CoordinateConversions.axialToWorld(Tile.SIZE, Tile.SPACING, centerTile);
 		Core.INSTANCE.camera.set(worldCenter.x, worldCenter.y);
 		
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		Gdx.gl.glClearColor(0.82f, 0.86f, 0.9f, 1.0f);
 	}
 	
 	@Override
