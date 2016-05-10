@@ -22,6 +22,8 @@ public class MainMenuScreenUI extends UserInterface {
 	
 	@Override
 	public void load() {
+		stage.clear();
+
 		Label title = new Label("Warriors of the North", skin);
 		title.setFontScale(8);
 		

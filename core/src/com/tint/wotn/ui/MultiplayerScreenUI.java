@@ -27,6 +27,8 @@ public class MultiplayerScreenUI extends UserInterface {
 	
 	@Override
 	public void load() {
+		stage.clear();
+
 		// Widgets
 		final Table table = new Table();
 		table.debug();
@@ -107,9 +109,7 @@ public class MultiplayerScreenUI extends UserInterface {
 		table.row();
 		table.add();
 		table.add(backBtn).align(Align.bottomRight).pad(10, 20, 10, 20);
-		stage.clear();		// For some reason stage is not empty
 		stage.addActor(table);
-		System.out.println(stage.getActors().size);
 
 		mapElement("Table", table);
 		mapElement("Join text button", joinBtn);

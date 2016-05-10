@@ -24,6 +24,8 @@ public class CampaignScreenUI extends UserInterface {
 
 	@Override
 	public void load() {
+		stage.clear();
+		
 		final Table missionBriefingTable = new Table();
 		missionBriefingTable.setFillParent(true);
 		missionBriefingTable.pad(30);

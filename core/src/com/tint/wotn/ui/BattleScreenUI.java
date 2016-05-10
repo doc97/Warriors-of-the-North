@@ -20,6 +20,8 @@ public class BattleScreenUI extends UserInterface {
 
 	@Override
 	public void load() {
+		stage.clear();
+		
 		TextButton endTurnBtn = new TextButton("End turn", skin);
 		endTurnBtn.getLabel().setFontScale(2);
 		endTurnBtn.pad(10);

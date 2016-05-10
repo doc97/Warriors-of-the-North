@@ -21,6 +21,8 @@ public class EndScreenUI extends UserInterface {
 	
 	@Override
 	public void load() {
+		stage.clear();
+		
 		Label title = new Label("END SCREEN", skin);
 		title.setFontScale(10);
 		
