@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 public abstract class UserInterface {
 	protected Stage stage;
 	protected Skin skin;
-	protected HashMap<String, Actor> elements = new HashMap<String, Actor>();
+	private HashMap<String, Actor> elements = new HashMap<String, Actor>();
+	private UIDataStorage storage = new UIDataStorage();
 	
 	public UserInterface(Skin skin) {
 		this.skin = skin;
@@ -36,6 +37,10 @@ public abstract class UserInterface {
 	
 	public Actor getElement(String key) {
 		return elements.get(key);
+	}
+	
+	public UIDataStorage getStorage() {
+		return storage;
 	}
 	
 	public Stage getStage() {

@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,59 +35,117 @@ public class LobbyScreenUI extends UserInterface {
 	@Override
 	public void load() {
 		stage.clear();
+
 		final Table unitScrollTable = new Table(skin);
+		final Container<Actor> loadoutScrollContainer = new Container<Actor>();
 		
-		final List<Label> unitTypeLabelList = new ArrayList<Label>();
+		final HorizontalGroup loadoutScrollGroup = new HorizontalGroup();
+		loadoutScrollGroup.space(20);
+		
+		final Label emptyLabel = new Label("<Empty>", skin);
+		
+		// Fill unit lists
 		List<TextButton> unitTypeButtonList = new ArrayList<TextButton>();
-		for (UnitType type : UnitType.values()) {
-			final Label unitCountLabel = new Label("0", skin);
+		for (final UnitType type : UnitType.values()) {
 			final TextButton unitBtn = new TextButton(type.toString(), skin);
+			unitTypeButtonList.add(unitBtn);
 			unitBtn.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					int currCount = Integer.parseInt(unitCountLabel.getText().toString());
-					unitCountLabel.setText("" + (currCount + 1));
+					String readyStatus = getStorage().getData("Data", "Ready");
+					if (readyStatus.equals("") || readyStatus.equals("true")) return;
+					
+					final TextButton btn = new TextButton(unitBtn.getText().toString(), skin);
+					btn.addListener(new ClickListener() {
+						@Override
+						public void clicked(InputEvent ev, float x, float y) {
+							String readyStatus = getStorage().getData("Data", "Ready");
+							if (readyStatus.equals("") || readyStatus.equals("true")) return;
+							
+							loadoutScrollGroup.removeActor(btn);
+							if (loadoutScrollGroup.getChildren().size == 0)
+								loadoutScrollContainer.setActor(emptyLabel);
+							
+							String currData = getStorage().getData("Loadout", btn.getText().toString());
+							if (currData.equals(""))
+								getStorage().storeData("Loadout", btn.getText().toString(), "0");
+							else
+								getStorage().storeData("Loadout", btn.getText().toString(),
+										String.valueOf(Integer.parseInt(currData) - 1));
+						}
+					});
+
+					// Add button to list after a button with same text
+					// if possible
+					boolean btnAdded = false;
+					for (Actor actor : loadoutScrollGroup.getChildren()) {
+						if (actor instanceof TextButton) {
+							if (((TextButton) actor).getText().equals(btn.getText())) {
+								loadoutScrollGroup.addActorAfter(actor, btn);
+								btnAdded = true;
+								break;
+							}
+						}
+					}
+					
+					if (!btnAdded)
+						loadoutScrollGroup.addActor(btn);
+					
+					loadoutScrollContainer.setActor(loadoutScrollGroup);
+
+					String currData = getStorage().getData("Loadout", unitBtn.getText().toString());
+					if (currData.equals(""))
+						getStorage().storeData("Loadout", unitBtn.getText().toString(), "1");
+					else
+						getStorage().storeData("Loadout", unitBtn.getText().toString(),
+								String.valueOf(Integer.parseInt(currData) + 1));
 				}
 			});
-			unitTypeLabelList.add(unitCountLabel);
-			unitTypeButtonList.add(unitBtn);
 		}
 		
-		for (Label label : unitTypeLabelList) {
-			unitScrollTable.add(label);
-		}
-
-		unitScrollTable.row();
-		
+		// Add buttons to scroll table
 		for (TextButton btn : unitTypeButtonList) {
 			unitScrollTable.add(btn).size(400, 300).pad(50);
 		}
 		
+		loadoutScrollContainer.setActor(emptyLabel);
+		
 		ScrollPane unitPane = new ScrollPane(unitScrollTable, skin);
-		unitPane.setScrollbarsOnTop(false);
+		unitPane.setScrollingDisabled(false, true);
 		unitPane.setupFadeScrollBars(0, 0);
+		unitPane.setOverscroll(true, false);
+		
+		ScrollPane loadoutPane = new ScrollPane(loadoutScrollContainer, skin);
+		loadoutPane.setScrollingDisabled(false, true);
+		loadoutPane.setupFadeScrollBars(0, 0);
+		loadoutPane.setOverscroll(true, false);
+
 		
 		final TextButton lobbyStatusBtn = new TextButton("Ready!", skin);
 		lobbyStatusBtn.pad(20);
 		lobbyStatusBtn.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (lobbyStatusBtn.getText().toString().equals("Cancel")) {
+				String readyStatus = getStorage().getData("Data", "Ready");
+				if (readyStatus.equals("")) readyStatus = "true";
+
+				if (readyStatus.equals("true")) {
 					lobbyStatusBtn.setText("Ready!");
+					getStorage().storeData("Data", "Ready", "false");
+					
 					StatusPacket statusPacket = new StatusPacket();
 					statusPacket.status = Status.CLIENT_NOT_READY;
 					Core.INSTANCE.multiplayerSystem.client.sendTCP(statusPacket);
-				} else if (lobbyStatusBtn.getText().toString().equals("Ready!")) {
+				} else if (readyStatus.equals("false")) {
 					lobbyStatusBtn.setText("Cancel");
+					getStorage().storeData("Data", "Ready", "true");
 					Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 					
 					Core.INSTANCE.game.getPlayer().getLoadout().clear();
 					Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
-					UnitType[] unitTypes = UnitType.values();
-					for (int i = 0; i < unitTypeLabelList.size(); i++) {
-						Label label = (Label) getElement("Unit Type Label " + i);
-						int unitCount = Integer.parseInt(label.getText().toString());
-						loadout.put(unitTypes[i], unitCount);
+					for (String unitType : getStorage().getDataset("Loadout").keySet()) {
+						String value = getStorage().getData("Loadout", unitType);
+						loadout.put(Enum.valueOf(UnitType.class, unitType), Integer.parseInt(value));
 					}
 					Core.INSTANCE.game.getPlayer().setLoadout(loadout);
 					
@@ -105,9 +166,8 @@ public class LobbyScreenUI extends UserInterface {
 		});
 		
 		Table container = new Table(skin);
-		container.debug();
 		container.setFillParent(true);
-		container.add().expand().fill().pad(10).colspan(3);
+		container.add(loadoutPane).expand().pad(10).colspan(3);
 		container.row();
 		container.add(unitPane).expandX().pad(10).colspan(3);
 		container.row();
@@ -119,8 +179,9 @@ public class LobbyScreenUI extends UserInterface {
 		
 		stage.addActor(container);
 		
-		for (int i = 0; i < unitTypeLabelList.size(); i++) {
-			mapElement("Unit Type Label " + i, unitTypeLabelList.get(i));
-		}
+		
+		// Creating storage space
+		getStorage().addDataset("Loadout", new HashMap<String, String>());
+		getStorage().addDataset("Data", new HashMap<String, String>());
 	}
 }
