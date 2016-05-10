@@ -53,7 +53,10 @@ public class LobbyScreenUI extends UserInterface {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					String readyStatus = getStorage().getData("Data", "Ready");
-					if (readyStatus.equals("") || readyStatus.equals("true")) return;
+					if (readyStatus.equals("") || readyStatus.equals("true")) {
+						System.out.println("Nope");
+						return;
+					}
 					
 					final TextButton btn = new TextButton(unitBtn.getText().toString(), skin);
 					btn.addListener(new ClickListener() {
@@ -183,5 +186,6 @@ public class LobbyScreenUI extends UserInterface {
 		// Creating storage space
 		getStorage().addDataset("Loadout", new HashMap<String, String>());
 		getStorage().addDataset("Data", new HashMap<String, String>());
+		getStorage().storeData("Data", "Ready", "false");
 	}
 }
