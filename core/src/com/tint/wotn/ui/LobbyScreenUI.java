@@ -165,6 +165,7 @@ public class LobbyScreenUI extends UserInterface {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MULTIPLAYER);
+				Core.INSTANCE.multiplayerSystem.disconnect();
 			}
 		});
 		

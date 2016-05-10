@@ -60,7 +60,6 @@ public class LobbyScreen implements Screen {
 	public void hide() {
 		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN_UI);
-		Core.INSTANCE.multiplayerSystem.disconnect();
 	}
 
 	@Override
