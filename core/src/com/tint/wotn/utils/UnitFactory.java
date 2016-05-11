@@ -13,7 +13,7 @@ import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 import com.tint.wotn.gfx.ColorTransitionEffect;
-import com.tint.wotn.gfx.ColourTransition;
+import com.tint.wotn.gfx.ColorTransition;
 
 public class UnitFactory {
 	
@@ -71,7 +71,7 @@ public class UnitFactory {
 		render.size = renderSize;
 		render.texture = texture;
 		render.tintColor = new Color(color);
-		effect.colorTransition = new ColorTransitionEffect(new ColourTransition(new Color(Color.WHITE), new Color(color), 20));
+		effect.colorTransition = new ColorTransitionEffect(new ColorTransition(new Color(Color.WHITE), new Color(color), 20));
 		id.id = unitID;
 		
 		entity.add(movement);

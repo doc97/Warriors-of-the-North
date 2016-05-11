@@ -6,18 +6,23 @@ import com.tint.wotn.ecs.components.RenderComponent;
 
 public class ColorTransitionEffect implements Effect {
 	
-	public int tickCounter;
-	public int beforeDelayTicks;
-	public int afterDelayTicks;
-	public boolean running;
-	public ColourTransition transition;
+	private int tickCounter;
+	private int beforeDelayTicks;
+	private int afterDelayTicks;
+	private boolean isRunning;
+	private ColorTransition transition;
 	
-	public ColorTransitionEffect(ColourTransition transition) {
+	public ColorTransitionEffect(ColorTransition transition) {
 		this.transition = transition;
 	}
 	
-	public boolean update(Entity entity) {
-		if(!running) return false;
+	public void reset() {
+		transition.reset();
+	}
+	
+	@Override
+	public void update(Entity entity) {
+		if(!isRunning) return;
 
 		if(tickCounter < beforeDelayTicks) {
 			tickCounter++;
@@ -28,11 +33,15 @@ public class ColorTransitionEffect implements Effect {
 		} else if(tickCounter - beforeDelayTicks < afterDelayTicks) {
 			tickCounter++;
 		} else {
-			running = false;
-			return true;
+			isRunning = false;
 		}
-		return false;
 	}
 	
+	public void start() {
+		isRunning = true;
+	}
 	
+	public void stop() {
+		isRunning = false;
+	}
 }

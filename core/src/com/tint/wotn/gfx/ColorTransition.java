@@ -2,7 +2,7 @@ package com.tint.wotn.gfx;
 
 import com.badlogic.gdx.graphics.Color;
 
-public class ColourTransition {
+public class ColorTransition {
 
 	private final Color startColor;
 	private final Color endColor;
@@ -11,7 +11,7 @@ public class ColourTransition {
 	private final int steps;
 	private int currentStep;
 	
-	public ColourTransition(Color startColor, Color endColor, int steps) {
+	public ColorTransition(Color startColor, Color endColor, int steps) {
 		this.startColor = startColor;
 		this.endColor = endColor;
 		this.steps = steps;
@@ -67,6 +67,6 @@ public class ColourTransition {
 	}
 	
 	public float getProgress() {
-		return ((float) currentStep / steps); 
+		return ((float) currentStep / steps);
 	}
 }

@@ -21,8 +21,8 @@ public class AttackAction extends Action {
 		Entity defender = Core.INSTANCE.entityIDSystem.getEntityByID(defenderID);
 		
 		EffectComponent effect = Mappers.effect.get(defender);
-		effect.colorTransition.transition.reset();
-		effect.colorTransition.running = true;
+		effect.colorTransition.reset();
+		effect.colorTransition.start();
 		Core.INSTANCE.ecs.engine.getSystem(CombatSystem.class).simulate(attacker, defender);
 	}
 }
