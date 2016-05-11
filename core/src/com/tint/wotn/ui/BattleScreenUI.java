@@ -1,12 +1,12 @@
 package com.tint.wotn.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.screens.Screens;
@@ -26,9 +26,16 @@ public class BattleScreenUI extends UserInterface {
 		endTurnBtn.getLabel().setFontScale(2);
 		endTurnBtn.pad(10);
 		endTurnBtn.center();
-		endTurnBtn.addListener(new ClickListener() {
+		endTurnBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.userControlSystem.endTurn();
 			}
 		});
@@ -36,9 +43,16 @@ public class BattleScreenUI extends UserInterface {
 		TextButton menuBtn = new TextButton("Menu", skin);
 		menuBtn.getLabel().setFontScale(2);
 		menuBtn.pad(10);
-		menuBtn.addListener(new ClickListener() {
+		menuBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			}
 		});

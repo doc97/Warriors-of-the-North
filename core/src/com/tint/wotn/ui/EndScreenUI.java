@@ -1,12 +1,12 @@
 package com.tint.wotn.ui;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
@@ -32,9 +32,16 @@ public class EndScreenUI extends UserInterface {
 		TextButton exitBtn = new TextButton("Ok... ;C", skin);
 		exitBtn.getLabel().setFontScale(4);
 		exitBtn.pad(10);
-		exitBtn.addListener(new ClickListener() {
+		exitBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
 			}
 		});

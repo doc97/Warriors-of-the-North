@@ -3,13 +3,13 @@ package com.tint.wotn.ui;
 import java.io.IOException;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
@@ -47,9 +47,16 @@ public class MultiplayerScreenUI extends UserInterface {
 		final TextButton connectBtn = new TextButton("Connect", skin);
 		connectBtn.getLabel().setFontScale(2);
 		connectBtn.pad(10);
-		connectBtn.addListener(new ClickListener() {
+		connectBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				try {
 					Player player = new Player();
 					player.setName("Bob");
@@ -65,9 +72,16 @@ public class MultiplayerScreenUI extends UserInterface {
 		final TextButton backBtn = new TextButton("Back", skin);
 		backBtn.getLabel().setFontScale(2);
 		backBtn.pad(10);
-		backBtn.addListener(new ClickListener() {
+		backBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				back();
 			}
 		});
@@ -76,10 +90,16 @@ public class MultiplayerScreenUI extends UserInterface {
 		hostBtn.getLabel().setFontScale(4);
 		hostBtn.pad(10);
 		hostBtn.getLabelCell().expand();
-		hostBtn.addListener(new ClickListener() {
+		hostBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 			}
 		});
 		
@@ -87,9 +107,16 @@ public class MultiplayerScreenUI extends UserInterface {
 		joinBtn.getLabel().setFontScale(4);
 		joinBtn.pad(10);
 		joinBtn.getLabelCell().expand().fill();
-		joinBtn.addListener(new ClickListener() {
+		joinBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				table.clear();
 				table.add(ipLabel).fill();
 				table.add(ipField).fill();

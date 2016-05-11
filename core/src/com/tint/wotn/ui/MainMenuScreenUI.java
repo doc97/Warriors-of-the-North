@@ -2,12 +2,12 @@ package com.tint.wotn.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
@@ -30,9 +30,16 @@ public class MainMenuScreenUI extends UserInterface {
 		TextButton singleplayerBtn = new TextButton("Singleplayer", skin);
 		singleplayerBtn.getLabel().setFontScale(4);
 		singleplayerBtn.pad(10);
-		singleplayerBtn.addListener(new ClickListener() {
+		singleplayerBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.gameMode = GameMode.SINGLEPLAYER;
 				Core.INSTANCE.initializeGame();
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
@@ -42,9 +49,16 @@ public class MainMenuScreenUI extends UserInterface {
 		TextButton multiplayerBtn = new TextButton("Multiplayer", skin);
 		multiplayerBtn.getLabel().setFontScale(4);
 		multiplayerBtn.pad(10);
-		multiplayerBtn.addListener(new ClickListener() {
+		multiplayerBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+			Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.gameMode = GameMode.MULTIPLAYER;
 				Core.INSTANCE.initializeGame();
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MULTIPLAYER);
@@ -54,13 +68,32 @@ public class MainMenuScreenUI extends UserInterface {
 		TextButton optionsBtn = new TextButton("Options", skin);
 		optionsBtn.getLabel().setFontScale(4);
 		optionsBtn.pad(10);
+		optionsBtn.addListener(new InputListener() {
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+			}
+		});
 		
 		TextButton exitBtn = new TextButton("Exit", skin);
 		exitBtn.getLabel().setFontScale(4);
 		exitBtn.pad(10);
-		exitBtn.addListener(new ClickListener() {
+		exitBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Gdx.app.exit();
 			}
 		});

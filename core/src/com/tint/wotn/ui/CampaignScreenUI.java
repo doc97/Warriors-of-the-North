@@ -3,12 +3,12 @@ package com.tint.wotn.ui;
 import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
@@ -45,9 +45,16 @@ public class CampaignScreenUI extends UserInterface {
 		TextButton backBtn = new TextButton("Back", skin);
 		backBtn.getLabel().setFontScale(2);
 		backBtn.pad(10);
-		backBtn.addListener(new ClickListener() {
+		backBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			}
 		});
@@ -55,21 +62,35 @@ public class CampaignScreenUI extends UserInterface {
 		final TextButton playBtn = new TextButton("Play", skin);
 		playBtn.getLabel().setFontScale(2);
 		playBtn.pad(10);
-		playBtn.addListener(new ClickListener() {
+		playBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				missionBriefingTable.setVisible(false);
 				Core.INSTANCE.levelSystem.enterCurrentLevel();
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
 			}
 		});
-		
+
 		TextButton cancelBtn = new TextButton("Cancel", skin);
 		cancelBtn.getLabel().setFontScale(2);
 		cancelBtn.pad(10);
-		cancelBtn.addListener(new ClickListener() {
+		cancelBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				missionBriefingTable.setVisible(false);
 			}
 		});
@@ -79,9 +100,16 @@ public class CampaignScreenUI extends UserInterface {
 		for(final Mission mission : availableMissions) {
 			final TextButton missionBtn = new TextButton(mission.name, skin);
 			missionBtn.setPosition(mission.position.x, mission.position.y);
-			missionBtn.addListener(new ClickListener() {
+			missionBtn.addListener(new InputListener() {
 				@Override
-				public void clicked(InputEvent event, float x, float y) {
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+					return true;
+				}
+
+				@Override
+				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 					nameLabel.setText(mission.name);
 					legendLabel.setText(mission.legend);
 					missionBriefingTable.setVisible(true);

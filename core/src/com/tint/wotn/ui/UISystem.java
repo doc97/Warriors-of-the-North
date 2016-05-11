@@ -16,6 +16,7 @@ public class UISystem {
 		addUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI, new MainMenuScreenUI(skin));
 		addUserInterface(UserInterfaces.MULTIPLAYER_SCREEN_UI, new MultiplayerScreenUI(skin));
 		addUserInterface(UserInterfaces.LOBBY_SCREEN_UI, new LobbyScreenUI(skin));
+		addUserInterface(UserInterfaces.END_SCREEN_UI, new EndScreenUI(skin));
 	}
 	
 	public void load() {

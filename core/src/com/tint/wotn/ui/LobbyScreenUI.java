@@ -8,6 +8,7 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -126,12 +127,19 @@ public class LobbyScreenUI extends UserInterface {
 		
 		final TextButton lobbyStatusBtn = new TextButton("Ready!", skin);
 		lobbyStatusBtn.pad(20);
-		lobbyStatusBtn.addListener(new ClickListener() {
+		lobbyStatusBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				String readyStatus = getStorage().getData("Data", "Ready");
 				if (readyStatus.equals("")) readyStatus = "true";
-
+				
 				if (readyStatus.equals("true")) {
 					lobbyStatusBtn.setText("Ready!");
 					getStorage().storeData("Data", "Ready", "false");
@@ -161,9 +169,16 @@ public class LobbyScreenUI extends UserInterface {
 		
 		TextButton backBtn = new TextButton("Back", skin);
 		backBtn.pad(20);
-		backBtn.addListener(new ClickListener() {
+		backBtn.addListener(new InputListener() {
 			@Override
-			public void clicked(InputEvent event, float x, float y) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MULTIPLAYER);
 				Core.INSTANCE.multiplayerSystem.disconnect();
 			}
