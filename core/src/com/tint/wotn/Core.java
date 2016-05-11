@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tint.wotn.actions.ActionSystem;
+import com.tint.wotn.audio.AudioSystem;
 import com.tint.wotn.control.UserControlSystem;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
@@ -40,6 +41,7 @@ public enum Core {
 	public UISystem UISystem;
 	public Assets assets;
 	public EntityIDSystem entityIDSystem;
+	public AudioSystem audioSystem;
 	
 	/**
 	 * Initializes all systems and components
@@ -58,11 +60,17 @@ public enum Core {
 		initializeUserControlSystem();
 		initializeEntityIDSystem();
 		initializeUISystem();
+		initializeAudioSystem();
 		initializeGame();
 	}
 	
 	public void setCoreGame(Game coreGame) {
 		this.coreGame = coreGame;
+	}
+	
+	public void update() {
+		audioSystem.update();
+		screenSystem.update();
 	}
 	
 	public void initializeGame() {
@@ -140,14 +148,20 @@ public enum Core {
 		UISystem.initialize();
 	}
 	
+	public void initializeAudioSystem() {
+		audioSystem = new AudioSystem();
+		audioSystem.initialize();
+	}
+	
 	/**
 	 * Disposes of all systems and components and sets them to null
 	 */
 	public void dispose() {
-		if(screenSystem != null)	screenSystem.dispose();
-		if(batch != null)			batch.dispose();
-		if(shapeRenderer != null)	shapeRenderer.dispose();
-		if(assets != null)			assets.dispose();
+		if (screenSystem != null)	screenSystem.dispose();
+		if (batch != null)			batch.dispose();
+		if (shapeRenderer != null)	shapeRenderer.dispose();
+		if (audioSystem != null)	audioSystem.dispose();
+		if (assets != null)			assets.dispose();
 		
 		coreGame = null;
 		game = null;
@@ -162,5 +176,6 @@ public enum Core {
 		multiplayerSystem = null;
 		userControlSystem = null;
 		UISystem = null;
+		audioSystem = null;
 	}
 }

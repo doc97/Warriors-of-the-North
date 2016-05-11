@@ -28,8 +28,7 @@ public class EndScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Core.INSTANCE.screenSystem.update();
-		
+		Core.INSTANCE.update();
 		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.END_SCREEN_UI).render();
 	}
 

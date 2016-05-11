@@ -55,7 +55,6 @@ public class BattleScreen implements Screen {
 	}
 
 	public void update(float delta) {
-		Core.INSTANCE.screenSystem.update();
 		Vector2 screenToWorldCoordinates = CoordinateConversions.screenToWorldPos(
 				Gdx.input.getX(),
 				Gdx.input.getY());
@@ -73,6 +72,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.actionSystem.update();
 		Core.INSTANCE.ecs.engine.getSystem(EffectSystem.class).update();
 		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).update();
+		Core.INSTANCE.update();
 	}
 
 	@Override

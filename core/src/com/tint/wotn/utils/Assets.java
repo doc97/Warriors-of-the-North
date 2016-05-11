@@ -1,6 +1,8 @@
 package com.tint.wotn.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMap;
@@ -34,11 +36,16 @@ public class Assets {
 	 */
 	public void loadAssets() {
 		addTextureAtlasesToLoadingQueue();
+		addSoundsToLoadingQueue();
 	}
 	
-	public void addTextureAtlasesToLoadingQueue() {
+	private void addTextureAtlasesToLoadingQueue() {
 		manager.load("textures/packed/WarriorsOfTheNorth.atlas", TextureAtlas.class);
 		manager.load("skins/default/uiskin.atlas", TextureAtlas.class);
+	}
+	
+	private void addSoundsToLoadingQueue() {
+		manager.load("sounds/btn_click.wav", Sound.class);
 	}
 	
 	/**
@@ -59,6 +66,14 @@ public class Assets {
 	
 	public TextureAtlas getTextureAtlas(String filename) {
 		return manager.get(filename, TextureAtlas.class);
+	}
+	
+	public Sound getSound(String filename) {
+		return manager.get(filename, Sound.class);
+	}
+	
+	public Music getMusic(String filename) {
+		return manager.get(filename, Music.class);
 	}
 	
 	public void dispose() {
