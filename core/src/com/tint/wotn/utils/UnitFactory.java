@@ -71,7 +71,8 @@ public class UnitFactory {
 		render.size = renderSize;
 		render.texture = texture;
 		render.tintColor = new Color(color);
-		effect.colorTransition = new ColorTransitionEffect(new ColorTransition(new Color(Color.WHITE), new Color(color), 20));
+		ColorTransition transition = new ColorTransition(new Color(Color.WHITE), new Color(color), 20);
+		effect.colorTransition = new ColorTransitionEffect(transition, 5);
 		id.id = unitID;
 		
 		entity.add(movement);
