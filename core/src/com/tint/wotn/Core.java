@@ -160,7 +160,6 @@ public enum Core {
 		if (screenSystem != null)	screenSystem.dispose();
 		if (batch != null)			batch.dispose();
 		if (shapeRenderer != null)	shapeRenderer.dispose();
-		if (audioSystem != null)	audioSystem.dispose();
 		if (assets != null)			assets.dispose();
 		
 		coreGame = null;

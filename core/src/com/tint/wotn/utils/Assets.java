@@ -36,7 +36,7 @@ public class Assets {
 	 */
 	public void loadAssets() {
 		addTextureAtlasesToLoadingQueue();
-		addSoundsToLoadingQueue();
+		addAudioFilesToLoadingQueue();
 	}
 	
 	private void addTextureAtlasesToLoadingQueue() {
@@ -44,7 +44,7 @@ public class Assets {
 		manager.load("skins/default/uiskin.atlas", TextureAtlas.class);
 	}
 	
-	private void addSoundsToLoadingQueue() {
+	private void addAudioFilesToLoadingQueue() {
 		manager.load("sounds/btn_click.wav", Sound.class);
 	}
 	
