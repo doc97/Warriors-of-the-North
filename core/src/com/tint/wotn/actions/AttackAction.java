@@ -5,6 +5,7 @@ import com.tint.wotn.Core;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.EffectComponent;
 import com.tint.wotn.ecs.systems.CombatSystem;
+import com.tint.wotn.gfx.EffectListener;
 import com.tint.wotn.gfx.ShakeEffect;
 
 /**
@@ -21,8 +22,14 @@ public class AttackAction extends Action {
 		Entity attacker = Core.INSTANCE.entityIDSystem.getEntityByID(attackerID);
 		Entity defender = Core.INSTANCE.entityIDSystem.getEntityByID(defenderID);
 		
-		EffectComponent effect = Mappers.effect.get(defender);
-		effect.addEffect(ShakeEffect.class, new ShakeEffect(3, 0.1f));
+		final EffectComponent effect = Mappers.effect.get(defender);
+		effect.addEffect(ShakeEffect.class, new ShakeEffect(6, 0.1f));
+		effect.addOnCompletionListener(ShakeEffect.class, new EffectListener() {
+			@Override
+			public void act() {
+				effect.removeEffect(ShakeEffect.class);
+			}
+		});
 		effect.resetEffect(ShakeEffect.class);
 		effect.startEffect(ShakeEffect.class);
 

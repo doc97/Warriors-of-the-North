@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.tint.wotn.gfx.Effect;
+import com.tint.wotn.gfx.EffectListener;
 
 public class EffectComponent implements Component {
 	
@@ -43,6 +44,7 @@ public class EffectComponent implements Component {
 	}
 	
 	public void startEffect(Class<? extends Effect> clazz) {
+		if (!hasEffect(clazz)) return;
 		effects.get(clazz).start();
 	}
 	
@@ -53,6 +55,7 @@ public class EffectComponent implements Component {
 	}
 	
 	public void updateEffect(Class<? extends Effect> clazz, Entity entity) {
+		if (!hasEffect(clazz)) return;
 		effects.get(clazz).update(entity);
 	}
 	
@@ -60,6 +63,11 @@ public class EffectComponent implements Component {
 		for (Class<? extends Effect> clazz : effects.keySet()) {
 			effects.get(clazz).update(entity);
 		}
+	}
+	
+	public void addOnCompletionListener(Class<? extends Effect> clazz, EffectListener listener) {
+		if (!hasEffect(clazz)) return;
+		effects.get(clazz).addOnCompletionListener(listener);
 	}
 	
 	public boolean hasEffect(Class<? extends Effect> clazz) {
