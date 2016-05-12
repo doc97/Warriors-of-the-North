@@ -20,7 +20,7 @@ public class EffectSystem extends EntitySystem {
 	public void update() {
 		for(Entity e : entities) {
 			EffectComponent effect = Mappers.effect.get(e);
-			effect.update(e);
+			effect.updateAllEffects(e);
 		}
 	}
 }

@@ -5,25 +5,25 @@ import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.RenderComponent;
 import com.tint.wotn.utils.TickTimer;
 
-public class ColorTransitionEffect implements Effect {
+public class ColorTransitionEffect extends Effect {
 	
 	private TickTimer delay;
 	private ColorTransition transition;
-	private boolean isRunning;
 	
 	public ColorTransitionEffect(ColorTransition transition, int delayTicks) {
 		this.transition = transition;
 		delay = new TickTimer(delayTicks);
 	}
 	
-	public void reset() {
-		transition.reset();
-		delay.reset();
+	@Override
+	public void start() {
+		super.start();
+		delay.resume();
 	}
 	
 	@Override
 	public void update(Entity entity) {
-		if(!isRunning) return;
+		if(!isRunning()) return;
 		
 		if (!delay.hasFinished()) {
 			delay.update();
@@ -36,16 +36,11 @@ public class ColorTransitionEffect implements Effect {
 			renderComponent.tintColor.set(transition.getCurrentColor());
 			return;
 		}
-		
-		isRunning = false;
 	}
 	
-	public void start() {
-		isRunning = true;
-		delay.resume();
-	}
-	
-	public void stop() {
-		isRunning = false;
+	@Override
+	public void reset() {
+		transition.reset();
+		delay.reset();
 	}
 }
