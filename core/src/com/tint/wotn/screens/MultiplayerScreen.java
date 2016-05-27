@@ -60,7 +60,7 @@ public class MultiplayerScreen implements Screen {
 	@Override
 	public void hide() {
 		Core.INSTANCE.inputSystem.remove(Inputs.MULTIPLAYER_SCREEN);
-		Core.INSTANCE.inputSystem.remove(Inputs.MAIN_MENU_SCREEN_UI);
+		Core.INSTANCE.inputSystem.remove(Inputs.MULTIPLAYER_SCREEN_UI);
 	}
 
 	@Override

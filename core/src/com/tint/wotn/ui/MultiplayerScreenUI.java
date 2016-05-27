@@ -31,7 +31,6 @@ public class MultiplayerScreenUI extends UserInterface {
 
 		// Widgets
 		final Table table = new Table();
-		table.debug();
 		table.setFillParent(true);
 		
 		final Label ipLabel = new Label("IP: ", skin);
@@ -143,7 +142,7 @@ public class MultiplayerScreenUI extends UserInterface {
 		mapElement("Host text button", hostBtn);
 		mapElement("Back text button", backBtn);
 	}
-	
+
 	public void back() {
 		Table table = (Table) getElement("Table");
 		table.clear();
