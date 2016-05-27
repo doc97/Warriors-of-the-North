@@ -28,6 +28,7 @@ public class MainMenuScreen implements Screen {
 		load();
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
+		Core.INSTANCE.audioSystem.playMusic("sounds/background_music.ogg", 0.1f, true);
 	}
 
 	@Override

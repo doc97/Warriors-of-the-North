@@ -46,6 +46,7 @@ public class Assets {
 	
 	private void addAudioFilesToLoadingQueue() {
 		manager.load("sounds/btn_click.wav", Sound.class);
+		manager.load("sounds/background_music.ogg", Music.class);
 	}
 	
 	/**
