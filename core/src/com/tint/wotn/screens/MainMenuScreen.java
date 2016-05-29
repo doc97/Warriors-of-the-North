@@ -2,9 +2,11 @@ package com.tint.wotn.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
+import com.tint.wotn.save.GameLoader;
 import com.tint.wotn.ui.UserInterfaces;
 
 /**
@@ -36,6 +38,10 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Core.INSTANCE.update();
 		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI).render();
+		
+		if (Gdx.input.isKeyPressed(Keys.L)) {
+			GameLoader.load("saves/save.dat");
+		}
 	}
 
 	@Override

@@ -2,9 +2,12 @@ package com.tint.wotn.utils;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.tint.wotn.Core;
 import com.tint.wotn.UnitType;
+import com.tint.wotn.ecs.EntityData;
 import com.tint.wotn.ecs.components.AttackComponent;
 import com.tint.wotn.ecs.components.EffectComponent;
 import com.tint.wotn.ecs.components.HealthComponent;
@@ -12,6 +15,7 @@ import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
+import com.tint.wotn.levels.maps.Tile;
 
 public class UnitFactory {
 	
@@ -65,7 +69,7 @@ public class UnitFactory {
 		health.health = hp;
 		attack.damage = attackDmg;
 		attack.cost = attackCost;
-		render.offset = renderOffset;
+		render.offset = new Vector2(-Tile.SPACING / 2, -Tile.SPACING / 2);
 		render.size = renderSize;
 		render.texture = texture;
 		render.tintColor = new Color(color);
@@ -78,6 +82,32 @@ public class UnitFactory {
 		entity.add(effect);
 		entity.add(id);
 		
+		return entity;
+	}
+	
+	public static Entity createUnit(EntityData entityData) {
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+		float[] colArr = entityData.color;
+		Color color = new Color(colArr[0], colArr[1], colArr[2], colArr[3]);
+		Entity entity = createNeutralUnit(
+				entityData.entityID,
+				entityData.position,
+				entityData.movementCost,
+				entityData.movementRange,
+				entityData.health,
+				entityData.damage,
+				entityData.attackCost,
+				entityData.offset,
+				entityData.size,
+				atlas.findRegion(entityData.textureName),
+				color
+				);
+		
+		if (entityData.ownerID != -1) {
+			OwnerComponent owner = new OwnerComponent();
+			owner.ownerID = entityData.ownerID;
+			entity.add(owner);
+		}
 		return entity;
 	}
 }

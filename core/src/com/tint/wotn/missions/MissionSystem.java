@@ -1,5 +1,6 @@
 package com.tint.wotn.missions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,9 @@ import com.badlogic.gdx.math.Vector2;
  * @author doc97
  * @see Mission
  */
-public class MissionSystem {
+public class MissionSystem implements Serializable {
+
+	private static final long serialVersionUID = -8841515036166414609L;
 	private List<Mission> availableMissions = new ArrayList<Mission>();
 	private List<Mission> completedMissions = new ArrayList<Mission>();
 	private List<Mission> unavaiableMissions = new ArrayList<Mission>();
@@ -52,8 +55,9 @@ public class MissionSystem {
 	 * Unlocks new missions by moving unlocked missions from the
 	 * unavailable list to the available
 	 * @param id ID for the mission to complete
+	 * @param reward If true then reward is given
 	 */
-	public void completeMission(int id) {
+	public void completeMission(int id, boolean reward) {
 		Mission completedMission = getAvailableMissionWithID(id);
 		if(completedMission != null) {
 			completedMissions.add(completedMission);
@@ -95,5 +99,13 @@ public class MissionSystem {
 	
 	public List<Mission> getAvailableMissions() {
 		return availableMissions;
+	}
+	
+	public List<Mission> getUnavailableMissions() {
+		return unavaiableMissions;
+	}
+	
+	public List<Mission> getCompletedMissions() {
+		return completedMissions;
 	}
 }

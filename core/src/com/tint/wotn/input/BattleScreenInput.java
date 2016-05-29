@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.levels.maps.Tile;
+import com.tint.wotn.save.GameLoader;
 import com.tint.wotn.screens.BattleScreen;
 import com.tint.wotn.screens.Screens;
 import com.tint.wotn.utils.CoordinateConversions;
@@ -24,8 +25,15 @@ public class BattleScreenInput extends InputAdapter {
 		if (keycode == Keys.BACKSPACE) {
 			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
 		}
-		if(keycode == Keys.ENTER) {
+		if (keycode == Keys.ENTER) {
 			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.END);
+		}
+		if (keycode == Keys.S) {
+			GameLoader.save("saves/save.dat");
+		}
+		if (keycode == Keys.L) {
+			Core.INSTANCE.screenSystem.exitCurrentScreen();
+			GameLoader.load("saves/save.dat");
 		}
 		return false;
 	}

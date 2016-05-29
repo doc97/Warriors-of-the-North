@@ -59,6 +59,10 @@ public class ScreenSystem {
 		}
 	}
 	
+	public void exitCurrentScreen() {
+		Core.INSTANCE.coreGame.setScreen(null);
+	}
+	
 	public void setScreenToEnter(Screens screen) {
 		screenToEnter = screen;
 	}

@@ -32,8 +32,9 @@ public class EntityComponentSystem {
 
 			@Override
 			public void entityAdded(Entity entity) {
-				if(entity.getComponent(IDComponent.class) != null)
-					Core.INSTANCE.entityIDSystem.addEntity(entity);
+				IDComponent idComponent = Mappers.id.get(entity);
+				if(idComponent != null)
+					Core.INSTANCE.entityIDSystem.addEntity(entity, idComponent.id);
 			}
 
 			@Override

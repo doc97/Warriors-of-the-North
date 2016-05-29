@@ -1,5 +1,7 @@
 package com.tint.wotn.levels.maps;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.tint.wotn.Core;
@@ -9,15 +11,15 @@ import com.tint.wotn.Core;
  * @author doc97
  *
  */
-public enum Tile {
+public enum Tile implements Serializable {
 	NULL("empty_tile", false, 0.0f),
 	GRASS("grass_tile", true, 1.0f),
 	SNOW("snow_tile", true, 1.0f);
 	
-	public static final float SIZE = 64.0f;
-	public static final int SPACING = (int) (SIZE / 16.0f);
-	public static final float HEIGHT = SIZE * 2.0f;
-	public static final float WIDTH = (float) (HEIGHT * Math.sqrt(3) / 2.0f);
+	public transient static float SIZE = 64.0f;
+	public transient static final int SPACING = (int) (SIZE / 64.0f);
+	public transient static final float HEIGHT = SIZE * 2.0f;
+	public transient static final float WIDTH = (float) (HEIGHT * Math.sqrt(3) / 2.0f);
 
 	private String textureName;
 	public AtlasRegion texture;

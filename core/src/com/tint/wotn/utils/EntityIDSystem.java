@@ -13,12 +13,9 @@ import com.badlogic.ashley.core.Entity;
 public class EntityIDSystem {
 
 	private Map<Integer, Entity> entityIDMap = new HashMap<Integer, Entity>();
-	private int highestID = -1;
 	
-	public void addEntity(Entity entity) {
-		entityIDMap.put(highestID + 1, entity);
-		highestID++;
-		System.out.println();
+	public void addEntity(Entity entity, int id) {
+		entityIDMap.put(id, entity);
 	}
 	
 	public void removeEntityByID(int id) {
@@ -30,7 +27,6 @@ public class EntityIDSystem {
 	}
 	
 	public void reset() {
-		highestID = -1;
 		entityIDMap.clear();
 	}
 }

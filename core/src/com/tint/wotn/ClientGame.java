@@ -1,5 +1,7 @@
 package com.tint.wotn;
 
+import java.io.Serializable;
+
 import com.tint.wotn.levels.maps.HexMap;
 import com.tint.wotn.levels.maps.HexMapGenerator;
 import com.tint.wotn.net.Player;
@@ -9,7 +11,9 @@ import com.tint.wotn.net.Player;
  * @author doc97
  * @see GameMode
  */
-public class ClientGame {
+public class ClientGame implements Serializable {
+
+	private static final long serialVersionUID = -6423004375671021260L;
 	private int playerInTurnID = -1;
 	private Player player;
 	private HexMap map = HexMapGenerator.generateMap(null, 0);
@@ -52,6 +56,10 @@ public class ClientGame {
 	public boolean isPlayersTurn() {
 		if(player.getID() < 0) return false;
 		return playerInTurnID == player.getID();
+	}
+	
+	public boolean isInBattle() {
+		return Core.INSTANCE.levelSystem.getCurrentLevel() != null;
 	}
 	
 	public int getPlayerInTurnID() {

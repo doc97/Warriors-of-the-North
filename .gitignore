@@ -62,3 +62,7 @@ build/
 
 ## OS Specific
 .DS_Store
+
+## Project Specific
+debug/
+android/assets/saves/

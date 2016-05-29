@@ -13,7 +13,11 @@ import com.tint.wotn.utils.HexCoordinates;
  */
 public class HexMapGenerator {
 	public static HexMap generateMap(MapShape mapShape, int radius) {
-		return HexMap.createMap(generateTiles(mapShape, radius));
+		return generateMap(generateTiles(mapShape, radius));
+	}
+	
+	public static HexMap generateMap(Tile[][] tiles) {
+		return HexMap.createMap(tiles);
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package com.tint.wotn.actions;
 
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -8,7 +9,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @see Action
  * 
  */
-public class ActionSystem {
+public class ActionSystem implements Serializable {
+
+	private static final long serialVersionUID = -4943926031555304538L;
 	private int maxActionPoints;
 	private int actionPoints;
 	private ConcurrentLinkedQueue<Action> actions = new ConcurrentLinkedQueue<Action>();

@@ -1,5 +1,7 @@
 package com.tint.wotn.levels.maps;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -15,11 +17,13 @@ import com.tint.wotn.utils.HexCoordinates;
  * @see Tile
  * 
  */
-public class HexMap {
+public class HexMap implements Serializable {
+
+	private static final long serialVersionUID = 6640126643600383709L;
 	public Tile[][] tiles;
 	private byte[] markedTileBitMap;
 	private byte[] permanentMarkedTileBitMap;
-	private static AtlasRegion markedTextureOverlay;
+	private transient static AtlasRegion markedTextureOverlay;
 	
 	/**
 	 * Private constructor for Factory pattern

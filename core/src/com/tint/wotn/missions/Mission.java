@@ -1,5 +1,7 @@
 package com.tint.wotn.missions;
 
+import java.io.Serializable;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.levels.Level;
@@ -10,11 +12,12 @@ import com.tint.wotn.levels.Level;
  * @see MissionSystem
  * @see Level
  */
-public class Mission {
+public class Mission implements Serializable {
+	private static final long serialVersionUID = 6488823982874571191L;
 	public Vector2 position;
 	public String name;
 	public String legend;
-	public AtlasRegion icon;
+	public transient AtlasRegion icon;
 	public int ID;
 	public int[] unlockIDs;
 }

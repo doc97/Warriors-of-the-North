@@ -73,8 +73,6 @@ public class ClientPacketProcessor {
 			Vector2 offset = new Vector2(0, 0);
 			Vector2 size = new Vector2(Tile.SIZE * 2, Tile.SIZE * 2);
 			for(UnitData unitData : unitDatas) {
-				multiplayerSystem.players.get(unitData.ownerID).addUnit(unitData);
-				
 				Entity e = UnitFactory.createUnitByType(
 						unitData.unitID,
 						unitData.ownerID,
