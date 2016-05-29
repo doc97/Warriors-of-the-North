@@ -18,21 +18,22 @@ import com.tint.wotn.screens.Screens;
 
 public class MultiplayerScreenUI extends UserInterface {
 
-	private boolean multiplayerChoiceScreen;
-
+	private final Table rootTable;
+	private final Table modeTable;
+	private final Table joinTable;
+	
 	public MultiplayerScreenUI(Skin skin) {
 		super(skin);
 		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
+		rootTable = new Table(skin);
+		modeTable = new Table(skin);
+		joinTable = new Table(skin);
 	}
 	
 	@Override
 	public void load() {
 		stage.clear();
 
-		// Widgets
-		final Table table = new Table();
-		table.setFillParent(true);
-		
 		final Label ipLabel = new Label("IP: ", skin);
 		ipLabel.setFontScale(2);
 		final Label portLabel = new Label("Port: ", skin);
@@ -116,47 +117,40 @@ public class MultiplayerScreenUI extends UserInterface {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
-				table.clear();
-				table.add(ipLabel).fill();
-				table.add(ipField).fill();
-				table.row();
-				table.add(portLabel).fill();
-				table.add(portField).fill();
-				table.row();
-				table.add(backBtn);
-				table.add(connectBtn).fill();
-				
-				multiplayerChoiceScreen = false;
+				modeTable.remove();
+				rootTable.add(joinTable);
 			}
 		});
 		
-		table.add(joinBtn).pad(100).expand().fill();
-		table.add(hostBtn).pad(100).expand().fill();
-		table.row();
-		table.add();
-		table.add(backBtn).align(Align.bottomRight).pad(10, 20, 10, 20);
-		stage.addActor(table);
+		joinTable.add(ipLabel).fill();
+		joinTable.add(ipField).fill();
+		joinTable.row();
+		joinTable.add(portLabel).fill();
+		joinTable.add(portField).fill();
+		joinTable.row();
+		joinTable.add(backBtn);
+		joinTable.add(connectBtn).fill();
 
-		mapElement("Table", table);
-		mapElement("Join text button", joinBtn);
-		mapElement("Host text button", hostBtn);
-		mapElement("Back text button", backBtn);
+		modeTable.add(joinBtn).pad(100).expand().fill();
+		modeTable.add(hostBtn).pad(100).expand().fill();
+		modeTable.row();
+		modeTable.add();
+		modeTable.add(backBtn).align(Align.bottomRight).pad(10, 20, 10, 20);
+		
+		rootTable.setFillParent(true);
+		rootTable.add(modeTable);
+		
+		stage.addActor(rootTable);
 	}
 
 	public void back() {
-		Table table = (Table) getElement("Table");
-		table.clear();
-		table.add((TextButton) getElement("Join text button")).pad(100).expand().fill();
-		table.add((TextButton) getElement("Host text button")).pad(100).expand().fill();
-		table.row();
-		table.add();
-		table.add((TextButton) getElement("Back text button")).align(Align.bottomRight).pad(10, 20, 10, 20);
-
-		if(multiplayerChoiceScreen) {
+		boolean modePage = modeTable.hasParent();
+		modeTable.remove();
+		joinTable.remove();
+		rootTable.add(modeTable);
+		
+		if(modePage) {
 			Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 		}
-
-		multiplayerChoiceScreen = true;
 	}
-
 }

@@ -3,10 +3,12 @@ package com.tint.wotn.ui;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class UISystem {
 
+	private Stage stage;
 	private HashMap<UserInterfaces, UserInterface> interfaces = new HashMap<UserInterfaces, UserInterface>();
 	
 	public void initialize() {
@@ -23,6 +25,18 @@ public class UISystem {
 		for (UserInterface ui : interfaces.values()) {
 			ui.load();
 		}
+	}
+	
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
+	
+	public void update(float delta) {
+		if (stage != null) stage.act(delta);
+	}
+	
+	public void draw() {
+		if (stage != null) stage.draw();
 	}
 	
 	public void addUserInterface(UserInterfaces key, UserInterface ui) {

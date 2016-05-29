@@ -36,12 +36,13 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Core.INSTANCE.update();
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI).render();
+		Core.INSTANCE.update(delta);
 		
 		if (Gdx.input.isKeyPressed(Keys.L)) {
 			GameLoader.load("saves/save.dat");
 		}
+
+		Core.INSTANCE.UISystem.draw();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.tint.wotn.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.input.LobbyScreenInput;
@@ -31,6 +32,9 @@ public class LobbyScreen implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		Core.INSTANCE.inputSystem.add(Inputs.LOBBY_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.LOBBY_SCREEN_UI);
+		
+		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.LOBBY_SCREEN_UI).getStage();
+		Core.INSTANCE.UISystem.setStage(stage);
 	}
 
 	@Override
@@ -38,7 +42,7 @@ public class LobbyScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Core.INSTANCE.screenSystem.update();
 		
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.LOBBY_SCREEN_UI).render();
+		Core.INSTANCE.UISystem.draw();
 	}
 
 	@Override
@@ -60,6 +64,7 @@ public class LobbyScreen implements Screen {
 	public void hide() {
 		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.LOBBY_SCREEN_UI);
+		Core.INSTANCE.UISystem.setStage(null);
 	}
 
 	@Override

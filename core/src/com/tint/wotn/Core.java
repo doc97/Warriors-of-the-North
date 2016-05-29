@@ -68,7 +68,8 @@ public enum Core {
 		this.coreGame = coreGame;
 	}
 	
-	public void update() {
+	public void update(float delta) {
+		UISystem.update(delta);
 		audioSystem.update();
 		screenSystem.update();
 	}

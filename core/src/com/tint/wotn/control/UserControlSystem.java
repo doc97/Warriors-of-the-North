@@ -8,7 +8,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.actions.AttackAction;
@@ -92,19 +91,19 @@ public class UserControlSystem {
 		}
 		selectedTiles.clear();
 		
-		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
-			.getElement("Unit health label")).setText("");
-		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
-			.getElement("Unit attack label")).setText("");
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getStorage().storeData("Data", "Health", "");
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getStorage().storeData("Data", "Attack", "");
 	}
 	
 	private void selectUnit(Entity unit) {
 		AttackComponent attack = Mappers.attack.get(unit);
 		HealthComponent health = Mappers.health.get(unit);
-		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
-			.getElement("Unit health label")).setText("Health: " + health.health);
-		((Label) Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
-			.getElement("Unit attack label")).setText("Attack: " + attack.damage);
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getStorage().storeData("Data", "Health", "Health: " + health.health);
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI)
+			.getStorage().storeData("Data", "Attack", "Attack: " + attack.damage);
 		
 		OwnerComponent owner = Mappers.owner.get(unit);
 		if(owner == null) return;

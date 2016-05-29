@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tint.wotn.Core;
 import com.tint.wotn.GameMode;
 import com.tint.wotn.ecs.systems.EffectSystem;
@@ -51,7 +52,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.ecs.engine.getSystem(RenderSystem.class).render(Core.INSTANCE.batch);
 		Core.INSTANCE.batch.end();
 		
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).draw();
+		Core.INSTANCE.UISystem.draw();
 	}
 
 	public void update(float delta) {
@@ -71,8 +72,8 @@ public class BattleScreen implements Screen {
 		
 		Core.INSTANCE.actionSystem.update();
 		Core.INSTANCE.ecs.engine.getSystem(EffectSystem.class).update();
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).update();
-		Core.INSTANCE.update();
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).update(delta);
+		Core.INSTANCE.update(delta);
 	}
 
 	@Override
@@ -99,7 +100,11 @@ public class BattleScreen implements Screen {
 		} else if(Gdx.app.getType() == ApplicationType.Android) {
 			Core.INSTANCE.inputSystem.add(Inputs.GESTURE);
 		}
+
 		Core.INSTANCE.inputSystem.add(Inputs.BATTLE_SCREEN_UI);
+
+		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage();
+		Core.INSTANCE.UISystem.setStage(stage);
 		
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
 			Core.INSTANCE.game.startSingleplayerGame();
@@ -122,6 +127,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
 		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN_UI);
+		Core.INSTANCE.UISystem.setStage(null);
 		Core.INSTANCE.game.exitBattle();
 	}
 

@@ -1,5 +1,7 @@
 package com.tint.wotn.ui;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,9 +15,14 @@ import com.tint.wotn.screens.Screens;
 
 public class BattleScreenUI extends UserInterface {
 	
+	private final Label unitHealth;
+	private final Label unitAttack;
+
 	public BattleScreenUI(Skin skin) {
 		super(skin);
 		stage = new Stage(new ExtendViewport(1920, 1080), Core.INSTANCE.batch);
+		unitHealth = new Label("", skin);
+		unitAttack = new Label("", skin);
 	}
 
 	@Override
@@ -57,9 +64,6 @@ public class BattleScreenUI extends UserInterface {
 			}
 		});
 		
-		Label unitHealth = new Label("", skin);
-		Label unitAttack = new Label("", skin);
-
 		Table topMenu = new Table(skin);
 		topMenu.setBackground("default-rect");
 		topMenu.add(unitHealth).pad(10);
@@ -77,7 +81,14 @@ public class BattleScreenUI extends UserInterface {
 		
 		stage.addActor(rootTable);
 		
-		mapElement("Unit health label", unitHealth);
-		mapElement("Unit attack label", unitAttack);
+		getStorage().addDataset("Data", new HashMap<String, String>());
+		getStorage().storeData("Data", "Health", "");
+		getStorage().storeData("Data", "Attack", "");
+	}
+	
+	@Override
+	public void update(float delta) {
+		unitHealth.setText(getStorage().getData("Data", "Health"));
+		unitAttack.setText(getStorage().getData("Data", "Attack"));
 	}
 }

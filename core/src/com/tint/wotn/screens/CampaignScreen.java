@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.CampaignScreenInput;
 import com.tint.wotn.input.Inputs;
@@ -32,14 +33,18 @@ public class CampaignScreen implements Screen {
 		load();
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN_UI);
+
+		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).getStage();
+		Core.INSTANCE.UISystem.setStage(stage);
+
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Core.INSTANCE.update();
-		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).render();
+		Core.INSTANCE.update(delta);
+		Core.INSTANCE.UISystem.draw();
 	}
 
 	@Override
@@ -61,6 +66,7 @@ public class CampaignScreen implements Screen {
 	public void hide() {
 		Core.INSTANCE.inputSystem.remove(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.remove(Inputs.CAMPAIGN_SCREEN_UI);
+		Core.INSTANCE.UISystem.setStage(null);
 	}
 
 	@Override
