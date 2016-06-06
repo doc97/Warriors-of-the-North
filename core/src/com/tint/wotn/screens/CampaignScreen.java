@@ -33,7 +33,7 @@ public class CampaignScreen implements Screen {
 		load();
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN);
 		Core.INSTANCE.inputSystem.add(Inputs.CAMPAIGN_SCREEN_UI);
-
+		
 		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).getStage();
 		Core.INSTANCE.UISystem.setStage(stage);
 
@@ -43,6 +43,7 @@ public class CampaignScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).update(delta);
 		Core.INSTANCE.update(delta);
 		Core.INSTANCE.UISystem.draw();
 	}

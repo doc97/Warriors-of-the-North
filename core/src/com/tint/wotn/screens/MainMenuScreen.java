@@ -1,9 +1,10 @@
 package com.tint.wotn.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tint.wotn.Core;
 import com.tint.wotn.input.Inputs;
 import com.tint.wotn.save.GameLoader;
@@ -31,6 +32,9 @@ public class MainMenuScreen implements Screen {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
 		Core.INSTANCE.audioSystem.playMusic("sounds/background_music.ogg", 0.1f, true);
+		
+		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI).getStage();
+		Core.INSTANCE.UISystem.setStage(stage);
 	}
 
 	@Override
@@ -63,6 +67,7 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void hide() {
 		Core.INSTANCE.inputSystem.remove(Inputs.MAIN_MENU_SCREEN_UI);
+		Core.INSTANCE.UISystem.setStage(null);
 	}
 
 	@Override
