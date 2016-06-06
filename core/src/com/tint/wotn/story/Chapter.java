@@ -5,25 +5,26 @@ import java.util.List;
 
 public class Chapter {
 
-	private List<Page> pages = new ArrayList<Page>();
+	private List<Paragraph> paragraphs = new ArrayList<Paragraph>();
 	
-	public void addText(String text) {
-		Page currentPage = (pages.isEmpty() ? new Page() : pages.get(pages.size() - 1));
-		while (!text.equals("")) {
-			if (currentPage.isFull()) {
-				currentPage = new Page();
-				pages.add(currentPage);
-			}
-			text = currentPage.addText(text);
-		}
+	public void addParagraph(Paragraph paragraph) {
+		paragraphs.add(paragraph);
+	}
+	
+	public Paragraph getParagraph(int index) {
+		if (index < 0 || index >= paragraphs.size() || paragraphs.isEmpty()) return null;
+		return paragraphs.get(index);
+	}
+	
+	public int getParagraphCount() {
+		return paragraphs.size();
 	}
 	
 	public int getPageCount() {
-		return pages.size();
-	}
-
-	public Page getPage(int index) {
-		if (index < 0 || index >= pages.size() || pages.isEmpty()) return null;
-		return pages.get(index);
+		int pages = 0;
+		for (Paragraph p : paragraphs) {
+			pages += p.getPageCount();
+		}
+		return pages;
 	}
 }
