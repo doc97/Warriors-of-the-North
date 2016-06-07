@@ -41,7 +41,9 @@ public class MainMenuScreenUI extends UserInterface {
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
 				Core.INSTANCE.gameMode = GameMode.SINGLEPLAYER;
-				Core.INSTANCE.initializeGame();
+				UIDataStorage storage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).getStorage();
+				storage.storeData("Data", "Page text", Core.INSTANCE.story.getCurrentPage().getText());
+				storage.storeData("Data", "Page visible", "true");
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.CAMPAIGN);
 			}
 		});

@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
+import com.tint.wotn.Core;
+import com.tint.wotn.ui.UIDataStorage;
+import com.tint.wotn.ui.UserInterfaces;
 
 /**
  * A system that handles mission-related operations
@@ -24,7 +27,7 @@ public class MissionSystem implements Serializable {
 	public void initialize() {
 		Mission mission0 = new Mission();
 		mission0.ID = 0;
-		mission0.name = "Mission name";
+		mission0.name = "Mission #1";
 		mission0.legend = "The beginning was very nice";
 		mission0.position = new Vector2(100, 100);
 		mission0.unlockIDs = new int[] { 1 };
@@ -32,9 +35,9 @@ public class MissionSystem implements Serializable {
 		
 		Mission mission1 = new Mission();
 		mission1.ID = 1;
-		mission1.name = "Mission name";
-		mission1.legend = "The beginning was very nice";
-		mission1.position = new Vector2(100, 100);
+		mission1.name = "Mission #2";
+		mission1.legend = "The beginning continued nicely";
+		mission1.position = new Vector2(400, 100);
 		mission1.unlockIDs = new int[] { };
 		addUnavailableMission(mission1);
 	}
@@ -62,6 +65,12 @@ public class MissionSystem implements Serializable {
 		if(completedMission != null) {
 			completedMissions.add(completedMission);
 			availableMissions.remove(completedMission);
+			
+			Core.INSTANCE.story.nextPage();
+
+			UIDataStorage storage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.CAMPAIGN_SCREEN_UI).getStorage();
+			storage.storeData("Data", "Page visible", "true");
+			storage.storeData("Data", "Page text", Core.INSTANCE.story.getCurrentPage().getText());
 			
 			for(int i : completedMission.unlockIDs) {
 				if(getAvailableMissionWithID(i) != null) continue;

@@ -35,10 +35,15 @@ public class ClientGame implements Serializable {
 		Core.INSTANCE.actionSystem.resetActionPoints();
 	}
 	
-	public void exitBattle() {
+	public void exitBattle(boolean victory) {
+		int levelID = Core.INSTANCE.levelSystem.getCurrentLevelID();
 		Core.INSTANCE.levelSystem.exitCurrentLevel();
 		Core.INSTANCE.actionSystem.initialize();
 		Core.INSTANCE.entityIDSystem.reset();
+		
+		if (Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER && victory) {
+			Core.INSTANCE.missionSystem.completeMission(levelID, true);
+		}
 	}
 	
 	public void setClientPlayer(Player player) {
