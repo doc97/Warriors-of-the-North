@@ -3,6 +3,10 @@ package com.tint.wotn.actions;
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import com.tint.wotn.Core;
+import com.tint.wotn.GameMode;
+import com.tint.wotn.net.packets.ActionPacket;
+
 /**
  * A A system that handles actions and action points in the game
  * @author doc97
@@ -45,6 +49,12 @@ public class ActionSystem implements Serializable {
 		if(actionPoints < action.cost) return;
 		actionPoints -= action.cost;
 		actions.add(action);
+		
+		if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
+			ActionPacket actionPacket = new ActionPacket();
+			actionPacket.action = action;
+			Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
+		}
 	}
 	
 	public void addActionFromPacket(Action action) {

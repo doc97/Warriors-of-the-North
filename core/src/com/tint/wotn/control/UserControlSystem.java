@@ -19,7 +19,6 @@ import com.tint.wotn.ecs.components.IDComponent;
 import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.net.constants.Status;
-import com.tint.wotn.net.packets.ActionPacket;
 import com.tint.wotn.net.packets.StatusPacket;
 import com.tint.wotn.ui.UserInterfaces;
 import com.tint.wotn.utils.HexCoordinates;
@@ -110,79 +109,82 @@ public class UserControlSystem {
 		selectedUnit = unit;
 		
 		if(owner.ownerID == Core.INSTANCE.game.getPlayer().getID()) {
-			MovementComponent movement = Mappers.movement.get(selectedUnit);
-			List<Vector3> markTiles = HexCoordinates.getAllInRange(
-					-movement.range, movement.range,
-					-movement.range, movement.range,
-					-movement.range, movement.range);
-			for(Vector3 cubeCoord : markTiles) {
-				Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
-				Vector2 actualPos = axialCoord.cpy().add(movement.position);
-				if(!Core.INSTANCE.game.getMap().getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
-				Entity entityAtActual = getUnitAt(actualPos);
-				if(entityAtActual != null) {
-					OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
-					if(unitAtTileOwner != null && unitAtTileOwner.ownerID == owner.ownerID) continue;
-				}
-				
-				selectedTiles.add(actualPos);
-				Core.INSTANCE.game.getMap().markTile(
-						(int) (axialCoord.x + movement.position.x),
-						(int) (axialCoord.y + movement.position.y),
-						true);
+			
+		}
+	}
+	
+	private void updateMap() {
+		MovementComponent movement = Mappers.movement.get(selectedUnit);
+		List<Vector3> markTiles = HexCoordinates.getAllInRange(
+				-movement.range, movement.range,
+				-movement.range, movement.range,
+				-movement.range, movement.range);
+		for(Vector3 cubeCoord : markTiles) {
+			Vector2 axialCoord = HexCoordinates.transform(cubeCoord);
+			Vector2 actualPos = axialCoord.cpy().add(movement.position);
+			if(!Core.INSTANCE.game.getMap().getTile((int) actualPos.x,(int) actualPos.y).accessible) continue;
+			Entity entityAtActual = getUnitAt(actualPos);
+			if(entityAtActual != null) {
+				OwnerComponent unitAtTileOwner = Mappers.owner.get(entityAtActual);
+				if(unitAtTileOwner != null && unitAtTileOwner.ownerID == owner.ownerID) continue;
 			}
+			
+			selectedTiles.add(actualPos);
+			Core.INSTANCE.game.getMap().markTile(
+					(int) (axialCoord.x + movement.position.x),
+					(int) (axialCoord.y + movement.position.y),
+					true);
 		}
 	}
 	
 	private void attackWithSelectedUnit(Entity targetUnit) {
 		if(!unitIsSelected()) return;
-		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
-		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
-		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
-		if(selectedUnitID == null) return;
-		OwnerComponent targetUnitOwner = Mappers.owner.get(targetUnit);
-		IDComponent targetUnitID = Mappers.id.get(targetUnit);
-		if(targetUnitOwner != null && selectedUnitOwner.ownerID == targetUnitOwner.ownerID) return;
-		if(targetUnitID == null) return;
-		
-		AttackComponent attack = Mappers.attack.get(selectedUnit);
-		AttackAction action = new AttackAction();
-		action.attackerID = selectedUnitID.id;
-		action.defenderID = targetUnitID.id;
-		action.cost = attack.cost;
-		Core.INSTANCE.actionSystem.addClientAction(action);
-		
-		if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
-			ActionPacket actionPacket = new ActionPacket();
-			actionPacket.action = action;
-			Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
-		}
+		attackEntity(selectedUnit, targetUnit);
 	}
 	
 	private void moveWithSelectedUnit(Vector2 position) {
 		if(!unitIsSelected()) return;
-		OwnerComponent selectedUnitOwner = Mappers.owner.get(selectedUnit);
-		IDComponent selectedUnitID = Mappers.id.get(selectedUnit);
-		if(selectedUnitOwner == null || selectedUnitOwner.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
-		if(selectedUnitID == null) return;
 		
 		for(Vector2 tile : selectedTiles) {
 			if(tile.x == position.x && tile.y == position.y) {
-				MovementComponent movement = Mappers.movement.get(selectedUnit);
-				MoveAction action = new MoveAction();
-				action.entityID = selectedUnitID.id;
-				action.position = position;
-				action.cost = movement.cost;
-				Core.INSTANCE.actionSystem.addClientAction(action);
-				
-				if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {
-					ActionPacket actionPacket = new ActionPacket();
-					actionPacket.action = action;
-					Core.INSTANCE.multiplayerSystem.client.sendTCP(actionPacket);
-				}
+				moveEntity(selectedUnit, position);
 				break;
 			}
 		}
+	}
+	
+	private void moveEntity(Entity entity, Vector2 position) {
+		IDComponent idComponent = Mappers.id.get(entity);
+		OwnerComponent ownerComponent = Mappers.owner.get(entity);
+		MovementComponent movementComponent = Mappers.movement.get(entity);
+		if (ownerComponent == null) return;
+		if (ownerComponent.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
+		if (idComponent == null) return;
+		
+		MoveAction action = new MoveAction();
+		action.entityID = idComponent.id;
+		action.position = position;
+		action.cost = movementComponent.cost;
+		Core.INSTANCE.actionSystem.addClientAction(action);
+	}
+	
+	private void attackEntity(Entity attacker, Entity defender) {
+		IDComponent attackerID = Mappers.id.get(attacker);
+		IDComponent defenderID = Mappers.id.get(defender);
+		OwnerComponent attackerOwner = Mappers.owner.get(attacker);
+		OwnerComponent defenderOwner = Mappers.owner.get(defender);
+		AttackComponent attack = Mappers.attack.get(selectedUnit);
+		if (attackerOwner == null) return;
+		if (attackerOwner.ownerID != Core.INSTANCE.game.getPlayer().getID()) return;
+		if (defenderOwner == null || attackerOwner.ownerID == defenderOwner.ownerID) return;
+		if (attackerID == null || defenderID == null) return;
+		if (attack == null) return;
+		
+		AttackAction action = new AttackAction();
+		action.attackerID = attackerOwner.ownerID;
+		action.defenderID = defenderOwner.ownerID;
+		action.cost = attack.cost;
+		Core.INSTANCE.actionSystem.addClientAction(action);
 	}
 
 	private Entity getUnitAt(Vector2 hexCoord) {
