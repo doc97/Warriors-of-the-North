@@ -33,7 +33,7 @@ public class GestureInput implements GestureListener {
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Vector2 targetWorldPos = CoordinateConversions.screenToWorldPos(x, y);
 		Vector2 targetHexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, targetWorldPos.x, targetWorldPos.y);
-		Core.INSTANCE.userControlSystem.touchTile(targetHexCoord);
+		Core.INSTANCE.ucc.touchTile(targetHexCoord);
 		return false;
 	}
 
@@ -49,7 +49,7 @@ public class GestureInput implements GestureListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		Core.INSTANCE.userControlSystem.endTurn();
+		Core.INSTANCE.ucc.endTurn();
 		return false;
 	}
 
@@ -62,7 +62,7 @@ public class GestureInput implements GestureListener {
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
 		if(zooming) return false;
 		Vector2 delta = CoordinateConversions.screenToWorld(deltaX, deltaY);
-		Core.INSTANCE.userControlSystem.dragCamera(-delta.x, delta.y);
+		Core.INSTANCE.ucc.dragCamera(-delta.x, delta.y);
 		return false;
 	}
 

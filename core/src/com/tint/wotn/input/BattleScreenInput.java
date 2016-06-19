@@ -41,7 +41,7 @@ public class BattleScreenInput extends InputAdapter {
 	@Override
 	public boolean keyUp(int keycode) {
 		if(keycode == Keys.ESCAPE) {
-			Core.INSTANCE.userControlSystem.endTurn();
+			Core.INSTANCE.ucc.endTurn();
 		}
 		return false;
 	}
@@ -51,7 +51,7 @@ public class BattleScreenInput extends InputAdapter {
 		Vector2 targetWorldPos = CoordinateConversions.screenToWorldPos(screenX, screenY);
 		Vector2 targetHexCoord = CoordinateConversions.worldToAxial(Tile.SIZE, Tile.SPACING, targetWorldPos.x, targetWorldPos.y);
 		touchPos.set(screenX, screenY);
-		Core.INSTANCE.userControlSystem.touchTile(targetHexCoord);
+		Core.INSTANCE.ucc.touchTile(targetHexCoord);
 		return false;
 	}
 
@@ -66,7 +66,7 @@ public class BattleScreenInput extends InputAdapter {
 		dragging = true;
 		Vector2 delta = CoordinateConversions.screenToWorld(touchPos.x - screenX, touchPos.y - screenY);
 		touchPos.set(screenX, screenY);
-		Core.INSTANCE.userControlSystem.dragCamera(delta.x, -delta.y);
+		Core.INSTANCE.ucc.dragCamera(delta.x, -delta.y);
 		return false;
 	}
 

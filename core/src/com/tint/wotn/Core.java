@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tint.wotn.actions.ActionSystem;
 import com.tint.wotn.audio.AudioSystem;
-import com.tint.wotn.control.UserControlSystem;
+import com.tint.wotn.control.UserControlCenter;
 import com.tint.wotn.ecs.EntityComponentSystem;
 import com.tint.wotn.input.InputSystem;
 import com.tint.wotn.levels.LevelSystem;
@@ -37,7 +37,7 @@ public enum Core {
 	public MissionSystem missionSystem;
 	public InputSystem inputSystem;
 	public ActionSystem actionSystem;
-	public UserControlSystem userControlSystem;
+	public UserControlCenter ucc;
 	public MultiplayerSystem multiplayerSystem;
 	public UISystem UISystem;
 	public Assets assets;
@@ -136,7 +136,8 @@ public enum Core {
 	}
 	
 	public void initializeUserControlSystem() {
-		userControlSystem = new UserControlSystem();
+		ucc = new UserControlCenter();
+		ucc.initialize();
 	}
 	
 	public void initializeMultiplayerSystem() {
@@ -182,7 +183,7 @@ public enum Core {
 		levelSystem = null;
 		inputSystem = null;
 		multiplayerSystem = null;
-		userControlSystem = null;
+		ucc = null;
 		UISystem = null;
 		audioSystem = null;
 	}
