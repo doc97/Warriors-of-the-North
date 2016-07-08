@@ -1,13 +1,20 @@
 package com.tint.wotn.missions;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.tint.wotn.Core;
 import com.tint.wotn.ui.UIDataStorage;
 import com.tint.wotn.ui.UserInterfaces;
+import com.tint.wotn.utils.files.ConfigurationFile;
+import com.tint.wotn.utils.files.parsers.ConfigurationFileParser;
+import com.tint.wotn.utils.files.parsers.ConfigurationParserException;
+import com.tint.wotn.utils.files.parsers.KeyValueParser;
 
 /**
  * A system that handles mission-related operations
@@ -21,25 +28,82 @@ public class MissionSystem implements Serializable {
 	private List<Mission> completedMissions = new ArrayList<Mission>();
 	private List<Mission> unavailableMissions = new ArrayList<Mission>();
 	
+	private static final int UNAVAILABLE = 0;
+	private static final int AVAILABLE = 1;
+	private static final int COMPLETED = 2;
+	
 	/**
 	 * Loads missions
 	 */
 	public void initialize() {
-		Mission mission0 = new Mission();
-		mission0.ID = 0;
-		mission0.name = "Mission #1";
-		mission0.legend = "The beginning was very nice";
-		mission0.position = new Vector2(100, 100);
-		mission0.unlockIDs = new int[] { 1 };
-		addAvailableMission(mission0);
+		availableMissions.clear();
+		completedMissions.clear();
+		unavailableMissions.clear();
 		
-		Mission mission1 = new Mission();
-		mission1.ID = 1;
-		mission1.name = "Mission #2";
-		mission1.legend = "The beginning continued nicely";
-		mission1.position = new Vector2(400, 100);
-		mission1.unlockIDs = new int[] { };
-		addUnavailableMission(mission1);
+		File folder = new File("configs/quests/");
+		File[] files = folder.listFiles();
+		for (File f : files) {
+			try {
+				ConfigurationFileParser parser = new KeyValueParser();
+				ConfigurationFile configFile = new ConfigurationFile(f, parser);
+				configFile.parseFile();
+				
+				Mission mission = createMission(configFile);
+				if (mission == null) {
+					Gdx.app.log("MissionSystem", "Faulty configuration file!");
+					continue;
+				}
+				if (hasMission(mission.ID)) {
+					Gdx.app.log("MissionSystem", "There already exists a mission with ID: " + mission.ID + "!");
+					continue;
+				}
+				
+				Gdx.app.log("MissionSystem", "Loading mission: " + mission.name);
+				if (mission.status == UNAVAILABLE) addUnavailableMission(mission);
+				else if (mission.status == AVAILABLE) addAvailableMission(mission);
+				else if (mission.status == COMPLETED) addCompletedMission(mission);
+				else Gdx.app.log("MissionSystem", "Mission with unknown status skipped");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ConfigurationParserException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private Mission createMission(ConfigurationFile config) {
+		Mission mission = new Mission();
+		try {
+			if (!config.hasKey("missionID")) return null;
+			if (!config.hasKey("name")) return null;
+			if (!config.hasKey("legend")) return null;
+			if (!config.hasKey("status")) return null;
+			if (!config.hasKey("position")) return null;
+			if (!config.hasKey("unlockIDs")) return null;
+
+			mission.ID = Integer.parseInt(config.getValue("missionID"));
+			mission.name = config.getValue("name");
+			mission.legend = config.getValue("legend");
+			mission.status = Integer.parseInt(config.getValue("status"));
+
+			String[] position = config.getValue("position").split("\\s*,\\s*");
+			if (position.length < 2) return null;
+			float x = Float.parseFloat(position[0]);
+			float y = Float.parseFloat(position[1]);
+			mission.position = new Vector2(x, y);
+
+			String[] unlockIDStr = config.getValue("unlockIDs").split("\\s*,\\s*");
+			mission.unlockIDs = new int[unlockIDStr.length];
+			for (int i = 0; i < unlockIDStr.length; i++) {
+				if (unlockIDStr[i].isEmpty()) continue;
+				mission.unlockIDs[i] = Integer.parseInt(unlockIDStr[i]);
+			}
+			
+			return mission;
+		} catch (NumberFormatException nfe)	{
+			Gdx.app.log("MissionSystem", "Config value is supposed to be a number", nfe);
+		}
+		return null;
 	}
 
 	private void addAvailableMission(Mission mission) {
@@ -50,6 +114,11 @@ public class MissionSystem implements Serializable {
 	private void addUnavailableMission(Mission mission) {
 		if(getUnavailableMissionWithID(mission.ID) == null)
 			unavailableMissions.add(mission);
+	}
+	
+	private void addCompletedMission(Mission mission) {
+		if (getCompletedMissionWithID(mission.ID) == null)
+			completedMissions.add(mission);
 	}
 	
 	/**
