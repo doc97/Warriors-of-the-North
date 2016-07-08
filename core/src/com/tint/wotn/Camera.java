@@ -11,8 +11,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
  */
 public class Camera {
 	
-	public OrthographicCamera orthoCam;
-	public Viewport viewport;
+	private OrthographicCamera orthoCam;
+	private Viewport viewport;
 	
 	public void initialize(int width, int height) {
 		orthoCam = new OrthographicCamera();
@@ -46,5 +46,29 @@ public class Camera {
 	
 	public void add(float dx, float dy) {
 		orthoCam.position.add(dx, dy, 0);
+	}
+	
+	public OrthographicCamera getOrthoCam() {
+		return orthoCam;
+	}
+	
+	public float getX() {
+		return orthoCam.position.x;
+	}
+	
+	public float getY() {
+		return orthoCam.position.y;
+	}
+	
+	public float getWidth() {
+		return viewport.getWorldWidth();
+	}
+	
+	public float getHeight() {
+		return viewport.getWorldHeight();
+	}
+	
+	public float getZoom() {
+		return orthoCam.zoom;
 	}
 }

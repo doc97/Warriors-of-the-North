@@ -80,12 +80,12 @@ public class CoordinateConversions {
 	 * @return Converted world coordinate
 	 */
 	public static Vector2 screenToWorldPos(float screenX, float screenY) {
-		Vector2 worldPos = screenToWorldWithConvertY(screenX, screenY);
+		Vector2 worldPos = screenToWorld(screenX, Gdx.graphics.getHeight() - screenY);
 
-		worldPos.x -= Core.INSTANCE.camera.orthoCam.viewportWidth / 2 * Core.INSTANCE.camera.orthoCam.zoom;
-		worldPos.y -= Core.INSTANCE.camera.orthoCam.viewportHeight / 2 * Core.INSTANCE.camera.orthoCam.zoom;
-		worldPos.x += Core.INSTANCE.camera.orthoCam.position.x;
-		worldPos.y += Core.INSTANCE.camera.orthoCam.position.y;
+		worldPos.x -= Core.INSTANCE.camera.getWidth() / 2 * Core.INSTANCE.camera.getZoom();
+		worldPos.y -= Core.INSTANCE.camera.getHeight() / 2 * Core.INSTANCE.camera.getZoom();
+		worldPos.x += Core.INSTANCE.camera.getX();
+		worldPos.y += Core.INSTANCE.camera.getY();
 		return worldPos;
 	}
 	
@@ -98,27 +98,12 @@ public class CoordinateConversions {
 	 * @return Converted screen coordinate
 	 */
 	public static Vector2 worldToScreenPos(float worldX, float worldY) {
-		worldX -= Core.INSTANCE.camera.orthoCam.position.x;
-		worldY -= Core.INSTANCE.camera.orthoCam.position.y;
-		worldX += Core.INSTANCE.camera.orthoCam.viewportWidth / 2 * Core.INSTANCE.camera.orthoCam.zoom;
-		worldY += Core.INSTANCE.camera.orthoCam.viewportHeight / 2 * Core.INSTANCE.camera.orthoCam.zoom;
+		worldX -= Core.INSTANCE.camera.getX();
+		worldY -= Core.INSTANCE.camera.getY();
+		worldX += Core.INSTANCE.camera.getWidth() / 2 * Core.INSTANCE.camera.getZoom();
+		worldY += Core.INSTANCE.camera.getHeight() / 2 * Core.INSTANCE.camera.getZoom();
 		Vector2 screenPos = worldToScreen(worldX, worldY);
 		return screenPos;
-	}
-	
-	/**
-	 * Converts a screen coordinate to world space, without taking the camera
-	 * position into consideration and inverts the y-coordinate
-	 * @param screenX Screen coordinate's x-component
-	 * @param screenY Screen coordinate's y-component
-	 * @return Converted world coordinate
-	 */
-	private static Vector2 screenToWorldWithConvertY(float screenX, float screenY) {
-		float worldX = (screenX / (float) Gdx.graphics.getWidth()) * Core.INSTANCE.camera.orthoCam.viewportWidth;
-		worldX *= Core.INSTANCE.camera.orthoCam.zoom;
-		float worldY = ((Gdx.graphics.getHeight() - screenY) / (float) Gdx.graphics.getHeight()) * Core.INSTANCE.camera.orthoCam.viewportHeight;
-		worldY *= Core.INSTANCE.camera.orthoCam.zoom;
-		return new Vector2(worldX, worldY);
 	}
 	
 	/**
@@ -129,8 +114,8 @@ public class CoordinateConversions {
 	 * @return Converted screen coordinate
 	 */
 	private static Vector2 worldToScreen(float worldX, float worldY) {
-		float screenX = (worldX / (float) (Core.INSTANCE.camera.orthoCam.viewportWidth * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getWidth();
-		float screenY = (-worldY / (float) (Core.INSTANCE.camera.orthoCam.viewportHeight * Core.INSTANCE.camera.orthoCam.zoom)) * Gdx.graphics.getHeight() + Gdx.graphics.getHeight();
+		float screenX = (worldX / (float) (Core.INSTANCE.camera.getWidth() * Core.INSTANCE.camera.getZoom())) * Gdx.graphics.getWidth();
+		float screenY = (-worldY / (float) (Core.INSTANCE.camera.getHeight() * Core.INSTANCE.camera.getZoom())) * Gdx.graphics.getHeight() + Gdx.graphics.getHeight();
 		return new Vector2(screenX, screenY);
 	}
 	
@@ -142,10 +127,10 @@ public class CoordinateConversions {
 	 * @return Converted world coordinate
 	 */
 	public static Vector2 screenToWorld(float screenX, float screenY) {
-		float worldX = (screenX / (float) Gdx.graphics.getWidth()) * Core.INSTANCE.camera.orthoCam.viewportWidth;
-		worldX *= Core.INSTANCE.camera.orthoCam.zoom;
-		float worldY = (screenY / (float) Gdx.graphics.getHeight()) * Core.INSTANCE.camera.orthoCam.viewportHeight;
-		worldY *= Core.INSTANCE.camera.orthoCam.zoom;
+		float worldX = (screenX / (float) Gdx.graphics.getWidth()) * Core.INSTANCE.camera.getWidth();
+		worldX *= Core.INSTANCE.camera.getZoom();
+		float worldY = (screenY / (float) Gdx.graphics.getHeight()) * Core.INSTANCE.camera.getHeight();
+		worldY *= Core.INSTANCE.camera.getZoom();
 		return new Vector2(worldX, worldY);
 	}
 }

@@ -81,7 +81,7 @@ public class GestureInput implements GestureListener {
 		}
 
 		float zoomIn = 0.001f * (currentZoomDistance - distance);
-		float zoom = Core.INSTANCE.camera.orthoCam.zoom + zoomIn;
+		float zoom = Core.INSTANCE.camera.getZoom() + zoomIn;
 		if(zoom > 0.33f && zoom < 3.0f) {
 			Core.INSTANCE.camera.setZoom(zoom);
 		}

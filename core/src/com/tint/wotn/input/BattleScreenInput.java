@@ -73,7 +73,7 @@ public class BattleScreenInput extends InputAdapter {
 	@Override
 	public boolean scrolled(int amount) {
 		if(dragging) return false;
-		float zoom = Core.INSTANCE.camera.orthoCam.zoom + 0.1f * amount;
+		float zoom = Core.INSTANCE.camera.getZoom() + 0.1f * amount;
 		if(zoom > 0.33f && zoom < 3.0f) {
 			Core.INSTANCE.camera.setZoom(zoom);
 		}

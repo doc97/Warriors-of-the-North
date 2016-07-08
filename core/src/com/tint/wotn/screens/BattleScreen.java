@@ -45,7 +45,7 @@ public class BattleScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		Core.INSTANCE.camera.update();
-		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.orthoCam.combined);
+		Core.INSTANCE.batch.setProjectionMatrix(Core.INSTANCE.camera.getOrthoCam().combined);
 		
 		Core.INSTANCE.batch.begin();
 		Core.INSTANCE.game.getMap().render(Core.INSTANCE.batch);
@@ -128,7 +128,6 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.inputSystem.remove(Inputs.GESTURE);
 		Core.INSTANCE.inputSystem.remove(Inputs.BATTLE_SCREEN_UI);
 		Core.INSTANCE.UISystem.setStage(null);
-		Core.INSTANCE.game.exitBattle(true);
 	}
 
 	@Override
