@@ -48,6 +48,8 @@ public class StoryBook {
 		int newChapter = currentChapter + skip;
 		if (newChapter < 0 || newChapter >= chapters.size()) return false;
 		currentChapter = newChapter;
+		currentParagraph = 0;
+		currentPage = 0;
 		return true;
 	}
 	
@@ -72,6 +74,7 @@ public class StoryBook {
 			toCurrentChapterEnd += getCurrentChapter().getParagraphCount();
 		}
 		currentParagraph = toCurrentChapterEnd;
+		currentPage = 0;
 		return true;
 	}
 	
