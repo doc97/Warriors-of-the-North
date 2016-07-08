@@ -21,7 +21,6 @@ import com.tint.wotn.utils.CoordinateConversions;
 public class RenderSystem extends EntitySystem {
 	private ImmutableArray<Entity> entities;
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addedToEngine(Engine engine) {
 		entities = engine.getEntitiesFor(Family.all(RenderComponent.class, MovementComponent.class).get());

@@ -296,7 +296,6 @@ public class UserControlCenter {
 	}
 
 	private Entity getUnitAt(Vector2 hexCoord) {
-		@SuppressWarnings("unchecked")
 		ImmutableArray<Entity> entities = Core.INSTANCE.ecs.engine.getEntitiesFor(Family.all(MovementComponent.class).get());
 		for(Entity entity : entities) {
 			MovementComponent movement = Mappers.movement.get(entity);

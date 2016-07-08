@@ -11,7 +11,6 @@ import com.tint.wotn.ecs.components.EffectComponent;
 public class EffectSystem extends EntitySystem {
 	private ImmutableArray<Entity> entities;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addedToEngine(Engine engine) {
 		entities = engine.getEntitiesFor(Family.all(EffectComponent.class).get());

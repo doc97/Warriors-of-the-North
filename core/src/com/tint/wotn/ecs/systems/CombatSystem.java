@@ -20,7 +20,6 @@ import com.tint.wotn.ecs.components.OwnerComponent;
 public class CombatSystem extends EntitySystem {
 	private ImmutableArray<Entity> units;
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void addedToEngine(Engine engine) {
 		units = engine.getEntitiesFor(Family.all(
