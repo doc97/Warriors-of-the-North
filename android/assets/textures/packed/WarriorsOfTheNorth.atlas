@@ -6,57 +6,84 @@ filter: Nearest,Nearest
 repeat: none
 empty_tile
   rotate: false
-  xy: 504, 133
+  xy: 2, 2
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
+quest_marker_available
+  rotate: false
+  xy: 2, 507
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+quest_marker_completed
+  rotate: false
+  xy: 2, 5
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+quest_marker_glow
+  rotate: false
+  xy: 504, 507
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+quest_marker_unavailable
+  rotate: false
+  xy: 504, 5
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+
+WarriorsOfTheNorth2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+campaign_map_clouds
+  rotate: false
+  xy: 504, 740
+  size: 500, 264
+  orig: 500, 264
+  offset: 0, 0
+  index: -1
 grass_tile
   rotate: false
-  xy: 504, 394
+  xy: 504, 118
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 marked_tile
   rotate: false
-  xy: 504, 136
+  xy: 762, 118
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-snow_flake
-  rotate: false
-  xy: 2, 2
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
 snow_tile
   rotate: false
-  xy: 504, 652
+  xy: 504, 376
   size: 362, 362
   orig: 362, 362
   offset: 0, 0
   index: -1
 unit_axe
   rotate: false
-  xy: 2, 514
+  xy: 2, 504
   size: 500, 500
   orig: 500, 500
   offset: 0, 0
   index: -1
 unit_axe2
   rotate: false
-  xy: 2, 12
+  xy: 2, 2
   size: 500, 500
   orig: 500, 500
-  offset: 0, 0
-  index: -1
-unit_raider
-  rotate: false
-  xy: 762, 394
-  size: 256, 256
-  orig: 256, 256
   offset: 0, 0
   index: -1

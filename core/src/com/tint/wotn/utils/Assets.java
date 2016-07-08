@@ -3,7 +3,9 @@ package com.tint.wotn.utils;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.tint.wotn.Core;
 import com.tint.wotn.UnitType;
 import com.tint.wotn.levels.maps.HexMap;
 
@@ -29,6 +31,8 @@ public class Assets {
 		HexMap.loadTextures();
 		for(UnitType unitType : UnitType.values())
 			unitType.loadTexture();
+		
+		Core.INSTANCE.world.loadTextures();
 	}
 	
 	/**
@@ -36,12 +40,18 @@ public class Assets {
 	 */
 	public void loadAssets() {
 		addTextureAtlasesToLoadingQueue();
+		addTexturesToLoadingQueue();
 		addAudioFilesToLoadingQueue();
 	}
 	
 	private void addTextureAtlasesToLoadingQueue() {
 		manager.load("textures/packed/WarriorsOfTheNorth.atlas", TextureAtlas.class);
 		manager.load("skins/default/uiskin.atlas", TextureAtlas.class);
+	}
+	
+	private void addTexturesToLoadingQueue() {
+		manager.load("textures/notpacked/campaign_map.png", Texture.class);
+		manager.load("textures/notpacked/dark_edge_campaign_map.png", Texture.class);
 	}
 	
 	private void addAudioFilesToLoadingQueue() {
@@ -54,7 +64,6 @@ public class Assets {
 	 */
 	public void updateLoading() {
 		manager.update();
-		System.out.println(manager.getProgress() * 100.0f + "%");
 	}
 	
 	public boolean isDoneLoading() {
@@ -67,6 +76,10 @@ public class Assets {
 	
 	public TextureAtlas getTextureAtlas(String filename) {
 		return manager.get(filename, TextureAtlas.class);
+	}
+	
+	public Texture getTexture(String filename) {
+		return manager.get(filename, Texture.class);
 	}
 	
 	public Sound getSound(String filename) {
