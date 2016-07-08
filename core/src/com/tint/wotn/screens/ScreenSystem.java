@@ -55,7 +55,7 @@ public class ScreenSystem {
 		if(s != null) {
 			Core.INSTANCE.coreGame.setScreen(s);
 		} else {
-			Gdx.app.log("ScreenManager", "No screen with id: " + screen.toString());
+			Gdx.app.log("ScreenSystem", "No screen with id: " + screen.toString());
 		}
 	}
 	

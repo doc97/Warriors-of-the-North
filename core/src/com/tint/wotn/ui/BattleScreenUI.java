@@ -60,6 +60,7 @@ public class BattleScreenUI extends UserInterface {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+				Core.INSTANCE.game.exitBattle(false);
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			}
 		});
