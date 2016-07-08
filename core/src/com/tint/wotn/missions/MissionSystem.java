@@ -19,7 +19,7 @@ public class MissionSystem implements Serializable {
 	private static final long serialVersionUID = -8841515036166414609L;
 	private List<Mission> availableMissions = new ArrayList<Mission>();
 	private List<Mission> completedMissions = new ArrayList<Mission>();
-	private List<Mission> unavaiableMissions = new ArrayList<Mission>();
+	private List<Mission> unavailableMissions = new ArrayList<Mission>();
 	
 	/**
 	 * Loads missions
@@ -49,7 +49,7 @@ public class MissionSystem implements Serializable {
 	
 	private void addUnavailableMission(Mission mission) {
 		if(getUnavailableMissionWithID(mission.ID) == null)
-			unavaiableMissions.add(mission);
+			unavailableMissions.add(mission);
 	}
 	
 	/**
@@ -72,16 +72,35 @@ public class MissionSystem implements Serializable {
 			storage.storeData("Data", "Page visible", "true");
 			storage.storeData("Data", "Page text", Core.INSTANCE.story.getCurrentPage().getText());
 			
-			for(int i : completedMission.unlockIDs) {
-				if(getAvailableMissionWithID(i) != null) continue;
+			for (int i : completedMission.unlockIDs) {
+				if (!missionIsUnavailable(i)) continue;
 				Mission unavailableMission = getUnavailableMissionWithID(i);
-				if(unavailableMission != null) {
-					availableMissions.add(unavailableMission);
-				}
+				availableMissions.add(unavailableMission);
+				unavailableMissions.remove(unavailableMission);
 			}
 		}
 	}
 	
+	public boolean missionIsAvailable(int id) {
+		return getAvailableMissionWithID(id) != null;
+	}
+	
+	public boolean missionIsCompleted(int id) {
+		return getCompletedMissionWithID(id) != null;
+	}
+
+	public boolean missionIsUnavailable(int id) {
+		return getUnavailableMissionWithID(id) != null;
+	}
+	
+	public boolean hasMission(int id) {
+		for (Mission m : getAllMissions())
+			if (m.ID == id)
+				return true;
+		
+		return false;
+	}
+
 	public Mission getAvailableMissionWithID(int id) {
 		for(Mission m : availableMissions)
 			if(m.ID == id)
@@ -99,8 +118,16 @@ public class MissionSystem implements Serializable {
 	}
 	
 	public Mission getUnavailableMissionWithID(int id) {
-		for(Mission m : unavaiableMissions)
+		for(Mission m : unavailableMissions)
 			if(m.ID == id)
+				return m;
+		
+		return null;
+	}
+	
+	public Mission getMissionWithID(int id) {
+		for (Mission m : getAllMissions())
+			if (m.ID == id)
 				return m;
 		
 		return null;
@@ -111,10 +138,18 @@ public class MissionSystem implements Serializable {
 	}
 	
 	public List<Mission> getUnavailableMissions() {
-		return unavaiableMissions;
+		return unavailableMissions;
 	}
 	
 	public List<Mission> getCompletedMissions() {
 		return completedMissions;
+	}
+	
+	public List<Mission> getAllMissions() {
+		List<Mission> all = new ArrayList<Mission>();
+		all.addAll(availableMissions);
+		all.addAll(unavailableMissions);
+		all.addAll(completedMissions);
+		return all;
 	}
 }

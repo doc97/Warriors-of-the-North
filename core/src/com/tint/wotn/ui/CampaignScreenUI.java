@@ -1,7 +1,6 @@
 package com.tint.wotn.ui;
 
 import java.util.HashMap;
-import java.util.List;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -16,13 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
-import com.tint.wotn.missions.Mission;
 import com.tint.wotn.screens.Screens;
 
 public class CampaignScreenUI extends UserInterface {
 
 	private Table briefingTable;
 	private Table storyPageTable;
+	private Label nameLabel;
+	private Label legendLabel;
 	private Label storyText;
 
 	public CampaignScreenUI(Skin skin) {
@@ -72,10 +72,10 @@ public class CampaignScreenUI extends UserInterface {
 		baseUITable.setFillParent(true);
 		baseUITable.pad(30);
 
-		final Label legendLabel = new Label("", skin);
+		legendLabel = new Label("", skin);
 		legendLabel.setAlignment(Align.center);
 		
-		final Label nameLabel = new Label("", skin);
+		nameLabel = new Label("", skin);
 		nameLabel.setFontScale(3);
 		nameLabel.setAlignment(Align.center);
 		
@@ -132,35 +132,11 @@ public class CampaignScreenUI extends UserInterface {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+				Core.INSTANCE.world.unselectQuest();
 				getStorage().storeData("Data", "Briefing visible", "false");
-				getStorage().storeData("Data", "Page visible", "true");
+				getStorage().storeData("Data", "Page visible", "false");
 			}
 		});
-		
-		// Create mission buttons
-		List<Mission> availableMissions = Core.INSTANCE.missionSystem.getAvailableMissions();
-		for(final Mission mission : availableMissions) {
-			final TextButton missionBtn = new TextButton(mission.name, skin);
-			missionBtn.setPosition(mission.position.x, mission.position.y);
-			missionBtn.addListener(new InputListener() {
-				@Override
-				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
-					return true;
-				}
-
-				@Override
-				public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
-					nameLabel.setText(mission.name);
-					legendLabel.setText(mission.legend);
-					getStorage().storeData("Data", "Briefing visible", "true");
-					getStorage().storeData("Data", "Page visible", "false");
-					Core.INSTANCE.levelSystem.setCurrentLevel(mission.ID);
-				}
-			});
-			stage.addActor(missionBtn);
-		}
 		
 		storyTextTable.add(storyText).pad(10).top().width(1920 / 3.0f);
 		storyTextTable.row();
@@ -185,16 +161,24 @@ public class CampaignScreenUI extends UserInterface {
 		
 		getStorage().addDataset("Data", new HashMap<String, String>());
 		getStorage().storeData("Data", "Briefing visible", "false");
-		getStorage().storeData("Data", "Page visible", "true");
+		getStorage().storeData("Data", "Page visible", "false");
 	}
 	
 	@Override
 	public void update(float delta) {
 		boolean pageVisible = Boolean.parseBoolean(getStorage().getData("Data", "Page visible"));
-		storyPageTable.setVisible(pageVisible);
-		boolean briefingVisible = Boolean.parseBoolean(getStorage().getData("Data", "Briefing visible"));
-		briefingTable.setVisible(briefingVisible);
+		if (pageVisible != storyPageTable.isVisible())
+			storyPageTable.setVisible(pageVisible);
+
 		String text = getStorage().getData("Data", "Page text");
-		storyText.setText(text);
+		if (!text.equals(storyText.getText()))
+			storyText.setText(text);
+
+		boolean briefingVisible = Boolean.parseBoolean(getStorage().getData("Data", "Briefing visible"));
+		if (briefingVisible != briefingTable.isVisible()) {
+			nameLabel.setText(getStorage().getData("Data", "Briefing name"));
+			legendLabel.setText(getStorage().getData("Data", "Briefing legend"));
+			briefingTable.setVisible(briefingVisible);
+		}
 	}
 }

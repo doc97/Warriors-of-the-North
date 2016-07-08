@@ -13,6 +13,7 @@ import com.tint.wotn.missions.MissionSystem;
 import com.tint.wotn.net.MultiplayerSystem;
 import com.tint.wotn.screens.ScreenSystem;
 import com.tint.wotn.story.StoryBook;
+import com.tint.wotn.story.World;
 import com.tint.wotn.ui.UISystem;
 import com.tint.wotn.utils.Assets;
 import com.tint.wotn.utils.EntityIDSystem;
@@ -44,6 +45,7 @@ public enum Core {
 	public EntityIDSystem entityIDSystem;
 	public AudioSystem audioSystem;
 	public StoryBook story;
+	public World world;
 	
 	/**
 	 * Initializes all systems and components
@@ -82,6 +84,7 @@ public enum Core {
 		if(gameMode == GameMode.SINGLEPLAYER) {
 			initializeLevelSystem();
 			initializeMissionSystem();
+			initializeWorld();
 		} else if(gameMode == GameMode.MULTIPLAYER) {
 			initializeMultiplayerSystem();
 		}
@@ -161,6 +164,11 @@ public enum Core {
 	public void initializeStory() {
 		story = new StoryBook();
 		story.initialize();
+	}
+	
+	public void initializeWorld() {
+		world = new World();
+		world.initialize();
 	}
 	
 	/**
