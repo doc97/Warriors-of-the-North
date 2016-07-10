@@ -28,7 +28,7 @@ public class ConfigurationFile {
 	public ConfigurationFile(File file, ConfigurationFileParser parser) throws FileNotFoundException {
 		this.file = file;
 		if (file == null) throw new NullPointerException();
-		if (!file.exists()) throw new FileNotFoundException();
+		if (!file.exists()) throw new FileNotFoundException(file.getName());
 		this.parser = parser;
 		data = new HashMap<String, String>();
 	}
@@ -37,10 +37,32 @@ public class ConfigurationFile {
 		if (file == null) return;
 		data = parser.parse(file);
 	}
+	
+	public void saveFile() throws ConfigurationParserException {
+		saveFile(file);
+	}
+	
+	public void saveFile(File file) throws ConfigurationParserException {
+		if (file == null) return;
+		parser.write(data, file);
+	}
+
+	public void setData(Map<String, String> data) {
+		if (data == null) return;
+		this.data = data;
+	}
 
 	public String getValue(String key) {
 		if (hasKey(key)) return data.get(key);
 		return null;
+	}
+	
+	public String getFilename() {
+		return file.getName();
+	}
+	
+	public String getAbsolutePath() {
+		return file.getAbsolutePath();
 	}
 	
 	public boolean hasKey(String key) {

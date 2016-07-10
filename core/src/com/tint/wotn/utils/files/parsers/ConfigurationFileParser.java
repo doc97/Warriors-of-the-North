@@ -11,5 +11,6 @@ import java.util.Map;
  *
  */
 public interface ConfigurationFileParser {
+	public void write(Map<String, String> data, File file) throws ConfigurationParserException;
 	public Map<String, String> parse(File file) throws ConfigurationParserException;
 }
