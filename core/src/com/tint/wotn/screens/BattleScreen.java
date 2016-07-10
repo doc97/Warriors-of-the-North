@@ -107,7 +107,7 @@ public class BattleScreen implements Screen {
 		Core.INSTANCE.UISystem.setStage(stage);
 		
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
-			Core.INSTANCE.game.startSingleplayerGame();
+			Core.INSTANCE.game.startBattle();
 		
 		// Put camera in the centre of the map
 		int centerx = Core.INSTANCE.game.getMap().tiles.length / 2;

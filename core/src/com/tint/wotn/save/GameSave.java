@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.tint.wotn.ClientGame;
 import com.tint.wotn.Core;
-import com.tint.wotn.actions.ActionSystem;
 import com.tint.wotn.ecs.EntityData;
 import com.tint.wotn.ecs.Mappers;
 import com.tint.wotn.ecs.components.AttackComponent;
@@ -18,23 +16,35 @@ import com.tint.wotn.ecs.components.MovementComponent;
 import com.tint.wotn.ecs.components.OwnerComponent;
 import com.tint.wotn.ecs.components.RenderComponent;
 import com.tint.wotn.levels.maps.Tile;
-import com.tint.wotn.missions.MissionSystem;
 
 public class GameSave implements Serializable {
 	private static final long serialVersionUID = -5462433759752919823L;
 
 	private List<EntityData> entities;
-	private ClientGame game;
-	private MissionSystem missionSystem;
-	private ActionSystem actionSystem;
+	
+	private String playerName;
+	private int playerID;
+
+	private Tile[][] tiles;
 	private boolean inBattle;
+	private int playerInTurnID;
+	private int levelID;
+
+	private int currentChapter;
+	private int currentParagraph;
+	private int currentPage;
 	
-	private GameSave() {}
+	private int actionPoints;
 	
-	public static GameSave createSave() {
-		GameSave save = new GameSave();
-		save.entities = new ArrayList<EntityData>();
-		
+	public void createSave() {
+		saveBattle();
+		saveGameSystems();
+	}
+	
+	private void saveBattle() {
+		if (!Core.INSTANCE.game.isInBattle()) return;
+
+		entities = new ArrayList<EntityData>();
 		for (Entity e : Core.INSTANCE.ecs.engine.getEntities()) {
 			AttackComponent attack = Mappers.attack.get(e);
 			HealthComponent health = Mappers.health.get(e);
@@ -72,19 +82,34 @@ public class GameSave implements Serializable {
 				data.color[2] = render.tintColor.b;
 				data.color[3] = render.tintColor.a;
 			}
-			save.entities.add(data);
+			entities.add(data);
 		}
 
-		save.missionSystem = Core.INSTANCE.missionSystem;
-		save.game = Core.INSTANCE.game;
-		save.actionSystem = Core.INSTANCE.actionSystem;
-		save.inBattle = Core.INSTANCE.game.isInBattle();
-		return save;
+		inBattle = Core.INSTANCE.game.isInBattle();
+		tiles = Core.INSTANCE.game.getMap().tiles;
+		playerName = Core.INSTANCE.game.getPlayer().getName();
+		playerID = Core.INSTANCE.game.getPlayer().getID();
+		playerInTurnID = Core.INSTANCE.game.getPlayerInTurnID();
+		actionPoints = Core.INSTANCE.actionSystem.getActionPoints();
+		levelID = Core.INSTANCE.levelSystem.getCurrentLevelID();
+	}
+	
+	private void saveGameSystems() {
+		Core.INSTANCE.missionSystem.saveMissions();
+		currentChapter = Core.INSTANCE.story.getCurrentChapterIndex();
+		currentParagraph = Core.INSTANCE.story.getCurrentParagraphIndex();
+		currentPage = Core.INSTANCE.story.getCurrentPageIndex();
 	}
 	
 	public List<EntityData> getEntities() { return entities; }
-	public ClientGame getGame() { return game; }
-	public MissionSystem getMissionSystem() { return missionSystem; }
-	public ActionSystem getActionSystem() { return actionSystem; }
+	public Tile[][] getTiles() { return tiles; }
+	public String getPlayerName() { return playerName; }
+	public int getPlayerID() { return playerID; }
+	public int getPlayerInTurnID() { return playerInTurnID; }
+	public int getActionPoints() { return actionPoints; }
+	public int getLevelID() { return levelID; }
+	public int getCurrentChapter() { return currentChapter; }
+	public int getCurrentParagraph() { return currentParagraph; }
+	public int getCurrentPage() { return currentPage; }
 	public boolean isInBattle() { return inBattle; }
 }

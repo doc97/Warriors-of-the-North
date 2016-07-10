@@ -1,10 +1,12 @@
 package com.tint.wotn.missions;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -21,9 +23,8 @@ import com.tint.wotn.utils.files.parsers.KeyValueParser;
  * @author doc97
  * @see Mission
  */
-public class MissionSystem implements Serializable {
+public class MissionSystem {
 
-	private static final long serialVersionUID = -8841515036166414609L;
 	private List<Mission> availableMissions = new ArrayList<Mission>();
 	private List<Mission> completedMissions = new ArrayList<Mission>();
 	private List<Mission> unavailableMissions = new ArrayList<Mission>();
@@ -71,6 +72,37 @@ public class MissionSystem implements Serializable {
 		}
 	}
 	
+	public void saveMissions() {
+		for (Mission mission : getAllMissions()) {
+			Map<String, String> configs = new HashMap<String, String>();
+			configs.put("missionID", String.valueOf(mission.ID));
+			configs.put("name", mission.name);
+			configs.put("legend", mission.legend);
+			configs.put("status", String.valueOf(mission.status));
+			configs.put("position", mission.position.x + "," + mission.position.y);
+
+			StringBuilder ids = new StringBuilder();
+			for (int i = 0; i < mission.unlockIDs.length; i++) {
+				ids.append(String.valueOf(mission.unlockIDs[i]));
+				if (i < mission.unlockIDs.length - 1)
+					ids.append(",");
+			}
+			configs.put("unlockIDs", ids.toString());
+			
+			File file = new File("configs/quests/" + mission.filename);
+			try {
+				ConfigurationFile config = new ConfigurationFile(file,
+						new KeyValueParser());
+				config.setData(configs);
+				config.saveFile();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (ConfigurationParserException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	private Mission createMission(ConfigurationFile config) {
 		Mission mission = new Mission();
 		try {
@@ -81,6 +113,7 @@ public class MissionSystem implements Serializable {
 			if (!config.hasKey("position")) return null;
 			if (!config.hasKey("unlockIDs")) return null;
 
+			mission.filename = config.getFilename();
 			mission.ID = Integer.parseInt(config.getValue("missionID"));
 			mission.name = config.getValue("name");
 			mission.legend = config.getValue("legend");
