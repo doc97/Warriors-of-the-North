@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -39,7 +40,7 @@ public class MultiplayerSystem {
 
 			@Override
 			public void disconnected(Connection connection) {
-				System.out.println("Disconnected from server");
+				Gdx.app.log("Client", "Disconnected from server");
 			}
 
 			@Override

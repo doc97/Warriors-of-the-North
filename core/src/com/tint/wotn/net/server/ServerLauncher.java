@@ -1,6 +1,8 @@
 package com.tint.wotn.net.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -153,19 +155,20 @@ public class ServerLauncher {
 		return true;
 	}
 	
-	public void printServerDetails() {
-		System.out.println("TCP Port: " + tcpPort);
+	public void printServerDetails() throws UnknownHostException {
+		System.out.println("Server: TCP Port: " + tcpPort);
+		System.out.println("Server: IP address: " + InetAddress.getLocalHost().getHostAddress());
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("Creating server...");
+		System.out.println("Server: Creating server...");
 		ServerLauncher serverLauncher = new ServerLauncher();
-		serverLauncher.printServerDetails();
 		try {
+			serverLauncher.printServerDetails();
 			serverLauncher.start();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.println("Failed to launch server!");
+			System.err.println("Server: Failed to launch server!");
 			System.exit(0);
 		}
 	}

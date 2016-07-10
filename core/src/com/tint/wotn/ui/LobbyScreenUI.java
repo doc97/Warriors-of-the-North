@@ -55,7 +55,6 @@ public class LobbyScreenUI extends UserInterface {
 				public void clicked(InputEvent event, float x, float y) {
 					String readyStatus = getStorage().getData("Data", "Ready");
 					if (readyStatus.equals("") || readyStatus.equals("true")) {
-						System.out.println("Nope");
 						return;
 					}
 					

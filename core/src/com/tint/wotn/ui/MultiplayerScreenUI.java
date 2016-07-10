@@ -2,6 +2,7 @@ package com.tint.wotn.ui;
 
 import java.io.IOException;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -64,7 +65,7 @@ public class MultiplayerScreenUI extends UserInterface {
 							Integer.parseInt(portField.getText()));
 				} catch (IOException e) {
 					e.printStackTrace();
-					System.out.println("Failed to connect to server!");
+					Gdx.app.log("Client", "Failed to connect to server!");
 				}
 			}
 		});

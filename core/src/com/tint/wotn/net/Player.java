@@ -1,6 +1,5 @@
 package com.tint.wotn.net;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +10,8 @@ import com.tint.wotn.UnitType;
  * @author doc97
  *
  */
-public class Player implements Serializable {
+public class Player {
 
-	private static final long serialVersionUID = -8496974432609669478L;
 	private String name;
 	private int id;
 	private transient Map<UnitType, Integer> loadout = new HashMap<UnitType, Integer>();
