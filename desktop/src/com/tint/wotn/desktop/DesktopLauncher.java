@@ -12,8 +12,8 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Warriors of the North";
 		config.fullscreen = false;
-		config.width = 1280;
-		config.height = 720;
+		config.width = 940;
+		config.height = 540;
 		new LwjglApplication(new WarriorsOfTheNorth(), config);
 	}
 }

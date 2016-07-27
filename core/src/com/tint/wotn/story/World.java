@@ -27,7 +27,7 @@ public class World {
 	public void loadTextures() {
 		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
 		map = Core.INSTANCE.assets.getTexture("textures/notpacked/campaign_map.png");
-		edge = Core.INSTANCE.assets.getTexture("textures/notpacked/dark_edge_campaign_map.png");
+		edge = Core.INSTANCE.assets.getTexture("textures/notpacked/dark_edge.png");
 		cloud = atlas.findRegion("campaign_map_clouds");
 		Quest.loadTextures();
 	}

@@ -28,6 +28,7 @@ public class LoadingScreen implements Screen {
 		} else {
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 			Core.INSTANCE.assets.loadTexturesIntoGame();
+			Core.INSTANCE.UISystem.load();
 			if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER) {
 				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
 			} else if(Core.INSTANCE.gameMode == GameMode.MULTIPLAYER) {

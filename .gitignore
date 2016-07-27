@@ -66,3 +66,4 @@ build/
 ## Project Specific
 debug/
 android/assets/saves/
+android/assets/textures/packed/

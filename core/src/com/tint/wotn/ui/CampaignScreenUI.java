@@ -2,16 +2,20 @@ package com.tint.wotn.ui;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.tint.wotn.Core;
@@ -82,8 +86,9 @@ public class CampaignScreenUI extends UserInterface {
 		storyText = new Label("", skin);
 		storyText.setWrap(true);
 		
-		TextButton backBtn = new TextButton("Back", skin);
-		backBtn.getLabel().setFontScale(2);
+		ImageTextButtonStyle backBtnStyle = getButtonStyle();
+		ImageTextButton backBtn = new ImageTextButton("Back", backBtnStyle);
+		backBtn.getLabelCell().padBottom(backBtnStyle.font.getCapHeight() / 2);
 		backBtn.pad(10);
 		backBtn.addListener(new InputListener() {
 			@Override
@@ -99,8 +104,9 @@ public class CampaignScreenUI extends UserInterface {
 			}
 		});
 
-		final TextButton playBtn = new TextButton("Play", skin);
-		playBtn.getLabel().setFontScale(2);
+		ImageTextButtonStyle playBtnStyle = getButtonStyle();
+		final ImageTextButton playBtn = new ImageTextButton("Play", playBtnStyle);
+		playBtn.getLabelCell().padBottom(playBtnStyle.font.getCapHeight() / 2);
 		playBtn.pad(10);
 		playBtn.addListener(new InputListener() {
 			@Override
@@ -119,8 +125,9 @@ public class CampaignScreenUI extends UserInterface {
 			}
 		});
 
-		TextButton cancelBtn = new TextButton("Cancel", skin);
-		cancelBtn.getLabel().setFontScale(2);
+		ImageTextButtonStyle cancelBtnStyle = getButtonStyle();
+		ImageTextButton cancelBtn = new ImageTextButton("Cancel", cancelBtnStyle);
+		cancelBtn.getLabelCell().padBottom(cancelBtnStyle.font.getCapHeight() / 2);
 		cancelBtn.pad(10);
 		cancelBtn.addListener(new InputListener() {
 			@Override
@@ -148,12 +155,12 @@ public class CampaignScreenUI extends UserInterface {
 		briefingTable.row();
 		briefingTable.add(legendLabel).expand().fill().pad(10, 200, 10, 200).colspan(2);
 		briefingTable.row();
-		briefingTable.add(playBtn).pad(0, 0, playBtn.getHeight() * 3, 0).expandX();
-		briefingTable.add(cancelBtn).pad(0, 0, cancelBtn.getHeight() * 3, 0).expandX();
+		briefingTable.add(playBtn).pad(0, 0, playBtn.getHeight() * 3, 0);
+		briefingTable.add(cancelBtn).pad(0, 0, cancelBtn.getHeight() * 3, 0);
 		briefingTable.row();
 		briefingTable.add().bottom();
 		
-		baseUITable.add(backBtn).expand().align(Align.bottomRight);
+		baseUITable.add(backBtn).align(Align.bottomRight);
 		
 		stage.addActor(storyPageTable);
 		stage.addActor(briefingTable);
@@ -162,6 +169,21 @@ public class CampaignScreenUI extends UserInterface {
 		getStorage().addDataset("Data", new HashMap<String, String>());
 		getStorage().storeData("Data", "Briefing visible", "false");
 		getStorage().storeData("Data", "Page visible", "false");
+	}
+	
+	private ImageTextButtonStyle getButtonStyle() {
+		ImageTextButtonStyle btnStyle = new ImageTextButtonStyle();
+		TextureAtlas atlas = Core.INSTANCE.assets.getTextureAtlas("textures/packed/WarriorsOfTheNorth.atlas");
+		TextureRegionDrawable normal = new TextureRegionDrawable(atlas.findRegion("small_menu_button"));
+		TextureRegionDrawable over = new TextureRegionDrawable(atlas.findRegion("small_menu_button_over"));
+		btnStyle.font = Core.INSTANCE.assets.getFont("menu.ttf");
+		btnStyle.fontColor = Color.BLACK;
+		btnStyle.downFontColor = Color.WHITE;
+		btnStyle.over = over;
+		btnStyle.up = normal;
+		btnStyle.down = normal;
+		
+		return btnStyle;
 	}
 	
 	@Override
