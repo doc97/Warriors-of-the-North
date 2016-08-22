@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -42,6 +43,8 @@ public class CampaignScreenUI extends UserInterface {
 		briefingTable.setFillParent(true);
 		briefingTable.pad(30);
 		briefingTable.setVisible(false);
+		
+		Table briefingContentTable = new Table(skin);
 		
 		storyPageTable = new Table(skin);
 		storyPageTable.setFillParent(true);
@@ -91,17 +94,28 @@ public class CampaignScreenUI extends UserInterface {
 		backBtn.getLabelCell().padBottom(backBtnStyle.font.getCapHeight() / 2);
 		backBtn.pad(10);
 		backBtn.addListener(new InputListener() {
+			boolean valid;
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				valid = true;
 				return true;
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
-				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
+				if (valid) {
+					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+					Core.INSTANCE.screenSystem.setScreenToEnter(Screens.MAIN_MENU);
+				}
 			}
+
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+				valid = false;
+			}
+			
 		});
 
 		ImageTextButtonStyle playBtnStyle = getButtonStyle();
@@ -109,19 +123,29 @@ public class CampaignScreenUI extends UserInterface {
 		playBtn.getLabelCell().padBottom(playBtnStyle.font.getCapHeight() / 2);
 		playBtn.pad(10);
 		playBtn.addListener(new InputListener() {
+			boolean valid;
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				valid = true;
 				return true;
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
-				getStorage().storeData("Data", "Briefing visible", "false");
-				getStorage().storeData("Data", "Page visible", "true");
-				Core.INSTANCE.levelSystem.enterCurrentLevel();
-				Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
+				if (valid) {
+					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+					getStorage().storeData("Data", "Briefing visible", "false");
+					getStorage().storeData("Data", "Page visible", "true");
+					Core.INSTANCE.levelSystem.enterCurrentLevel();
+					Core.INSTANCE.screenSystem.setScreenToEnter(Screens.BATTLE);
+				}
+			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+				valid = false;
 			}
 		});
 
@@ -130,18 +154,28 @@ public class CampaignScreenUI extends UserInterface {
 		cancelBtn.getLabelCell().padBottom(cancelBtnStyle.font.getCapHeight() / 2);
 		cancelBtn.pad(10);
 		cancelBtn.addListener(new InputListener() {
+			boolean valid;
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 1.0f, false);
+				valid = true;
 				return true;
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
-				Core.INSTANCE.world.unselectQuest();
-				getStorage().storeData("Data", "Briefing visible", "false");
-				getStorage().storeData("Data", "Page visible", "false");
+				if (valid) {
+					Core.INSTANCE.audioSystem.playSound("sounds/btn_click.wav", 0.25f, false);
+					Core.INSTANCE.world.unselectQuest();
+					getStorage().storeData("Data", "Briefing visible", "false");
+					getStorage().storeData("Data", "Page visible", "false");
+				}
+			}
+			
+			@Override
+			public void exit(InputEvent event, float x, float y, int pointer, Actor actor) {
+				valid = false;
 			}
 		});
 		
@@ -151,15 +185,18 @@ public class CampaignScreenUI extends UserInterface {
 		
 		storyPageTable.add(storyTextTable).width(1920 / 3.0f).height(3.0f / 4.0f * 1080);
 		
-		briefingTable.add(nameLabel).expandX().pad(10).colspan(2);
-		briefingTable.row();
-		briefingTable.add(legendLabel).expand().fill().pad(10, 200, 10, 200).colspan(2);
-		briefingTable.row();
-		briefingTable.add(playBtn).pad(0, 0, playBtn.getHeight() * 3, 0);
-		briefingTable.add(cancelBtn).pad(0, 0, cancelBtn.getHeight() * 3, 0);
-		briefingTable.row();
-		briefingTable.add().bottom();
+		briefingContentTable.add(nameLabel).expandX().pad(10).colspan(2);
+		briefingContentTable.row();
+		briefingContentTable.add(legendLabel).expand().fill().pad(10).colspan(2);
+		briefingContentTable.row();
+		briefingContentTable.add(playBtn).pad(10);
+		briefingContentTable.add(cancelBtn).pad(10);
+		briefingContentTable.row();
+		briefingContentTable.add().bottom();
 		
+		briefingTable.add(briefingContentTable).width(1920 / 2.0f).height(1080 / 2.0f);
+		
+		baseUITable.add().expand();
 		baseUITable.add(backBtn).align(Align.bottomRight);
 		
 		stage.addActor(storyPageTable);
