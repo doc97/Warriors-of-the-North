@@ -16,13 +16,13 @@ public class AudioSystem {
 	private LinkedList<AudioParams> soundQueue;
 	private LinkedList<AudioParams> musicQueue;
 	private Map<String, List<Long>> currentSounds;
-	private List<String> currentMusic;
+	private List<Music> currentMusic;
 	
 	public AudioSystem() {
 		soundQueue = new LinkedList<AudioParams>();
 		musicQueue = new LinkedList<AudioParams>();
 		currentSounds = new HashMap<String, List<Long>>();
-		currentMusic = new ArrayList<String>();
+		currentMusic = new ArrayList<Music>();
 	}
 	
 	public void initialize() {
@@ -56,8 +56,10 @@ public class AudioSystem {
 	}
 	
 	public void stopAllMusic() {
-		for (String name : currentMusic)
-			Core.INSTANCE.assets.getMusic(name).stop();
+		for (Music music : currentMusic) {
+			music.stop();
+			music.dispose();
+		}
 		currentMusic.clear();
 	}
 	
@@ -85,9 +87,25 @@ public class AudioSystem {
 				music.setLooping(musicParams.loop);
 				music.play();
 				
-				currentMusic.add(musicParams.filename);
+				currentMusic.add(music);
 			}
 		}
+	}
+	
+	public boolean musicQueueIsEmpty() {
+		return musicQueue.isEmpty();
+	}
+	
+	public boolean soundQueueIsEmpty() {
+		return soundQueue.isEmpty();
+	}
+
+	public boolean musicIsCurrentlyPlaying() {
+		return !currentMusic.isEmpty();
+	}
+	
+	public boolean soundIsCurrentlyPlaying() {
+		return !currentSounds.isEmpty();
 	}
 	
 	public class AudioParams {

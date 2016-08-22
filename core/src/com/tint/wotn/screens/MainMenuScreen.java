@@ -35,8 +35,8 @@ public class MainMenuScreen implements Screen {
 		load();
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		Core.INSTANCE.inputSystem.add(Inputs.MAIN_MENU_SCREEN_UI);
-		Core.INSTANCE.audioSystem.stopAllMusic();
-		Core.INSTANCE.audioSystem.playMusic("sounds/background_music.ogg", 0.1f, true);
+		if (!Core.INSTANCE.audioSystem.musicIsCurrentlyPlaying())
+			Core.INSTANCE.audioSystem.playMusic("sounds/background_music.ogg", 0.1f, true);
 		
 		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.MAIN_MENU_SCREEN_UI).getStage();
 		Core.INSTANCE.UISystem.setStage(stage);

@@ -106,6 +106,8 @@ public class BattleScreen implements Screen {
 		Stage stage = Core.INSTANCE.UISystem.getUserInterface(UserInterfaces.BATTLE_SCREEN_UI).getStage();
 		Core.INSTANCE.UISystem.setStage(stage);
 		
+		Core.INSTANCE.audioSystem.stopAllMusic();
+		
 		if(Core.INSTANCE.gameMode == GameMode.SINGLEPLAYER)
 			Core.INSTANCE.game.startBattle();
 		
